@@ -1,18 +1,19 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import PasswordPage from "./pages/password/PasswordPage";
+import CookiesPage from "./pages/cookies/CookiesPage";
+import PhishingPage from "./pages/phishing/PhishingPage";
 
-const App: React.FC = () => {
+export default function App() {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-      }}
-    >
-      <Typography>Glass House</Typography>
-    </Box>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/password" element={<PasswordPage />} />
+        <Route path="/cookies" element={<CookiesPage />} />
+        <Route path="/phishing" element={<PhishingPage />} />
+        <Route path="*" element={<LandingPage />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
-
-export default App;
+}
