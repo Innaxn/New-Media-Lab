@@ -599,7 +599,7 @@ export function CookieEscapeChallenge({ level, onComplete }: Props) {
                 onClick={() => onComplete(true)}
                 sx={{ minWidth: 160 }}
               >
-                Next Level →
+                Next Level 
               </Button>
             </>
           )}

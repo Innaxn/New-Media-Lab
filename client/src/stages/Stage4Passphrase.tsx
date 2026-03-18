@@ -137,7 +137,7 @@ export function Stage4Passphrase({ config, onComplete }: Props) {
 
           <Box sx={{ display: 'flex', gap: 1.5 }}>
             <Button variant="contained" color="primary" disabled={!strength.ready} onClick={handleFinalise} endIcon={<EmojiEventsIcon />} sx={{ minWidth: 140 }}>
-              Finalise →
+              Finalise
             </Button>
             <Tooltip title="Clear all words" arrow>
               <Button variant="outlined" onClick={clearAll} startIcon={<RefreshIcon />} sx={{ minWidth: 100 }}>Clear</Button>

@@ -157,7 +157,7 @@ export function Stage3Attacks({ onComplete }: Props) {
             onClick={() => onComplete(true)}
             sx={{ minWidth: 160 }}
           >
-            Next Stage →
+            Next Level
           </Button>
         </Box>
       </Fade>

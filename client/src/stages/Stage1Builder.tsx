@@ -121,7 +121,7 @@ export function Stage1Builder({ config, onComplete }: Props) {
       <Tooltip title={canAnalyse ? '' : `Reach strength level ${config.minStrengthToPass}/5 first (${metCount}/${config.rules.length} rules met)`} arrow placement="top">
         <span>
           <Button variant="contained" color="primary" size="large" disabled={!canAnalyse} onClick={handleAnalyse} endIcon={<ArrowForwardIcon />} sx={{ minWidth: 160 }}>
-            Analyse →
+            Analyse 
           </Button>
         </span>
       </Tooltip>

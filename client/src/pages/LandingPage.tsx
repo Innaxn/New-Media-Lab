@@ -366,7 +366,7 @@ export default function LandingPage() {
             icon={<LockIcon />}
             title="Password Vault"
             description="Build strong passwords, spot the weakest in a lineup, learn attack types, and master passphrases."
-            badge="4 STAGES"
+            badge="4 LEVELS"
             accentColor={theme.palette.terminal.phosphor}
             onClick={() => navigate("/password")}
           />

@@ -276,7 +276,7 @@ export function VerdictPanel({
             onClick={handleSubmit}
             sx={{ py: 1.25 }}
           >
-            Submit Verdict →
+            Submit Verdict 
           </Button>
         </Box>
       )}
@@ -421,7 +421,7 @@ export function VerdictPanel({
                 sx={{ py: 1.25 }}
               >
                 {isLast
-                  ? "Complete Level →"
+                  ? "Complete Level "
                   : `Next Email (${emailIndex + 1}/${totalEmails}) →`}
               </Button>
             </>

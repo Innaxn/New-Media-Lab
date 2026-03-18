@@ -110,7 +110,7 @@ export function Stage2Spot({ config, onComplete }: Props) {
             </Box>
           </Alert>
           <Button variant="contained" color="primary" endIcon={<ArrowForwardIcon />} onClick={() => onComplete(true)} sx={{ minWidth: 160 }}>
-            Next Stage →
+            Next Level
           </Button>
         </Box>
       </Fade>
