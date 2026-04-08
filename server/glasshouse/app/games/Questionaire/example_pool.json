@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "type": "multiple_choice",
+    "question": "What does GDPR stand for?",
+    "options": [
+      "General Data Protection Regulation",
+      "Global Data Privacy Rules",
+      "General Directive for Privacy Rights",
+      "Global Digital Protection Regulation"
+    ],
+    "correct_option": 0,
+    "required": true,
+    "metadata": {
+      "difficulty": "easy",
+      "hint": "It's a European Union regulation."
+    }
+  },
+  {
+    "id": 2,
+    "type": "multiple_choice",
+    "question": "Which of the following is considered a phishing attack?",
+    "options": [
+      "A website mimicking a bank to steal credentials",
+      "Encrypting your files for backup",
+      "Installing antivirus software",
+      "Using a VPN to access the internet"
+    ],
+    "correct_option": 0,
+    "required": true,
+    "metadata": {
+      "difficulty": "easy",
+      "hint": "It tricks users into giving sensitive information."
+    }
+  },
+  {
+    "id": 3,
+    "type": "multiple_choice",
+    "question": "Which principle is NOT part of GDPR?",
+    "options": [
+      "Data minimization",
+      "Right to be forgotten",
+      "Unlimited data retention",
+      "Consent for data processing"
+    ],
+    "correct_option": 2,
+    "required": true,
+    "metadata": {
+      "difficulty": "medium",
+      "hint": "One of these goes against privacy rules."
+    }
+  },
+  {
+    "id": 4,
+    "type": "multiple_choice",
+    "question": "Which of the following is a strong password practice?",
+    "options": [
+      "Using 'password123' for all accounts",
+      "Reusing old passwords",
+      "Including numbers, letters, and symbols",
+      "Writing passwords on sticky notes"
+    ],
+    "correct_option": 2,
+    "required": true,
+    "metadata": {
+      "difficulty": "easy",
+      "hint": "Mix character types to increase strength."
+    }
+  },
+  {
+    "id": 5,
+    "type": "multiple_choice",
+    "question": "What is a common consequence of a data breach?",
+    "options": [
+      "Loss of sensitive user data",
+      "Faster internet speed",
+      "Improved password security automatically",
+      "Automatic software updates"
+    ],
+    "correct_option": 0,
+    "required": true,
+    "metadata": {
+      "difficulty": "medium",
+      "hint": "Think about the impact on user privacy."
+    }
+  }
+]
