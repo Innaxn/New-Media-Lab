@@ -10,11 +10,8 @@
       "Global Digital Protection Regulation"
     ],
     "correct_option": 0,
-    "required": true,
-    "metadata": {
-      "difficulty": "easy",
-      "hint": "It's a European Union regulation."
-    }
+    "difficulty": "easy",
+    "hint": "It's a European Union regulation."
   },
   {
     "id": 2,
@@ -27,11 +24,8 @@
       "Using a VPN to access the internet"
     ],
     "correct_option": 0,
-    "required": true,
-    "metadata": {
-      "difficulty": "easy",
-      "hint": "It tricks users into giving sensitive information."
-    }
+    "difficulty": "easy",
+    "hint": "It tricks users into giving sensitive information."
   },
   {
     "id": 3,
@@ -44,11 +38,8 @@
       "Consent for data processing"
     ],
     "correct_option": 2,
-    "required": true,
-    "metadata": {
-      "difficulty": "medium",
-      "hint": "One of these goes against privacy rules."
-    }
+    "difficulty": "medium",
+    "hint": "One of these goes against privacy rules."
   },
   {
     "id": 4,
@@ -61,11 +52,8 @@
       "Writing passwords on sticky notes"
     ],
     "correct_option": 2,
-    "required": true,
-    "metadata": {
-      "difficulty": "easy",
-      "hint": "Mix character types to increase strength."
-    }
+    "difficulty": "easy",
+    "hint": "Mix character types to increase strength."
   },
   {
     "id": 5,
@@ -78,10 +66,7 @@
       "Automatic software updates"
     ],
     "correct_option": 0,
-    "required": true,
-    "metadata": {
-      "difficulty": "medium",
-      "hint": "Think about the impact on user privacy."
-    }
+    "difficulty": "medium",
+    "hint": "Think about the impact on user privacy."
   }
 ]
