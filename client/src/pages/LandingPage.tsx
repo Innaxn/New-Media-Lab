@@ -1,409 +1,106 @@
-import { Box, Typography, Button, Chip } from "@mui/material";
-import { useTheme, alpha } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
-import LockIcon from "@mui/icons-material/Lock";
-import CookieIcon from "@mui/icons-material/Cookie";
-import SecurityIcon from "@mui/icons-material/Security";
-import EmailIcon from "@mui/icons-material/Email";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { CipherAvatar } from "../components/CipherAvatar";
+import { Box, Typography, Button, Chip, IconButton, Tooltip } from '@mui/material';
+import { useTheme, alpha } from '@mui/material/styles';
+import LockIcon from '@mui/icons-material/Lock';
+import CookieIcon from '@mui/icons-material/Cookie';
+import EmailIcon from '@mui/icons-material/Email';
+import QuizIcon from '@mui/icons-material/Quiz';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { useColorMode } from '../context/ThemeContext';
 
-// Animated grid background
+interface Props { onPlay: () => void; }
 
-function GridBackground() {
+const TOPICS = [
+  { icon: <LockIcon sx={{ fontSize: 14 }} />,   label: 'Passwords', color: '#0d7a55' },
+  { icon: <CookieIcon sx={{ fontSize: 14 }} />, label: 'Cookies',   color: '#d94f3d' },
+  { icon: <EmailIcon sx={{ fontSize: 14 }} />,  label: 'Phishing',  color: '#b06a00' },
+  { icon: <QuizIcon sx={{ fontSize: 14 }} />,   label: 'Privacy Law', color: '#7c3aed' },
+];
+
+const TODAY = new Date().toLocaleDateString('en-GB', {
+  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+});
+
+export default function LandingPage({ onPlay }: Props) {
   const theme = useTheme();
+  const { mode, toggleMode } = useColorMode();
+  const p = theme.palette.gh;
+
   return (
     <Box
-      aria-hidden
       sx={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 0,
-        overflow: "hidden",
-        pointerEvents: "none",
+        minHeight: '100vh', bgcolor: 'background.default', position: 'relative',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        justifyContent: 'center', px: { xs: 2.5, sm: 4 }, py: 8, overflow: 'hidden',
       }}
     >
-      {/* Radial gradient focal point */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "30%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 800,
-          height: 800,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${alpha(theme.palette.terminal.phosphor, 0.06)} 0%, transparent 70%)`,
-        }}
-      />
-      {/* Dot grid */}
-      <Box
-        sx={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `radial-gradient(${alpha(theme.palette.terminal.border, 0.8)} 1px, transparent 1px)`,
-          backgroundSize: "32px 32px",
-          maskImage:
-            "radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%)",
-        }}
-      />
-      {/* Top glow line */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 1,
-          background: `linear-gradient(90deg, transparent, ${alpha(theme.palette.terminal.phosphor, 0.4)}, transparent)`,
-        }}
-      />
-    </Box>
-  );
-}
-
-// Module card
-
-interface ModuleCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  badge: string;
-  accentColor: string;
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-function ModuleCard({
-  icon,
-  title,
-  description,
-  badge,
-  accentColor,
-  onClick,
-  disabled,
-}: ModuleCardProps) {
-  const theme = useTheme();
-  return (
-    <Box
-      role="button"
-      tabIndex={disabled ? -1 : 0}
-      onClick={!disabled ? onClick : undefined}
-      onKeyDown={(e) => !disabled && e.key === "Enter" && onClick()}
-      sx={{
-        position: "relative",
-        border: `1px solid ${theme.palette.terminal.border}`,
-        borderRadius: "6px",
-        p: { xs: 2.5, sm: 3 },
-        cursor: disabled ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.45 : 1,
-        bgcolor: theme.palette.terminal.surface,
-        transition: "border-color 0.25s, transform 0.2s, box-shadow 0.25s",
-        overflow: "hidden",
-        "&:hover:not([disabled])": {
-          borderColor: accentColor,
-          transform: "translateY(-3px)",
-          boxShadow: `0 8px 32px ${alpha(accentColor, 0.18)}`,
-        },
-        "&:focus-visible": {
-          outline: `2px solid ${accentColor}`,
-          outlineOffset: 2,
-        },
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 2,
-          background: accentColor,
-          opacity: disabled ? 0.3 : 1,
-        },
-      }}
-    >
-      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
-        <Box
-          sx={{
-            width: 48,
-            height: 48,
-            borderRadius: "10px",
-            bgcolor: alpha(accentColor, 0.12),
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-            color: accentColor,
-          }}
-        >
-          {icon}
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontSize: "1rem",
-                fontWeight: 700,
-                color: theme.palette.text.primary,
-              }}
-            >
-              {title}
-            </Typography>
-            <Chip
-              label={badge}
-              size="small"
-              sx={{
-                height: 18,
-                fontSize: "0.55rem",
-                letterSpacing: "0.12em",
-                fontFamily: '"Share Tech Mono", monospace',
-                bgcolor: alpha(accentColor, 0.12),
-                color: accentColor,
-                border: `1px solid ${alpha(accentColor, 0.35)}`,
-                borderRadius: "3px",
-                "& .MuiChip-label": { px: 0.75 },
-              }}
-            />
-          </Box>
-          <Typography
-            variant="body2"
-            sx={{
-              color: theme.palette.terminal.muted,
-              lineHeight: 1.55,
-              fontSize: "0.8125rem",
-            }}
-          >
-            {description}
-          </Typography>
-        </Box>
-        {!disabled && (
-          <ArrowForwardIcon
-            sx={{
-              fontSize: 18,
-              color: theme.palette.terminal.ghost,
-              flexShrink: 0,
-              mt: 0.5,
-            }}
-          />
-        )}
+      {/* Mode toggle */}
+      <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
+        <Tooltip title={mode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'} arrow>
+          <IconButton onClick={toggleMode} sx={{ bgcolor: alpha(p.border, 0.6), border: `1px solid ${p.border}` }}>
+            {mode === 'light' ? <DarkModeIcon fontSize="small" /> : <LightModeIcon fontSize="small" />}
+          </IconButton>
+        </Tooltip>
       </Box>
-    </Box>
-  );
-}
 
-//Landing Page
+      {/* Soft decorative blobs */}
+      <Box aria-hidden sx={{ position: 'absolute', top: -120, right: -120, width: 520, height: 520, borderRadius: '50%', background: `radial-gradient(circle, ${alpha(p.primary, 0.08)} 0%, transparent 70%)`, pointerEvents: 'none' }} />
+      <Box aria-hidden sx={{ position: 'absolute', bottom: -80, left: -80, width: 420, height: 420, borderRadius: '50%', background: `radial-gradient(circle, ${alpha(p.danger, 0.06)} 0%, transparent 70%)`, pointerEvents: 'none' }} />
 
-export default function LandingPage() {
-  const theme = useTheme();
-  const navigate = useNavigate();
-
-  return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <GridBackground />
-
-      {/* ── Content ── */}
-      <Box
-        sx={{
-          position: "relative",
-          zIndex: 1,
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          px: { xs: 2, sm: 4 },
-          py: { xs: 6, sm: 8 },
-          maxWidth: 680,
-          mx: "auto",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        {/* Badge */}
-        <Box
+      <Box sx={{ position: 'relative', zIndex: 1, maxWidth: 520, width: '100%', textAlign: 'center' }} className="slide-up">
+        {/* Date badge */}
+        <Chip
+          icon={<CalendarTodayIcon sx={{ fontSize: '13px !important' }} />}
+          label={TODAY}
+          size="small"
           sx={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 1,
-            border: `1px solid ${alpha(theme.palette.terminal.phosphor, 0.3)}`,
-            borderRadius: "20px",
-            px: 2,
-            py: 0.75,
-            mb: 4,
-            bgcolor: alpha(theme.palette.terminal.phosphor, 0.05),
+            mb: 4, height: 28, fontSize: '0.6875rem', fontWeight: 600,
+            bgcolor: alpha(p.primary, 0.10), color: p.primary,
+            border: `1px solid ${alpha(p.primary, 0.25)}`, borderRadius: '20px',
+            '& .MuiChip-label': { px: 1 },
+            '& .MuiChip-icon': { color: `${p.primary} !important` },
           }}
-        >
-          <SecurityIcon
-            sx={{ fontSize: 14, color: theme.palette.terminal.phosphor }}
-          />
-          <Typography
-            variant="overline"
-            sx={{
-              fontSize: "0.6rem",
-              letterSpacing: "0.2em",
-              color: theme.palette.terminal.phosphor,
-            }}
-          >
-            Interactive Privacy Education
-          </Typography>
-        </Box>
+        />
 
-        {/* Logo / Wordmark */}
-        <Box sx={{ mb: 1.5 }}>
-          <Typography
-            component="h1"
-            sx={{
-              fontFamily: '"Syne", monospace',
-              fontWeight: 900,
-              fontSize: { xs: "3.5rem", sm: "5rem" },
-              lineHeight: 0.92,
-              letterSpacing: "-0.04em",
-              color: "#ffffff",
-              mb: 0,
-            }}
-          >
-            Glass
-          </Typography>
-          <Typography
-            component="span"
-            sx={{
-              fontFamily: '"Syne", monospace',
-              fontWeight: 900,
-              fontSize: { xs: "3.5rem", sm: "5rem" },
-              lineHeight: 0.92,
-              letterSpacing: "-0.04em",
-              color: theme.palette.terminal.phosphor,
-              display: "block",
-            }}
-          >
-            House
-          </Typography>
-        </Box>
-
-        {/* Tagline */}
-        <Typography
-          variant="body1"
-          sx={{
-            color: theme.palette.terminal.void,
-            maxWidth: 440,
-            mb: 5,
-            fontSize: { xs: "0.9375rem", sm: "1rem" },
-            lineHeight: 1.7,
-          }}
-        >
-          Everything about your digital life is visible unless you protect it.
-          Learn to defend yourself — one level at a time.
+        {/* Wordmark */}
+        <Typography component="h1" sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 900, fontSize: { xs: '3.25rem', sm: '4.5rem' }, lineHeight: 0.95, letterSpacing: '-0.04em', color: 'text.primary', mb: 0.5 }}>
+          Glass
+        </Typography>
+        <Typography component="span" sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 900, fontSize: { xs: '3.25rem', sm: '4.5rem' }, lineHeight: 0.95, letterSpacing: '-0.04em', color: p.primary, display: 'block', mb: 3 }}>
+          House
         </Typography>
 
-        {/* Start CTA */}
+        <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 400, mx: 'auto', mb: 1.5, fontSize: '1rem', lineHeight: 1.65 }}>
+          A new data privacy challenge every day. Learn to protect yourself — one game at a time.
+        </Typography>
+        <Typography variant="body2" sx={{ color: 'text.disabled', mb: 4, fontSize: '0.8125rem' }}>
+          Like Wordle, but for cybersecurity. One challenge per day.
+        </Typography>
+
         <Button
-          variant="contained"
-          size="large"
-          onClick={() => navigate("/password")}
-          endIcon={<ArrowForwardIcon />}
+          variant="contained" color="primary" size="large" onClick={onPlay}
+          endIcon={<PlayArrowIcon />}
           sx={{
-            mb: 3,
-            px: 5,
-            py: 1.75,
-            fontSize: "0.875rem",
-            letterSpacing: "0.15em",
-            fontWeight: 600,
-            background: "transparent",
-            border: `1.5px solid ${theme.palette.terminal.phosphor}`,
-            color: theme.palette.terminal.phosphor,
-            borderRadius: "4px",
-            transition: "all 0.25s",
-            "&:hover": {
-              background: theme.palette.terminal.phosphor,
-              color: theme.palette.terminal.void,
-              boxShadow: `0 0 32px ${alpha(theme.palette.terminal.phosphor, 0.4)}`,
-              transform: "translateY(-1px)",
-            },
+            px: 5, py: 1.75, fontSize: '1rem', fontWeight: 800, borderRadius: '50px', mb: 4,
+            boxShadow: `0 6px 24px ${alpha(p.primary, 0.28)}`,
+            '&:hover': { boxShadow: `0 8px 32px ${alpha(p.primary, 0.40)}` },
           }}
         >
-          Begin Your Journey
+          Play Today's Challenge
         </Button>
 
-        <Typography
-          variant="caption"
-          sx={{ color: theme.palette.terminal.void, letterSpacing: "0.1em" }}
-        >
-          No account needed · 100% free · GDPR-aware by design
-        </Typography>
-
-        {/* ── Module overview ── */}
-        <Box
-          sx={{
-            mt: 6,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: 1.5,
-            textAlign: "left",
-          }}
-        >
-          <Typography
-            variant="overline"
-            sx={{
-              display: "block",
-              color: theme.palette.terminal.void,
-              letterSpacing: "0.2em",
-              mb: 0.5,
-              textAlign: "center",
-            }}
-          >
-            What's inside
-          </Typography>
-
-          <ModuleCard
-            icon={<LockIcon />}
-            title="Password Vault"
-            description="Build strong passwords, spot the weakest in a lineup, learn attack types, and master passphrases."
-            badge="4 LEVELS"
-            accentColor={theme.palette.terminal.phosphor}
-            onClick={() => navigate("/password")}
-          />
-
-          <ModuleCard
-            icon={<CookieIcon />}
-            title="Escape the Cookie Trap"
-            description="Navigate manipulative consent banners, spot dark patterns, and learn what's actually illegal under GDPR."
-            badge="6 LEVELS"
-            accentColor={theme.palette.terminal.coral}
-            onClick={() => navigate("/cookies")}
-          />
-
-          <ModuleCard
-            icon={<EmailIcon />}
-            title="Phish or Legit"
-            description="Analyse real email headers, hover suspicious links, and spot social engineering before it's too late."
-            badge="5 LEVELS"
-            accentColor="#d29922"
-            onClick={() => navigate("/phishing")}
-          />
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, flexWrap: 'wrap', mb: 4 }}>
+          {TOPICS.map(t => (
+            <Chip key={t.label} icon={t.icon} label={t.label} size="small"
+              sx={{ height: 28, fontSize: '0.6875rem', fontWeight: 700, bgcolor: alpha(t.color, 0.09), color: t.color, border: `1px solid ${alpha(t.color, 0.22)}`, borderRadius: '20px', '& .MuiChip-icon': { color: `${t.color} !important` }, '& .MuiChip-label': { px: 0.75 } }}
+            />
+          ))}
         </Box>
 
-        {/* Footer note */}
-        <Typography
-          variant="caption"
-          sx={{
-            mt: 5,
-            color: theme.palette.terminal.void,
-            lineHeight: 1.7,
-            maxWidth: 420,
-            fontSize: "0.6875rem",
-          }}
-        >
-          Glass House is an educational privacy awareness tool. Game content is
-          served dynamically and may be updated to reflect new threats and
-          regulations.
+        <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.6875rem', lineHeight: 1.8, display: 'block' }}>
+          No account needed · Free · Content updated daily
         </Typography>
       </Box>
     </Box>

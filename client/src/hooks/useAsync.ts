@@ -9,10 +9,6 @@ interface UseAsyncResult<T> {
   refetch: () => void;
 }
 
-/**
- * Generic async data fetching hook.
- * Handles loading, error and refetch states cleanly.
- */
 export function useAsync<T>(fetcher: () => Promise<T>): UseAsyncResult<T> {
   const [data, setData]     = useState<T | null>(null);
   const [status, setStatus] = useState<Status>('idle');
@@ -23,29 +19,12 @@ export function useAsync<T>(fetcher: () => Promise<T>): UseAsyncResult<T> {
     let cancelled = false;
     setStatus('loading');
     setError(null);
-
     fetcher()
-      .then(result => {
-        if (!cancelled) {
-          setData(result);
-          setStatus('success');
-        }
-      })
-      .catch((err: unknown) => {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : 'Unknown error');
-          setStatus('error');
-        }
-      });
-
+      .then(r => { if (!cancelled) { setData(r); setStatus('success'); } })
+      .catch((e: unknown) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setStatus('error'); } });
     return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tick]);
 
-  return {
-    data,
-    status,
-    error,
-    refetch: () => setTick(t => t + 1),
-  };
+  return { data, status, error, refetch: () => setTick(t => t + 1) };
 }
