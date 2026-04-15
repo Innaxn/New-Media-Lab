@@ -1,7 +1,5 @@
 [
   {
-    "id": 1,
-    "type": "multiple_choice",
     "question": "What does GDPR stand for?",
     "options": [
       "General Data Protection Regulation",
@@ -14,8 +12,6 @@
     "hint": "It's a European Union regulation."
   },
   {
-    "id": 2,
-    "type": "multiple_choice",
     "question": "Which of the following is considered a phishing attack?",
     "options": [
       "A website mimicking a bank to steal credentials",
@@ -28,8 +24,6 @@
     "hint": "It tricks users into giving sensitive information."
   },
   {
-    "id": 3,
-    "type": "multiple_choice",
     "question": "Which principle is NOT part of GDPR?",
     "options": [
       "Data minimization",
@@ -42,8 +36,6 @@
     "hint": "One of these goes against privacy rules."
   },
   {
-    "id": 4,
-    "type": "multiple_choice",
     "question": "Which of the following is a strong password practice?",
     "options": [
       "Using 'password123' for all accounts",
@@ -56,8 +48,6 @@
     "hint": "Mix character types to increase strength."
   },
   {
-    "id": 5,
-    "type": "multiple_choice",
     "question": "What is a common consequence of a data breach?",
     "options": [
       "Loss of sensitive user data",

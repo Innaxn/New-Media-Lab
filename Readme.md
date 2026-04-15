@@ -10,15 +10,20 @@ npm install @mui/icons-material
 
 # How to run 
 
+    
+
 ## Front-end 
 ```Bash 
     cd .\client\
     npm start
 ``` 
-
+    
 ## Back-end 
 ```Bash
     cd .\server\
     . .venv\Scripts\activate
     python manage.py runserver
+
+    Testing 
+    python server\glasshouse\main.py   
 ```
