@@ -1,22 +1,23 @@
-# Glass house 
+# Glass house
 
-
-
-# Installation 
+# Installation
 
 for material ui go to the client folder and do:
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
 
-# How to run 
+# How to run
 
-## Front-end 
-```Bash 
+## Front-end
+
+```Bash
     cd .\client\
+    npm install
     npm start
-``` 
+```
 
-## Back-end 
+## Back-end
+
 ```Bash
     cd .\server\
     . .venv\Scripts\activate
