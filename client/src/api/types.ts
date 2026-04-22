@@ -5,23 +5,23 @@
 // Every field the backend sends is typed here.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = "easy" | "medium" | "hard";
 
 // ─── Shared across question types ────────────────────────────────────────────
 
 export type QuestionType =
-  | 'multiple_choice'
-  | 'build_a_password'
-  | 'build_a_passphrase'
-  | 'spot_the_weakest_password'
-  | 'phish_or_legit'
-  | 'cookie_banners';
+  | "multiple_choice"
+  | "build_a_password"
+  | "build_a_passphrase"
+  | "spot_the_weakest_password"
+  | "phish_or_legit"
+  | "cookie_banners";
 
 // ─── Multiple Choice ──────────────────────────────────────────────────────────
 
 export interface MultipleChoiceQuestion {
   id: number;
-  type: 'multiple_choice';
+  type: "multiple_choice";
   question: string;
   options: string[];
   correct_index: number;
@@ -32,14 +32,14 @@ export interface MultipleChoiceQuestion {
 // ─── Build a Password ─────────────────────────────────────────────────────────
 
 export interface PasswordRule {
-  regex: string;       // JS-compatible regex string, e.g. "[A-Z]"
+  regex: string; // JS-compatible regex string, e.g. "[A-Z]"
   description: string; // Human-readable label for the checklist
 }
 
 export interface BuildPasswordQuestion {
   id: number;
-  type: 'build_a_password';
-  question: string;    // Optional prompt / challenge framing
+  type: "build_a_password";
+  question: string;
   difficulty: Difficulty;
   rules: PasswordRule[];
 }
@@ -48,7 +48,7 @@ export interface BuildPasswordQuestion {
 
 export interface BuildPassphraseQuestion {
   id: number;
-  type: 'build_a_passphrase';
+  type: "build_a_passphrase";
   difficulty: Difficulty;
   word_bank: string[];
   min_words: number;
@@ -62,63 +62,63 @@ export interface PasswordCandidate {
   id: string;
   value: string;
   is_weakest: boolean;
-  explanation: string;  // shown in debrief for all candidates
+  explanation: string; // shown in debrief for all candidates
   entropy_label: string; // e.g. "~6 bits"
 }
 
 export interface SpotWeakestQuestion {
   id: number;
-  type: 'spot_the_weakest_password';
+  type: "spot_the_weakest_password";
   difficulty: Difficulty;
-  scenario: string;        // context paragraph shown above the lineup
+  scenario: string; // context paragraph shown above the lineup
   candidates: PasswordCandidate[];
-  hint: string;            // shown after a wrong attempt
+  hint: string; // shown after a wrong attempt
 }
 
 // ─── Phish or Legit ───────────────────────────────────────────────────────────
 
-export type EmailBodyBlockType = 'text' | 'link' | 'button' | 'divider';
-export type PhishingFocusArea  = 'headers' | 'body' | 'full';
+export type EmailBodyBlockType = "text" | "link" | "button" | "divider";
+export type PhishingFocusArea = "headers" | "body" | "full";
 
 export interface EmailHeaders {
-  from_name:    string;
+  from_name: string;
   from_address: string;
-  reply_to?:    string;
-  to:           string;
-  date:         string;
-  subject:      string;
+  reply_to?: string;
+  to: string;
+  date: string;
+  subject: string;
 }
 
 export interface EmailBodyBlock {
-  type:     EmailBodyBlockType;
+  type: EmailBodyBlockType;
   content?: string;
-  href?:    string;
-  urgent?:  boolean;
+  href?: string;
+  urgent?: boolean;
 }
 
 export interface PhishingClue {
-  label:       string;
+  label: string;
   explanation: string;
 }
 
 export interface PhishingEmail {
-  id:          string;
+  id: string;
   is_phishing: boolean;
-  focus_area:  PhishingFocusArea;
-  headers:     EmailHeaders;
-  body?:       EmailBodyBlock[];
-  clues:       PhishingClue[];
+  focus_area: PhishingFocusArea;
+  headers: EmailHeaders;
+  body?: EmailBodyBlock[];
+  clues: PhishingClue[];
   explanation: string;
-  xp_reward:   number;
+  xp_reward: number;
 }
 
 export interface PhishOrLegitQuestion {
-  id:             number;
-  type:           'phish_or_legit';
-  difficulty:     Difficulty;
-  instruction:    string;
+  id: number;
+  type: "phish_or_legit";
+  difficulty: Difficulty;
+  instruction: string;
   teaching_point: string;
-  emails:         PhishingEmail[];
+  emails: PhishingEmail[];
 }
 
 // ─── Cookie Banners ───────────────────────────────────────────────────────────
@@ -127,8 +127,8 @@ export interface PhishOrLegitQuestion {
 // The frontend picks one easy/medium/hard level from its own bank.
 
 export interface CookieBannersQuestion {
-  id:         number;
-  type:       'cookie_banners';
+  id: number;
+  type: "cookie_banners";
   difficulty: Difficulty;
 }
 
@@ -145,7 +145,7 @@ export type AnyQuestion =
   | CookieBannersQuestion;
 
 export interface GameOfTheDay {
-  date:          string;       // "YYYY-MM-DD"
+  date: string; // "YYYY-MM-DD"
   question_type: QuestionType; // global type — determines which game component to load
-  questions:     AnyQuestion[];
+  questions: AnyQuestion[];
 }

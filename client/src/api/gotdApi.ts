@@ -19,9 +19,8 @@ import type {
 } from "./types";
 
 // ─── Fetch ────────────────────────────────────────────────────────────────────
-
 export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
-  const url = (import.meta as any).env?.VITE_GOTD_URL as string | undefined;
+  const url = process.env.REACT_APP_SECRET_NAME;
 
   if (!url) {
     console.info("[GOTD] No URL configured — using mock data.");
@@ -31,7 +30,9 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
   try {
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return (await res.json()) as GameOfTheDay;
+    const data = (await res.json()) as GameOfTheDay;
+    console.info("[GOTD] Loaded from remote:", data.question_type, data.date);
+    return data;
   } catch (err) {
     console.warn("[GOTD] Fetch failed, falling back to mock:", err);
     return MOCK_GAME_OF_THE_DAY;
