@@ -1,15 +1,22 @@
-from app.games.buildapassword import test_password_rules, EASY_REGEX_RULES, MEDIUM_REGEX_RULES, HARD_REGEX_RULES
+from app.games.buildapassword import test_password_rules, generate_build_a_password_day
 from app.games.MultipleChoiceDay.question_reader import load_multiple_choice_questions
-from app.games.MultipleChoiceDay.question_writer import write_questions_json
+from app.games.MultipleChoiceDay.question_writer import write_questions_json, dump
 from app.games.MultipleChoiceDay.Tests.test_multiple_choice import test_multiple_choice
 from app.games.write_to_google_drive import upload_to_drive
 from dotenv import load_dotenv
 from app.games.email import send_email
-from app.llm_api import ask_llm
+from app.games.llm_api import ask_llm
+from app.games.Generator.generate_day import generate_qotd
+import json 
+from dataclasses import asdict
 
 load_dotenv()
 
 if __name__ == "__main__":
+
+    generate_qotd()
+
+    # generate_build_a_password_day().and_then(lambda x: dump(x))
 
     # print(ask_llm("This is a test prompt please only respond with 'Hello'"))
 
@@ -23,14 +30,14 @@ if __name__ == "__main__":
 
     # Test the password 
    
-    passwords_to_test = [
-        "Password123!",
-        "password",
-        "12345678",
-        "PASSWORD!",
-        "Pass!1"
-    ]
+    # passwords_to_test = [
+    #     "Password123!",
+    #     "password",
+    #     "1234@5678",
+    #     "P@SS WORD",
+    #     "Pass!1"
+    # ]
 
-    for pw in passwords_to_test:
-        test_password_rules(pw, (EASY_REGEX_RULES + MEDIUM_REGEX_RULES + HARD_REGEX_RULES))
-        print("\n" + "-"*40 + "\n")
+    # for pw in passwords_to_test:
+    #     test_password_rules(pw, MEDIUM_REGEX_RULES)
+    #     print("\n" + "-"*40 + "\n")
