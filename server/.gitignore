@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+auth.json
 
 # Spyder project settings
 .spyderproject
@@ -128,3 +129,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .env__
+
+# Application dependent 
+server/glasshouse/app/games/Prompt/*.txt

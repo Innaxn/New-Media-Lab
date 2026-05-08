@@ -1,0 +1,170 @@
+{
+  "date": "2025-04-22",
+  "question_type": "phish_or_legit",
+  "questions": [
+    {
+      "id": 1,
+      "type": "phish_or_legit",
+      "difficulty": "easy",
+      "instruction": "Examine the sender address. Is this email legitimate?",
+      "teaching_point": "Always check the actual sender domain — not just the display name.",
+      "emails": [
+        {
+          "id": "ph-easy-1",
+          "is_phishing": true,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "ING Bank",
+            "from_address": "noreply@ing-secure-alerts.com",
+            "reply_to": "support@ing-phish.ru",
+            "to": "j.vandenberg@gmail.com",
+            "date": "Fri, 14 Mar 2025 08:42:11 +0100",
+            "subject": "Your account has been temporarily locked"
+          },
+          "clues": [
+            { "label": "Spoofed domain",      "explanation": "Real ING emails come from @ing.nl. 'ing-secure-alerts.com' is a lookalike registered by attackers." },
+            { "label": "Suspicious Reply-To", "explanation": "Replies route to a .ru domain — completely unrelated to ING." }
+          ],
+          "explanation": "Classic bank impersonation. The domain and Reply-To mismatch both confirm phishing.",
+          "xp_reward": 40
+        },
+        {
+          "id": "ph-easy-2",
+          "is_phishing": false,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "GitHub",
+            "from_address": "noreply@github.com",
+            "to": "user@example.com",
+            "date": "Thu, 13 Mar 2025 16:03:45 +0000",
+            "subject": "[GitHub] A new SSH key was added to your account"
+          },
+          "clues": [
+            { "label": "Verified domain",   "explanation": "noreply@github.com is GitHub's real domain." },
+            { "label": "No Reply-To trick", "explanation": "No separate Reply-To — replies stay on github.com." }
+          ],
+          "explanation": "Legitimate GitHub security notification. Domain verified, no mismatch.",
+          "xp_reward": 40
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "phish_or_legit",
+      "difficulty": "medium",
+      "instruction": "Read the email body. Hover over links to see where they actually go.",
+      "teaching_point": "Hover over links before clicking — the real URL often reveals the truth. HTTP links on login pages are always suspicious.",
+      "emails": [
+        {
+          "id": "ph-med-1",
+          "is_phishing": true,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "DigiD",
+            "from_address": "beveiliging@digid-verificatie.com",
+            "to": "user@example.nl",
+            "date": "Thu, 13 Mar 2025 22:11:44 +0100",
+            "subject": "Uw DigiD account is geblokkeerd"
+          },
+          "body": [
+            { "type": "text",   "content": "Geachte gebruiker," },
+            { "type": "text",   "content": "Uw DigiD-account is tijdelijk geblokkeerd.", "urgent": true },
+            { "type": "button", "content": "Deblokkeer mijn DigiD", "href": "http://digid-verificatie.com/deblokkeer" },
+            { "type": "text",   "content": "Actie vereist binnen 12 uur.", "urgent": true }
+          ],
+          "clues": [
+            { "label": "Lookalike domain", "explanation": "Real DigiD is @digid.nl. 'digid-verificatie.com' is a fake." },
+            { "label": "HTTP link",        "explanation": "No legitimate government service uses HTTP for login pages." },
+            { "label": "12-hour threat",   "explanation": "Government agencies never delete accounts by email within hours." }
+          ],
+          "explanation": "DigiD phishing — one of the most common in the Netherlands. Domain, HTTP link and urgency all confirm it.",
+          "xp_reward": 60
+        },
+        {
+          "id": "ph-med-2",
+          "is_phishing": false,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "LinkedIn",
+            "from_address": "messages-noreply@linkedin.com",
+            "to": "user@example.com",
+            "date": "Mon, 10 Mar 2025 10:00:00 +0000",
+            "subject": "You appeared in 12 searches this week"
+          },
+          "body": [
+            { "type": "text",   "content": "Hi there," },
+            { "type": "text",   "content": "Your profile is getting attention — 12 searches this week." },
+            { "type": "button", "content": "View who viewed your profile", "href": "https://www.linkedin.com/notifications/?filter=all" },
+            { "type": "link",   "content": "Unsubscribe", "href": "https://www.linkedin.com/psettings/email" }
+          ],
+          "clues": [
+            { "label": "Real domain",    "explanation": "messages-noreply@linkedin.com is a verified LinkedIn domain." },
+            { "label": "HTTPS links",    "explanation": "Both links resolve to www.linkedin.com over HTTPS." },
+            { "label": "No credentials", "explanation": "Nothing requested — passive notification only." }
+          ],
+          "explanation": "Legitimate LinkedIn notification. Domain, HTTPS links, and no credential request all check out.",
+          "xp_reward": 60
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "phish_or_legit",
+      "difficulty": "hard",
+      "instruction": "Analyse everything — headers and body. Some emails look very polished.",
+      "teaching_point": "Spear phishing uses your real name and company details. The only reliable indicator is often the sender domain.",
+      "emails": [
+        {
+          "id": "ph-hard-1",
+          "is_phishing": true,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "IT Helpdesk — Radboud University",
+            "from_address": "helpdesk@ru-ict-support.nl",
+            "to": "i.georgieva@radboud.nl",
+            "date": "Fri, 14 Mar 2025 09:15:03 +0100",
+            "subject": "Action required: Email quota exceeded (92%)"
+          },
+          "body": [
+            { "type": "text",   "content": "Dear Ivelina," },
+            { "type": "text",   "content": "Your account has reached 92% storage. Act within 48 hours.", "urgent": true },
+            { "type": "button", "content": "Request Storage Extension", "href": "https://ru-ict-support.nl/quota-extend?token=a8f2c1" },
+            { "type": "text",   "content": "ICT Helpdesk — Radboud University, Houtlaan 4, Nijmegen" }
+          ],
+          "clues": [
+            { "label": "Lookalike domain", "explanation": "Radboud's real domain is ru.nl. 'ru-ict-support.nl' is a separately registered fake." },
+            { "label": "Spear phishing",   "explanation": "Uses your real name and university address — harvested from public sources." },
+            { "label": "48-hour pressure", "explanation": "ICT departments send warnings well in advance. Urgent email links are not a helpdesk workflow." }
+          ],
+          "explanation": "Sophisticated spear phishing. Uses real name and address — but the domain is ru-ict-support.nl, not ru.nl.",
+          "xp_reward": 80
+        },
+        {
+          "id": "ph-hard-2",
+          "is_phishing": false,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "Radboud University",
+            "from_address": "noreply@ru.nl",
+            "to": "i.georgieva@radboud.nl",
+            "date": "Wed, 12 Mar 2025 09:00:00 +0100",
+            "subject": "Reminder: thesis submission deadline — 28 March"
+          },
+          "body": [
+            { "type": "text",   "content": "Dear Ivelina," },
+            { "type": "text",   "content": "Reminder: thesis submission deadline is 28 March 2025 at 23:59." },
+            { "type": "button", "content": "Go to Student Portal", "href": "https://www.ru.nl/students/thesis-portal" },
+            { "type": "text",   "content": "Questions? Contact student@ru.nl." }
+          ],
+          "clues": [
+            { "label": "Real ru.nl domain",  "explanation": "noreply@ru.nl is Radboud's verified sending domain." },
+            { "label": "HTTPS portal link",  "explanation": "Button resolves to https://www.ru.nl — same domain as sender." },
+            { "label": "No urgency tricks",  "explanation": "Calm, specific, with a real contact address." }
+          ],
+          "explanation": "Legitimate Radboud notification. Domain, HTTPS link, and calm tone confirm it.",
+          "xp_reward": 80
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+We are building a Daily Challenge Application concerning Data Pricacy that delivers one multiple-choice question to users every 24 hours. 
+The system is designed to provide a consistent, singular point of engagement each day.
+
+The app aims to help beginners to understand Data Security step by step. 
+
+Today the question concerns: <topic> 
+
+The data must be provided in the following format: 
+
+<json_format> 
+
+<request>
+
+Do not provide anything else but the new json data itself
+
+
+
+
