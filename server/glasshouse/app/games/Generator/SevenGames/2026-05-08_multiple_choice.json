@@ -1,0 +1,71 @@
+{
+  "date": "2023-10-27",
+  "question_type": "multiple_choice",
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "question": "Which of the following is considered the strongest and most secure password?",
+      "options": [
+        "12345678",
+        "password123",
+        "MyDogName!",
+        "Tr0p!c@l#92"
+      ],
+      "correct_index": 3,
+      "hint": "The best passwords use a mix of uppercase, lowercase, numbers, and special symbols."
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": "If you receive an unexpected email asking you to click a link and enter your bank login details to 'verify your account', what is this called?",
+      "options": [
+        "Phishing",
+        "Caching",
+        "Updating",
+        "Encryption"
+      ],
+      "correct_index": 0,
+      "hint": "This is a common trick used by attackers to 'fish' for your private information."
+    },
+    {
+      "id": 3,
+      "difficulty": "medium",
+      "question": "What is the main purpose of Two-Factor Authentication (2FA)?",
+      "options": [
+        "To make it faster to log into an account",
+        "To replace the need for a password entirely",
+        "To provide a second layer of security if your password is stolen",
+        "To encrypt the files saved on your computer"
+      ],
+      "correct_index": 2,
+      "hint": "Think of it as adding a second lock to your door that requires a different key."
+    },
+    {
+      "id": 4,
+      "difficulty": "medium",
+      "question": "Why is it risky to perform financial transactions on a public, unsecured Wi-Fi network?",
+      "options": [
+        "The internet speed is too slow for banking",
+        "Your device battery will drain faster",
+        "Attackers can potentially intercept the data sent between your device and the router",
+        "Public Wi-Fi automatically deletes your browsing history"
+      ],
+      "correct_index": 2,
+      "hint": "Unsecured networks lack encryption, meaning data travels in 'plain text' that others can see."
+    },
+    {
+      "id": 5,
+      "difficulty": "hard",
+      "question": "Under the General Data Protection Regulation (GDPR), which right allows an individual to request that a company delete all their personal data?",
+      "options": [
+        "The Right to Portability",
+        "The Right to Rectification",
+        "The Right to Access",
+        "The Right to Erasure (Right to be Forgotten)"
+      ],
+      "correct_index": 3,
+      "hint": "This right focuses specifically on the permanent removal of your data from a company's records."
+    }
+  ]
+}

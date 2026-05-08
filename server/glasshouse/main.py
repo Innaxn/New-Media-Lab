@@ -1,11 +1,11 @@
 from app.games.buildapassword import test_password_rules, generate_build_a_password_day
 from app.games.MultipleChoiceDay.question_reader import load_multiple_choice_questions
-from app.games.MultipleChoiceDay.question_writer import write_questions_json, dump
+from app.games.json_writer import write_questions_json, dump
 from app.games.MultipleChoiceDay.Tests.test_multiple_choice import test_multiple_choice
 from app.games.write_to_google_drive import upload_to_drive
 from dotenv import load_dotenv
 from app.games.email import send_email
-from app.games.llm_api import ask_llm
+from app.games.LLM.llm_api import ask_llm
 from app.games.Generator.generate_day import generate_qotd
 import json 
 from dataclasses import asdict

@@ -1,6 +1,6 @@
 
 from app.games.MultipleChoiceDay.question_reader import load_multiple_choice_questions
-from app.games.MultipleChoiceDay.question_writer import write_questions_json
+from app.games.json_writer import write_questions_json
 
 
 def test_multiple_choice() -> str:

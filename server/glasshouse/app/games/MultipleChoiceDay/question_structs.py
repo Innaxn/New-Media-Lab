@@ -1,7 +1,7 @@
 from datetime import date
 from dataclasses import dataclass
-from app.games.difficulty import Difficulty
-from app.games.question_types import QuestionType
+from app.games.Structs.difficulty import Difficulty
+from app.games.Structs.question_types import QuestionType
 from typing import List
 
 @dataclass(kw_only=True)
@@ -27,7 +27,6 @@ class MultipleChoiceQuestions:
   "questions": [
     {
       "id": 1,
-      "type": "multiple_choice",
       "difficulty": "easy",
       "question": "What does GDPR stand for?",
       "options": [
@@ -41,7 +40,6 @@ class MultipleChoiceQuestions:
     },
     {
       "id": 2,
-      "type": "multiple_choice",
       "difficulty": "medium",
       "question": "Under GDPR, within how many hours must a data breach be reported to the supervisory authority?",
       "options": ["24 hours", "48 hours", "72 hours", "7 days"],
@@ -50,7 +48,6 @@ class MultipleChoiceQuestions:
     },
     {
       "id": 3,
-      "type": "multiple_choice",
       "difficulty": "hard",
       "question": "Which GDPR article states that pre-ticked consent checkboxes do NOT constitute valid consent?",
       "options": ["Article 6", "Article 7", "Recital 32", "Article 17"],

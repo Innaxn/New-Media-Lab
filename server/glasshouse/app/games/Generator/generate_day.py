@@ -1,25 +1,33 @@
 import csv 
 from pathlib import Path 
 from datetime import datetime
-from app.games.question_types import QuestionType
+from app.games.Structs.question_types import QuestionType
 from app.result import Result
 from app.random import get_random_sample
 from app.games.buildapassword import generate_build_a_password_day, PasswordDay
-from app.games.MultipleChoiceDay.question_writer import write_questions_json
+from app.games.json_writer import write_questions_json
 from app.games.write_to_google_drive import upload_to_drive
+from app.games.LLM.llm_api import ask_llm
+from app.games.MultipleChoiceDay.question_reader import parse_multiple_choice_questions_from_string
 
 PATH: Path = Path(r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\CanBeGenerated.csv")
-STORE_FOLDER: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\SevenGames"
+STORE_FOLDER: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\SevenGames"
 
 def generate_qotd() -> None: 
-   t: Result[QuestionType, str] = get_question_of_the_day_type()
+   t: Result[QuestionType, str] = _get_question_of_the_day_type()
    if not t.is_ok():
       print(f"Failed to generate question due to error: {t.unwrap_err()}")
       return
    t: QuestionType = t.unwrap()
    match t:
      case QuestionType.MultipleChoice:
-       print("Multiple choice questions are not yet supported")
+       prompt = _getPrompt(QuestionType.MultipleChoice)
+       response = ask_llm(prompt)
+       json = parse_multiple_choice_questions_from_string(response["choices"][0]["message"]["content"])
+       write_questions_json(json, f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{t.value}.json"
+            ).and_then(lambda filepath: upload_to_drive(filepath)
+         ).tap(lambda res: print(f"Game sucessfully generated: {res}")
+         ).tap_err(lambda err: print(f"Error during genration: {err}"))
        return
       
      case QuestionType.BuildAPassword:
@@ -32,7 +40,12 @@ def generate_qotd() -> None:
          ).tap(lambda res: print(f"Game sucessfully generated: {res}")
          ).tap_err(lambda err: print(f"Error during genration: {err}"))
 
-def get_question_of_the_day_type() -> Result[QuestionType, str]:
+def _getPrompt(questionType: QuestionType) -> str: 
+    path: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\LLM\prompt.txt"
+    with open(path, "r", encoding="utf-8") as f:
+      return f.read()
+
+def _get_question_of_the_day_type() -> Result[QuestionType, str]:
     options_result = _get_options()
     if not options_result.is_ok():
         return options_result

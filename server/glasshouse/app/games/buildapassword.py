@@ -1,11 +1,11 @@
 
 from dataclasses import dataclass
-from .difficulty import Difficulty
+from .Structs.difficulty import Difficulty
 from typing import List
 from datetime import datetime, date 
 from app.random import get_random_sample
 from app.result import Result
-from app.games.question_types import QuestionType
+from app.games.Structs.question_types import QuestionType
 import re
 
 @dataclass(kw_only=True)
