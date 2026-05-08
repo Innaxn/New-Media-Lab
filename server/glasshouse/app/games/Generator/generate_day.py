@@ -14,36 +14,53 @@ PATH: Path = Path(r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-La
 STORE_FOLDER: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\SevenGames"
 
 def generate_qotd() -> None: 
-   t: Result[QuestionType, str] = _get_question_of_the_day_type()
-   if not t.is_ok():
-      print(f"Failed to generate question due to error: {t.unwrap_err()}")
-      return
-   t: QuestionType = t.unwrap()
-   match t:
-     case QuestionType.MultipleChoice:
-       prompt = _getPrompt(QuestionType.MultipleChoice)
-       response = ask_llm(prompt)
-       json = parse_multiple_choice_questions_from_string(response["choices"][0]["message"]["content"])
-       write_questions_json(json, f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{t.value}.json"
-            ).and_then(lambda filepath: upload_to_drive(filepath)
-         ).tap(lambda res: print(f"Game sucessfully generated: {res}")
-         ).tap_err(lambda err: print(f"Error during genration: {err}"))
-       return
+   _get_question_of_the_day_type().and_then(
+      lambda t: handle_type(t)
+   )
+
+def handle_type(t: QuestionType):
+        match t:
+            case QuestionType.MultipleChoice:
+                return _generate_multiple_choice()
+            case QuestionType.BuildAPassword:
+                return _generate_build_a_password()
       
-     case QuestionType.BuildAPassword:
-         return generate_build_a_password_day().and_then( 
+def _generate_build_a_password() -> Result[str ,str]:
+   return generate_build_a_password_day().and_then( 
             lambda passwordGame: write_questions_json(
               passwordGame, 
-              f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{t.value}.json"
-            )
-           .and_then(lambda filepath: upload_to_drive(filepath))
-         ).tap(lambda res: print(f"Game sucessfully generated: {res}")
+              f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{QuestionType.BuildAPassword.value}.json"
+            ).and_then(lambda filepath: upload_to_drive(filepath))
+         ).tap(lambda res: print(f"Sucessfully generated {{QuestionType.BuildAPassword}}: {res}")
          ).tap_err(lambda err: print(f"Error during genration: {err}"))
 
-def _getPrompt(questionType: QuestionType) -> str: 
-    path: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\LLM\prompt.txt"
-    with open(path, "r", encoding="utf-8") as f:
-      return f.read()
+def _generate_multiple_choice() -> Result[str ,str]:
+    return (
+        _getPrompt(QuestionType.MultipleChoice)
+        .and_then(ask_llm)
+        .and_then(lambda response:
+            parse_multiple_choice_questions_from_string(
+                response["choices"][0]["message"]["content"]
+            )
+        )
+        .and_then(lambda questions:
+            write_questions_json(
+                questions,
+                f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{QuestionType.MultipleChoice.value}.json"
+            )
+        )
+        .and_then(upload_to_drive)
+        .tap(lambda res: print(f"Successfully generated {QuestionType.MultipleChoice}: {res}"))
+        .tap_err(lambda err: print(f"Error during generation: {err}"))
+    )
+
+def _getPrompt(questionType: QuestionType) -> Result[str, str]: 
+    try:
+        path: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\LLM\prompt.txt"
+        with open(path, "r", encoding="utf-8") as f:
+            return Result.Ok(f.read())
+    except Exception as ex: 
+       return Result.Err(ex.__str__())
 
 def _get_question_of_the_day_type() -> Result[QuestionType, str]:
     options_result = _get_options()
