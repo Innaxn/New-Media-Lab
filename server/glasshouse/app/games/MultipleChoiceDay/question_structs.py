@@ -7,7 +7,6 @@ from typing import List
 @dataclass(kw_only=True)
 class Question:
     id: int 
-    type: QuestionType = QuestionType.MultipleChoice
     difficulty: Difficulty
     question: str 
     options: List[str]

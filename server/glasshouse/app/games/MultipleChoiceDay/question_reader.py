@@ -12,11 +12,8 @@ def load_multiple_choice_questions(file_path: str) -> MultipleChoiceQuestions:
 
     parsed_questions = []
     for q in data["questions"]:
-        diff = Difficulty(q["difficulty"]) 
-
         question_obj = Question(
             id=q["id"],
-            difficulty=diff,
             question=q["question"],
             options=q["options"],
             correct_index=q["correct_index"],

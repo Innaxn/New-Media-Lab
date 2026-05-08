@@ -4,7 +4,6 @@
   "questions": [
     {
       "id": 1,
-      "type": "multiple_choice",
       "difficulty": "easy",
       "question": "What does GDPR stand for?",
       "options": [
@@ -18,7 +17,6 @@
     },
     {
       "id": 2,
-      "type": "multiple_choice",
       "difficulty": "medium",
       "question": "Under GDPR, within how many hours must a data breach be reported to the supervisory authority?",
       "options": [
@@ -32,7 +30,6 @@
     },
     {
       "id": 3,
-      "type": "multiple_choice",
       "difficulty": "hard",
       "question": "Which GDPR article states that pre-ticked consent checkboxes do NOT constitute valid consent?",
       "options": [
