@@ -59,11 +59,25 @@ EASY_REGEX_RULES = [
         regex=r"^[A-Za-z0-9].*[A-Za-z0-9]$"
     )
 ]
+
+MEDIUM_REGEX_RULES = [
+    PasswordRule(
+        description="Must be exactly 2 words",
+        regex=r"^[^\s]+ [^\s]+$"
+    )
+]
+
+HARD_REGEX_RULES = [
+    PasswordRule(
+        description="Must be exactly 4 words",
+        regex=r"^(?:\S+\s){3}\S+$"
+    )
+]
   
 def test_password_rules(password: str, rules: List[PasswordRule]) -> None:
     print(f"Testing password: '{password}'\n")
 
-    for rule in get_random_sample(rules, 3).unwrap():
+    for rule in get_random_sample(rules, 5).unwrap():
         match = re.search(rule.regex, password)
         status = "PASS" if match else "FAIL"
         print(f"[{status}] {rule.description}")
