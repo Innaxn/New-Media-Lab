@@ -54,6 +54,16 @@ class Result(Generic[T, E]):
             return f(self.unwrap())
         return self 
 
+    def tap(self, f: Callable[[A], None]) -> "Result[A, E]":
+        if self.is_ok():
+            f(self.unwrap())
+        return self; 
+
+    def tap_err(self, f: Callable[[E], None]) -> "Result[A, E]": 
+        if self.is_err():
+            f(self.unwrap())
+        return self; 
+
     def __repr__(self):
         if self.is_ok():
             return f"Ok({self._value})"

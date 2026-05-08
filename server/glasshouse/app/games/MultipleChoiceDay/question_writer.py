@@ -3,6 +3,7 @@ from dataclasses import asdict, is_dataclass
 from datetime import date
 from typing import Any
 from enum import Enum
+from app.result import Result
 
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -21,9 +22,13 @@ def obj_to_json(obj: Any) -> str:
         cls=EnhancedJSONEncoder
     )
 
-def write_questions_json(questions: Any, file_path: str = " ") -> None:
-    with open(file_path, "w") as f:
-        json.dump(asdict(questions), f, indent=2, cls=EnhancedJSONEncoder)
+def write_questions_json(questions: Any, file_path: str = " ") -> Result[str, str]:
+    try:
+        with open(file_path, "w") as f:
+            json.dump(asdict(questions), f, indent=2, cls=EnhancedJSONEncoder)
+        return Result.Ok(file_path)
+    except Exception as ex:
+        return Result.Err(ex.__str__())
 
 def dump(questions: Any, file_path: str = " ") -> None:
     print(obj_to_json(questions))

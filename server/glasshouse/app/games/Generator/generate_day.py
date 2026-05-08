@@ -21,15 +21,16 @@ def generate_qotd() -> None:
      case QuestionType.MultipleChoice:
        print("Multiple choice questions are not yet supported")
        return
+      
      case QuestionType.BuildAPassword:
-         res: Result[PasswordDay, str] = generate_build_a_password_day()
-         if not res.is_ok():
-            print(f"Failed to generate Build a Password due to error: {res.unwrap_err()}")
-            return
-         passwordGame: PasswordDay = res.unwrap()
-         full_path: str = f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{t.value}.json"
-         write_questions_json(passwordGame, full_path)
-         upload_to_drive(full_path)         
+         return generate_build_a_password_day().and_then( 
+            lambda passwordGame: write_questions_json(
+              passwordGame, 
+              f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{t.value}.json"
+            )
+           .and_then(lambda filepath: upload_to_drive(filepath))
+         ).tap(lambda res: print(f"Game sucessfully generated: {res}")
+         ).tap_err(lambda err: print(f"Error during genration: {err}"))
 
 def get_question_of_the_day_type() -> Result[QuestionType, str]:
     options_result = _get_options()
