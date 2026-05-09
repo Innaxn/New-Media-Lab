@@ -6,7 +6,8 @@ from app.games.write_to_google_drive import upload_to_drive
 from dotenv import load_dotenv
 from app.games.email import send_email
 from app.games.LLM.llm_api import ask_llm
-from app.games.Generator.generate_day import generate_qotd
+from app.games.Generator.generate_day import generate_qotd, generate_qotd_debug
+from app.games.Structs.question_types import QuestionType
 import json 
 from dataclasses import asdict
 
@@ -14,7 +15,9 @@ load_dotenv()
 
 if __name__ == "__main__":
 
-    generate_qotd()
+    generate_qotd_debug(QuestionType.BuildAPassword)
+    generate_qotd_debug(QuestionType.CookieBanner)
+    generate_qotd_debug(QuestionType.MultipleChoice)
 
     # generate_build_a_password_day().and_then(lambda x: dump(x))
 
