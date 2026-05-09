@@ -1,26 +1,25 @@
-# Glass house 
+# Glass house
 
-
-
-# Installation 
+# Installation
 
 for material ui go to the client folder and do:
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
 
-# How to run 
+# How to run
 
-    
+## Front-end
 
-## Front-end 
-```Bash 
+```Bash
     cd .\client\
+    npm install
     npm start
-``` 
-    
-## Back-end 
+```
 
-### Install 
+## Back-end
+
+### Install
+
 pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
 
 ```Bash
@@ -28,6 +27,6 @@ pip install google-api-python-client google-auth google-auth-httplib2 google-aut
     . .venv\Scripts\activate
     python manage.py runserver
 
-    Testing 
-    python server\glasshouse\main.py   
+    Testing
+    python server\glasshouse\main.py
 ```
