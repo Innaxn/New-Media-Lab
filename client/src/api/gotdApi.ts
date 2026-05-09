@@ -1,13 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// Glass House — Game of the Day API
-//
-// Fetches one JSON document from Google Drive (set VITE_GOTD_URL in .env).
-// Falls back to MOCK_GAME_OF_THE_DAY when env var is missing or fetch fails.
-//
-// To test a different game type locally, change MOCK_GAME_OF_THE_DAY.question_type
-// and make sure the questions array matches the type.
-// ─────────────────────────────────────────────────────────────────────────────
-
 import type {
   GameOfTheDay,
   BuildPasswordQuestion,
@@ -18,10 +8,8 @@ import type {
   CookieBannersQuestion,
 } from "./types";
 
-// ─── Fetch ────────────────────────────────────────────────────────────────────
 export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
-  const url = process.env.REACT_APP_SECRET_NAME;
-
+  const url = process.env.REACT_APP_SECRET_NAME as string | undefined;
   if (!url) {
     console.info("[GOTD] No URL configured — using mock data.");
     return MOCK_GAME_OF_THE_DAY;
@@ -40,13 +28,11 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
 }
 
 // ─── Mock: Build a Password ───────────────────────────────────────────────────
-
 const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   {
     id: 1,
-    type: "build_a_password",
-    question: "Create a password that satisfies all the rules below.",
     difficulty: "easy",
+    question: "Create a password that satisfies all the rules below.",
     rules: [
       { regex: ".{8,}", description: "8+ characters" },
       { regex: "[A-Z]", description: "At least one uppercase letter" },
@@ -55,9 +41,8 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   },
   {
     id: 2,
-    type: "build_a_password",
-    question: "Level up — more rules, stronger password.",
     difficulty: "medium",
+    question: "Level up — more rules, stronger password.",
     rules: [
       { regex: ".{12,}", description: "12+ characters" },
       { regex: "[A-Z]", description: "Uppercase letter" },
@@ -68,9 +53,8 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   },
   {
     id: 3,
-    type: "build_a_password",
-    question: "Expert mode — avoid common words too.",
     difficulty: "hard",
+    question: "Expert mode — avoid common words too.",
     rules: [
       { regex: ".{16,}", description: "16+ characters" },
       { regex: "[A-Z]", description: "Uppercase letter" },
@@ -90,10 +74,9 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
 const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
   {
     id: 1,
-    type: "spot_the_weakest_password",
     difficulty: "easy",
     scenario:
-      "A security analyst has dumped these passwords from a recent breach. Which would a hacker crack first?",
+      "These passwords were found in a data breach. Which would a hacker crack first?",
     candidates: [
       {
         id: "c1",
@@ -106,14 +89,15 @@ const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
         id: "c2",
         value: "Tr0ub4dor",
         is_weakest: false,
-        explanation: "L33t substitution looks complex but is predictable.",
+        explanation:
+          "Symbol substitution looks complex but is very predictable.",
         entropy_label: "~28 bits",
       },
       {
         id: "c3",
         value: "xkQ$8mN!vP",
         is_weakest: false,
-        explanation: "10 truly random chars — brute-force resistant.",
+        explanation: "10 truly random characters — hard to crack.",
         entropy_label: "~65 bits",
       },
     ],
@@ -121,81 +105,79 @@ const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
   },
   {
     id: 2,
-    type: "spot_the_weakest_password",
     difficulty: "medium",
     scenario:
-      "Four passwords from a corporate breach investigation. Rank from weakest to strongest.",
+      "Four passwords from a company breach. Which is easiest to crack?",
     candidates: [
       {
         id: "c1",
         value: "Company2024!",
         is_weakest: true,
         explanation:
-          "Company name + year is the most predictable corporate pattern — cracked in seconds.",
+          "Company name + year is the most predictable corporate pattern.",
         entropy_label: "~18 bits",
       },
       {
         id: "c2",
         value: "Tr0ub4dor&3",
         is_weakest: false,
-        explanation: "Famous XKCD example — recognisable pattern weakens it.",
+        explanation: "Known pattern — weakens it.",
         entropy_label: "~28 bits",
       },
       {
         id: "c3",
         value: "xkQ$8mN!vPz2",
         is_weakest: false,
-        explanation: "12 truly random characters — high entropy.",
+        explanation: "12 truly random characters — high strength.",
         entropy_label: "~72 bits",
       },
       {
         id: "c4",
         value: "correct-horse-battery-staple",
         is_weakest: false,
-        explanation: "Long passphrase — 44 bits of entropy.",
+        explanation: "Long passphrase — very hard to crack.",
         entropy_label: "~44 bits",
       },
     ],
-    hint: "Corporate patterns (company name + year) are always the first thing attackers try.",
+    hint: "Company name + year patterns are always the first thing attackers try.",
   },
   {
     id: 3,
-    type: "spot_the_weakest_password",
     difficulty: "hard",
     scenario:
-      "All four passwords look strong at first glance. Which one is actually weakest?",
+      "All four look strong at first glance. Which one is actually the weakest?",
     candidates: [
       {
         id: "c1",
         value: "P@$$w0rd!23",
         is_weakest: true,
         explanation:
-          "Classic substitutions (@ for a, $ for s, 0 for o) are in every dictionary attack wordlist.",
+          "Classic substitutions are in every dictionary attack wordlist.",
         entropy_label: "~20 bits effective",
       },
       {
         id: "c2",
         value: "correct-horse-staple-44",
         is_weakest: false,
-        explanation: "Long passphrase — centuries to brute-force.",
+        explanation: "Long passphrase — centuries to crack.",
         entropy_label: "~52 bits",
       },
       {
         id: "c3",
         value: "zt9!Kw#mP2qL",
         is_weakest: false,
-        explanation: "12 truly random characters across all charsets.",
+        explanation: "12 truly random characters.",
         entropy_label: "~78 bits",
       },
       {
         id: "c4",
         value: "piano-eagle-7-river-!",
         is_weakest: false,
-        explanation: "5-word passphrase with symbol — very high entropy.",
+        explanation: "5-word passphrase with symbol — very strong.",
         entropy_label: "~60 bits",
       },
     ],
-    hint: "Substitution patterns (@ for a, $ for s) are well-known to attackers and barely increase entropy.",
+    hint: "Symbol substitutions like @ for a and $ for s are in every attacker's dictionary.",
   },
 ];
 
@@ -204,7 +186,6 @@ const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
 const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
   {
     id: 1,
-    type: "build_a_passphrase",
     difficulty: "easy",
     word_bank: [
       "purple",
@@ -224,7 +205,6 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
   },
   {
     id: 2,
-    type: "build_a_passphrase",
     difficulty: "medium",
     word_bank: [
       "purple",
@@ -250,7 +230,6 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
   },
   {
     id: 3,
-    type: "build_a_passphrase",
     difficulty: "hard",
     word_bank: [
       "purple",
@@ -279,7 +258,7 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
     min_words: 5,
     separator: "-",
     success_message:
-      "A 5-word Diceware passphrase has 2⁶⁴ combinations. Use a password manager with this as the master key.",
+      "A 5-word passphrase has billions of combinations. Use a password manager with this as the master key.",
   },
 ];
 
@@ -288,7 +267,6 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
 const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
   {
     id: 1,
-    type: "phish_or_legit",
     difficulty: "easy",
     instruction: "Examine the sender address. Is this email legitimate?",
     teaching_point:
@@ -304,22 +282,21 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           reply_to: "support@ing-phish.ru",
           to: "j.vandenberg@gmail.com",
           date: "Fri, 14 Mar 2025 08:42:11 +0100",
-          subject: "⚠️ Your account has been temporarily locked",
+          subject: "Your account has been temporarily locked",
         },
         clues: [
           {
             label: "Spoofed domain",
             explanation:
-              'Real ING emails come from @ing.nl. "ing-secure-alerts.com" is a lookalike registered by attackers.',
+              "Real ING emails come from @ing.nl. ing-secure-alerts.com is a lookalike.",
           },
           {
             label: "Suspicious Reply-To",
-            explanation:
-              "Replies route to a .ru domain — completely unrelated to ING.",
+            explanation: "Replies route to a .ru domain — unrelated to ING.",
           },
         ],
         explanation:
-          "Classic bank impersonation. The domain and Reply-To mismatch both confirm phishing.",
+          "Classic bank impersonation. The domain and Reply-To mismatch confirm phishing.",
         xp_reward: 40,
       },
       {
@@ -343,20 +320,18 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
             explanation: "No separate Reply-To — replies stay on github.com.",
           },
         ],
-        explanation:
-          "Legitimate GitHub security notification. Domain verified, no mismatch.",
+        explanation: "Legitimate GitHub security notification.",
         xp_reward: 40,
       },
     ],
   },
   {
     id: 2,
-    type: "phish_or_legit",
     difficulty: "medium",
     instruction:
-      "Read the email body. Hover links to see where they actually go.",
+      "Read the email body. Hover over links to see where they actually go.",
     teaching_point:
-      "Hover over links before clicking — the real URL often reveals the truth. HTTP links for credential pages are always suspicious.",
+      "Hover over links before clicking — the real URL often reveals the truth.",
     emails: [
       {
         id: "ph-med-1",
@@ -391,12 +366,12 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           {
             label: "Lookalike domain",
             explanation:
-              'Real DigiD is @digid.nl. "digid-verificatie.com" is a fake.',
+              "Real DigiD is @digid.nl. digid-verificatie.com is a fake.",
           },
           {
             label: "HTTP link",
             explanation:
-              "No legitimate government service uses HTTP for credential pages.",
+              "No legitimate government service uses HTTP for login pages.",
           },
           {
             label: "12-hour threat",
@@ -405,7 +380,7 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           },
         ],
         explanation:
-          "DigiD phishing — one of the most common in the Netherlands. Domain, HTTP link and urgency confirm it.",
+          "DigiD phishing — domain, HTTP link and urgency all confirm it.",
         xp_reward: 60,
       },
       {
@@ -452,20 +427,18 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
             explanation: "Nothing requested — passive notification only.",
           },
         ],
-        explanation:
-          "Legitimate LinkedIn notification. Domain, HTTPS links, and no credential request all check out.",
+        explanation: "Legitimate LinkedIn notification.",
         xp_reward: 60,
       },
     ],
   },
   {
     id: 3,
-    type: "phish_or_legit",
     difficulty: "hard",
     instruction:
       "Analyse everything — headers and body. Some emails look very polished.",
     teaching_point:
-      "Spear phishing uses your real name and company details. The only reliable indicator is often just the sender domain.",
+      "Spear phishing uses your real name and company details. The only reliable indicator is often the sender domain.",
     emails: [
       {
         id: "ph-hard-1",
@@ -500,7 +473,7 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           {
             label: "Lookalike domain",
             explanation:
-              'Radboud\'s real ICT domain is ru.nl. "ru-ict-support.nl" is a separately registered fake.',
+              "Radboud's real domain is ru.nl. ru-ict-support.nl is a separately registered fake.",
           },
           {
             label: "Spear phishing",
@@ -510,7 +483,7 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           {
             label: "48-hour pressure",
             explanation:
-              "ICT departments send warnings well in advance. Urgent email links are not a helpdesk workflow.",
+              "ICT departments send warnings well in advance. Urgent links are not a helpdesk workflow.",
           },
         ],
         explanation:
@@ -557,8 +530,7 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
             explanation: "Calm, specific, with a real contact address.",
           },
         ],
-        explanation:
-          "Legitimate Radboud notification. Domain, HTTPS link, and calm tone confirm it.",
+        explanation: "Legitimate Radboud notification.",
         xp_reward: 80,
       },
     ],
@@ -566,11 +538,11 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
 ];
 
 // ─── Mock: Multiple Choice ────────────────────────────────────────────────────
+// Note: two easy questions to demonstrate multi-question-per-difficulty support
 
 const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
   {
     id: 1,
-    type: "multiple_choice",
     difficulty: "easy",
     question: "What does GDPR stand for?",
     options: [
@@ -584,7 +556,14 @@ const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
   },
   {
     id: 2,
-    type: "multiple_choice",
+    difficulty: "easy",
+    question: "Which of the following is considered the strongest password?",
+    options: ["Password123", "12345678", "qwertyuiop", "G7#kP2!sX9"],
+    correct_index: 3,
+    hint: "A strong password uses a mix of uppercase, lowercase, numbers, and special symbols.",
+  },
+  {
+    id: 3,
     difficulty: "medium",
     question:
       "Under GDPR, within how many hours must a data breach be reported to the supervisory authority?",
@@ -593,8 +572,7 @@ const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
     hint: "Article 33 specifies a specific time window from the moment of becoming aware.",
   },
   {
-    id: 3,
-    type: "multiple_choice",
+    id: 4,
     difficulty: "hard",
     question:
       "Which GDPR article states that pre-ticked consent checkboxes do NOT constitute valid consent?",
@@ -605,15 +583,14 @@ const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
 ];
 
 // ─── Mock: Cookie Banners ─────────────────────────────────────────────────────
-// Backend only sends date + question_type. Frontend picks from its own bank.
 
 const MOCK_COOKIE_QUESTIONS: CookieBannersQuestion[] = [
-  { id: 1, type: "cookie_banners", difficulty: "easy" },
-  { id: 2, type: "cookie_banners", difficulty: "medium" },
-  { id: 3, type: "cookie_banners", difficulty: "hard" },
+  { id: 1, difficulty: "easy" },
+  { id: 2, difficulty: "medium" },
+  { id: 3, difficulty: "hard" },
 ];
 
-// ─── Active mock — change question_type to test different games ───────────────
+// ─── Active mock ──────────────────────────────────────────────────────────────
 
 export const MOCK_GAME_OF_THE_DAY: GameOfTheDay = {
   date: new Date().toISOString().slice(0, 10),
@@ -621,7 +598,6 @@ export const MOCK_GAME_OF_THE_DAY: GameOfTheDay = {
   questions: MOCK_MULTIPLE_CHOICE_QUESTIONS,
 };
 
-// All mocks exported for dev switching
 export const ALL_MOCKS: Record<string, GameOfTheDay> = {
   build_a_password: {
     date: "2025-01-01",
