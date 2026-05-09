@@ -1,12 +1,14 @@
 import json
 from dataclasses import asdict, is_dataclass    
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 from enum import Enum
 from app.result import Result
 
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.date().isoformat()
         if isinstance(obj, date):
             return obj.isoformat()
         if isinstance(obj, Enum):

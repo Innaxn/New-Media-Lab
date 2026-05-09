@@ -94,7 +94,7 @@ def report_generation(
 def store_and_upload(game: Result[Any, Any], game_type: QuestionType):
     return write_questions_json(
         game, 
-        f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{QuestionType.MultipleChoice.value}.json"
+        f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{game_type.value}.json"
     ).and_then(upload_to_drive)
 
 def _getPrompt(questionType: QuestionType) -> Result[str, str]: 
