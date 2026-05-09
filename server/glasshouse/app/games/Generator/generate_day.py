@@ -1,6 +1,6 @@
 import csv 
 from pathlib import Path 
-from typing import Any
+from typing import Any, Callable
 from datetime import datetime
 from app.games.Structs.question_types import QuestionType
 from app.result import Result
@@ -15,12 +15,28 @@ from app.games.cookie_banner import CookieBannerDay
 PATH: Path = Path(r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\CanBeGenerated.csv")
 STORE_FOLDER: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\SevenGames"
 
+def store_and_upload_debug(game: Result[Any, Any], game_type: QuestionType) -> Result[Any, Any]:
+    return write_questions_json(
+        game,
+         f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{game_type.value}.json"
+    ).tap(lambda path: print (f"Debug version does not write to one drive! Result in {path}"))
+
+
+def store_and_upload(game: Result[Any, Any], game_type: QuestionType) -> Result[Any, Any]:
+    return write_questions_json(
+        game, 
+        f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{game_type.value}.json"
+    ).and_then(upload_to_drive)
+
 def generate_qotd() -> None: 
    _get_question_of_the_day_type().and_then(
       lambda t: handle_type(t)
    )
 
-def handle_type(t: QuestionType) -> Result[str, str]:
+def generate_qotd_debug(t) -> None:
+    handle_type(store_and_upload_debug)
+
+def handle_type(t: QuestionType, f: Callable[[Result[Any, Any], QuestionType], Result[Any, str]] = store_and_upload) -> Result[str, str]:
         match t:
             case QuestionType.MultipleChoice:
                 return _generate_multiple_choice()
@@ -28,9 +44,10 @@ def handle_type(t: QuestionType) -> Result[str, str]:
                 return _generate_build_a_password()
             case QuestionType.CookieBanner:
                 return _generate_cookie_banner()
+            
            
-def _generate_cookie_banner() -> None:
-    result: Result[str, str] = store_and_upload(
+def _generate_cookie_banner(f: Callable[[Result[Any, Any], QuestionType], Result[Any, str]] = store_and_upload) -> None:
+    result: Result[str, str] = f(
         CookieBannerDay(
             date=datetime.now().date().isoformat(),
         ),
@@ -42,11 +59,11 @@ def _generate_cookie_banner() -> None:
         error_msg="Failed to generate cookie banner game"
     )
       
-def _generate_build_a_password() -> None:
+def _generate_build_a_password(f: Callable[[Result[Any, Any], QuestionType], Result[Any, str]] = store_and_upload) -> None:
     result: Result[str, str] = (
         generate_build_a_password_day()
         .and_then(lambda game:
-            store_and_upload(game, QuestionType.BuildAPassword)
+            f(game, QuestionType.BuildAPassword)
         )
     )
 
@@ -57,7 +74,7 @@ def _generate_build_a_password() -> None:
     )
    
 
-def _generate_multiple_choice() -> None:
+def _generate_multiple_choice(f: Callable[[Result[Any, Any], QuestionType], Result[Any, str]] = store_and_upload) -> None:
     result: Result[str, str] = (
         _getPrompt(QuestionType.MultipleChoice)
         .and_then(ask_llm)
@@ -67,7 +84,7 @@ def _generate_multiple_choice() -> None:
             )
         )
         .and_then(lambda game:
-            store_and_upload(game, QuestionType.MultipleChoice)
+            f(game, QuestionType.MultipleChoice)
         )
     )
 
@@ -89,13 +106,6 @@ def report_generation(
         .tap_err(lambda err: print(f"Error during generation: {err}"))
         .expect(error_msg)
     )
-
-
-def store_and_upload(game: Result[Any, Any], game_type: QuestionType):
-    return write_questions_json(
-        game, 
-        f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{game_type.value}.json"
-    ).and_then(upload_to_drive)
 
 def _getPrompt(questionType: QuestionType) -> Result[str, str]: 
     try:
