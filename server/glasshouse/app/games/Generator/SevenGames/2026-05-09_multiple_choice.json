@@ -1,0 +1,71 @@
+{
+  "date": "2023-10-27",
+  "question_type": "multiple_choice",
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "question": "Which of the following is considered the strongest password practice?",
+      "options": [
+        "Using your birth date and city",
+        "Using '12345678' for all accounts",
+        "Using a unique combination of letters, numbers, and symbols",
+        "Using your pet's name"
+      ],
+      "correct_index": 2,
+      "hint": "Think about variety and unpredictability."
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": "What is 'phishing' in the context of data security?",
+      "options": [
+        "Updating your software to the latest version",
+        "A fraudulent attempt to steal sensitive information via email or messages",
+        "The process of encrypting your hard drive",
+        "A method for backing up files to the cloud"
+      ],
+      "correct_index": 1,
+      "hint": "It's like a 'bait' used by hackers to trick you."
+    },
+    {
+      "id": 3,
+      "difficulty": "medium",
+      "question": "What is the primary benefit of enabling Two-Factor Authentication (2FA) on your accounts?",
+      "options": [
+        "It makes the login process faster",
+        "It encrypts all your sent emails",
+        "It adds an extra layer of security by requiring a second form of verification",
+        "It prevents your computer from getting viruses"
+      ],
+      "correct_index": 2,
+      "hint": "It requires something you know (password) AND something you have (like a phone)."
+    },
+    {
+      "id": 4,
+      "difficulty": "medium",
+      "question": "Why is it important to keep your operating system and apps updated regularly?",
+      "options": [
+        "To change the visual theme of the device",
+        "To ensure you have the newest emojis",
+        "To patch security vulnerabilities that hackers could exploit",
+        "To increase the physical storage space of your device"
+      ],
+      "correct_index": 2,
+      "hint": "Updates often include 'security patches' to fix holes in the software."
+    },
+    {
+      "id": 5,
+      "difficulty": "hard",
+      "question": "Under the General Data Protection Regulation (GDPR), what does the 'Right to Erasure' (Right to be Forgotten) allow an individual to do?",
+      "options": [
+        "Permanently delete their entire browsing history from their local browser",
+        "Request that an organization delete their personal data under certain conditions",
+        "Block all incoming emails from a specific domain",
+        "Force a website to hide their IP address from other users"
+      ],
+      "correct_index": 1,
+      "hint": "This right focuses on the data a company holds about you, not your own device."
+    }
+  ]
+}
