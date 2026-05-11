@@ -9,12 +9,15 @@ from app.games.LLM.llm_api import ask_llm
 from app.games.Generator.generate_day import generate_qotd, generate_qotd_debug
 from app.games.Structs.question_types import QuestionType
 from app.games.PhishOrLegitDay.PhishOrLegitJSONReader import load_phish_or_legit_day
+from app.games.BuildAPassphrase import build_a_passhprase
 import json 
 from dataclasses import asdict
 
 load_dotenv()
 
 if __name__ == "__main__":
+
+    # dump(build_a_passhprase())
     
     generate_qotd()
     # generate_qotd_debug(QuestionType.SpotTheWeakestPassword)

@@ -6,7 +6,8 @@ from app.games.Generator.pipeline import Pipeline
 from app.games.Structs.question_types import QuestionType
 from app.result import Result
 from app.random import get_random_sample
-from app.games.buildapassword import generate_build_a_password_day, PasswordDay
+from app.games.buildapassword import generate_build_a_password_day
+from app.games.BuildAPassphrase import build_a_passhprase
 from app.games.json_writer import write_questions_json
 from app.games.write_to_google_drive import upload_to_drive
 from app.games.LLM.llm_api import ask_llm, extract_response
@@ -39,6 +40,8 @@ def handle_type(t: QuestionType, pipeline: Pipeline) -> None:
                 return _generate_phish_or_legit(pipeline)
             case QuestionType.SpotTheWeakestPassword:
                 return _generate_spot_the_weakest_password(pipeline)
+            case QuestionType.BuildAPassphrase:
+                return _generate_build_a_passphrase(pipeline)
             
            
 def _generate_cookie_banner(pipeline: Pipeline) -> None:
@@ -52,6 +55,20 @@ def _generate_cookie_banner(pipeline: Pipeline) -> None:
         result,
         game_type=QuestionType.CookieBanner,
         error_msg="Failed to generate cookie banner game"
+    )
+
+def _generate_build_a_passphrase(pipeline: Pipeline) -> None:
+    result: Result[str, str] = (
+        build_a_passhprase()
+        .and_then(lambda game:
+            pipeline.store(game, QuestionType.BuildAPassphrase)
+        )
+    )
+
+    return report_generation(
+        result,
+        game_type=QuestionType.BuildAPassphrase,
+        error_msg="Failed to generate build a password question"
     )
       
 def _generate_build_a_password(pipeline: Pipeline) -> None:
