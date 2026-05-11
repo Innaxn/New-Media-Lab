@@ -1,3 +1,61 @@
+from dataclasses import dataclass
+from datetime import date
+from enum import Enum
+from typing import List, Optional, Literal
+from app.games.Structs.question_types import QuestionType
+from app.games.Structs.difficulty import Difficulty
+
+@dataclass(kw_only=True)
+class EmailHeader:
+    from_name: str
+    from_address: str
+    to: str
+    date: str
+    subject: str
+    reply_to: Optional[str] = None
+
+@dataclass(kw_only=True)
+class BodyElement:
+    type: Literal["text", "button", "link"]
+    content: str
+    href: Optional[str] = None
+    urgent: Optional[bool] = None
+
+@dataclass(kw_only=True)
+class Clue:
+    label: str
+    explanation: str
+
+class FocusArea(Enum): 
+    Headers="headers"
+    Full="full"
+
+@dataclass(kw_only=True)
+class PhishEmail:
+    id: str
+    is_phishing: bool
+    focus_area: FocusArea
+    headers: EmailHeader
+    body: Optional[List[BodyElement]] = None
+    clues: List[Clue]
+    explanation: str
+
+@dataclass(kw_only=True)
+class PhishQuestion:
+    id: int
+    difficulty: Difficulty
+    instruction: str
+    teaching_point: str
+    emails: List[PhishEmail]
+
+@dataclass(kw_only=True)
+class PhishOrLegitDay:
+    date: date
+    question_type: QuestionType.PhishOrLegit
+    questions: List[PhishQuestion]
+
+
+''' Example JSON
 {
   "date": "2025-04-22",
   "question_type": "phish_or_legit",
@@ -159,3 +217,4 @@
     }
   ]
 }
+'''

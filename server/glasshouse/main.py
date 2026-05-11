@@ -8,16 +8,18 @@ from app.games.email import send_email
 from app.games.LLM.llm_api import ask_llm
 from app.games.Generator.generate_day import generate_qotd, generate_qotd_debug
 from app.games.Structs.question_types import QuestionType
+from app.games.PhishOrLegitDay.PhishOrLegitJSONReader import load_phish_or_legit_day
 import json 
 from dataclasses import asdict
 
 load_dotenv()
 
 if __name__ == "__main__":
-
-    generate_qotd_debug(QuestionType.BuildAPassword)
-    generate_qotd_debug(QuestionType.CookieBanner)
-    generate_qotd_debug(QuestionType.MultipleChoice)
+    
+    generate_qotd()
+    # generate_qotd_debug(QuestionType.BuildAPassword)
+    # generate_qotd_debug(QuestionType.CookieBanner)
+    # generate_qotd_debug(QuestionType.MultipleChoice)
 
     # generate_build_a_password_day().and_then(lambda x: dump(x))
 

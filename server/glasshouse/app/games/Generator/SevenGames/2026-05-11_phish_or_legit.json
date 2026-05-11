@@ -1,0 +1,292 @@
+{
+  "date": "2024-05-22",
+  "question_type": "phish_or_legit",
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "instruction": "One of these DHL notifications is a scam. Can you spot it?",
+      "teaching_point": "Be wary of generic greetings (like 'Dear Customer'), extreme urgency, and sender addresses that don't match the official company domain.",
+      "emails": [
+        {
+          "id": "email-1",
+          "is_phishing": true,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "DHL Express",
+            "from_address": "shipping-update@dhl-parcel-delivery.net",
+            "to": "user@example.com",
+            "date": "Wed, 22 May 2024 09:00:00 GMT",
+            "subject": "URGENT: Your package is on hold!",
+            "reply_to": "support@dhl-parcel-delivery.net"
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Dear Customer,\n\nYour package is currently held at our sorting center due to an unpaid customs fee of $2.99. Please pay this immediately to avoid the package being returned to the sender.",
+              "href": null,
+              "urgent": true
+            },
+            {
+              "type": "button",
+              "content": "Pay Customs Fee Now",
+              "href": "http://dhl-payment-portal.net/pay",
+              "urgent": true
+            },
+            {
+              "type": "text",
+              "content": "Thank you for choosing DHL.",
+              "href": null,
+              "urgent": false
+            }
+          ],
+          "clues": [
+            {
+              "label": "Sender Address",
+              "explanation": "The domain 'dhl-parcel-delivery.net' is not the official dhl.com domain."
+            },
+            {
+              "label": "Greeting",
+              "explanation": "The email uses a generic 'Dear Customer' instead of your name."
+            },
+            {
+              "label": "Link",
+              "explanation": "The link uses HTTP instead of HTTPS and a suspicious domain."
+            }
+          ],
+          "explanation": "This is a classic phishing email using a fake domain, a generic greeting, and creating a sense of urgency to trick you into paying a small fee."
+        },
+        {
+          "id": "email-2",
+          "is_phishing": false,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "DHL Express",
+            "from_address": "noreply@dhl.com",
+            "to": "user@example.com",
+            "date": "Wed, 22 May 2024 08:30:00 GMT",
+            "subject": "Your shipment is on its way",
+            "reply_to": null
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Hello Alex,\n\nGreat news! Your shipment (Waybill: 1234567890) is out for delivery and is expected to arrive today by 5:00 PM.",
+              "href": null,
+              "urgent": null
+            },
+            {
+              "type": "link",
+              "content": "Track your shipment",
+              "href": "https://www.dhl.com/en/express/tracking.html",
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Sender Address",
+              "explanation": "The email comes from the official dhl.com domain."
+            },
+            {
+              "label": "Personalization",
+              "explanation": "The email addresses the user by their actual name."
+            }
+          ],
+          "explanation": "This is a legitimate notification. It uses the official domain, addresses you personally, and provides a link to the official website."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "difficulty": "medium",
+      "instruction": "A security alert from Microsoft! Is this a real warning or a trick?",
+      "teaching_point": "Attackers often use 'look-alike' domains that look correct at a glance but have subtle differences. Always inspect the full URL and sender address.",
+      "emails": [
+        {
+          "id": "email-1",
+          "is_phishing": true,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "Microsoft Account Team",
+            "from_address": "account-security-noreply@microsoft-support.net",
+            "to": "user@example.com",
+            "date": "Wed, 22 May 2024 10:15:00 GMT",
+            "subject": "Unusual sign-in activity",
+            "reply_to": "security@microsoft-support.net"
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "We detected a login attempt to your account from a new device in Moscow, Russia. If this was not you, please secure your account immediately to prevent unauthorized access.",
+              "href": null,
+              "urgent": null
+            },
+            {
+              "type": "button",
+              "content": "Review Activity",
+              "href": "https://microsoft-security-verify.com/auth",
+              "urgent": true
+            },
+            {
+              "type": "text",
+              "content": "Thanks, The Microsoft account team",
+              "href": null,
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Domain Check",
+              "explanation": "The domain 'microsoft-support.net' is not an official Microsoft domain (which would be microsoft.com)."
+            },
+            {
+              "label": "URL Inspection",
+              "explanation": "The button links to 'microsoft-security-verify.com', a look-alike domain designed to steal credentials."
+            }
+          ],
+          "explanation": "This is a medium-difficulty phish. It looks professional and uses a realistic scenario, but the sender and link domains are fake 'look-alikes'."
+        },
+        {
+          "id": "email-2",
+          "is_phishing": false,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "Microsoft account team",
+            "from_address": "account-security-noreply@accountprotection.microsoft.com",
+            "to": "user@example.com",
+            "date": "Wed, 22 May 2024 10:00:00 GMT",
+            "subject": "Security alert",
+            "reply_to": null
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Your account was signed into from a new device. We're letting you know about this in case it wasn't you.",
+              "href": null,
+              "urgent": null
+            },
+            {
+              "type": "text",
+              "content": "Device: Chrome on Windows 10\nLocation: New York, USA\nTime: 10:00 AM",
+              "href": null,
+              "urgent": null
+            },
+            {
+              "type": "link",
+              "content": "Check activity",
+              "href": "https://account.microsoft.com/security",
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Official Domain",
+              "explanation": "The sender is '@accountprotection.microsoft.com', a known official Microsoft domain."
+            },
+            {
+              "label": "Destination URL",
+              "explanation": "The link points directly to 'account.microsoft.com'."
+            }
+          ],
+          "explanation": "This is a legitimate security alert. The sender domain and the destination URL both belong to the official microsoft.com domain."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "difficulty": "hard",
+      "instruction": "Your company's HR department just sent an update. Is it safe to click?",
+      "teaching_point": "Sophisticated phishers mimic corporate tone and context perfectly. The only way to be sure is to check if the domain is exactly the corporate domain, not a slightly modified version.",
+      "emails": [
+        {
+          "id": "email-1",
+          "is_phishing": true,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "Corporate HR Portal",
+            "from_address": "hr-noreply@corp-benefits-dept.com",
+            "to": "user@corp.com",
+            "date": "Wed, 22 May 2024 11:00:00 GMT",
+            "subject": "Action Required: 2024 Employee Benefits Enrollment",
+            "reply_to": "hr-portal@corp-benefits-dept.com"
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Hello,\n\nAs part of our annual review, all employees are required to acknowledge the updated 2024 Benefits Guide and confirm their selection for the coming year. Please complete this process by Friday to ensure no lapse in coverage.",
+              "href": null,
+              "urgent": null
+            },
+            {
+              "type": "button",
+              "content": "Access Benefits Portal",
+              "href": "https://corp-benefits-portal.com/login",
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "Regards,\nHuman Resources Department",
+              "href": null,
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Domain Discrepancy",
+              "explanation": "The email is sent to @corp.com, but comes from @corp-benefits-dept.com. Internal HR emails almost always come from the primary company domain."
+            },
+            {
+              "label": "External Link",
+              "explanation": "The portal is hosted on a separate domain (.com) rather than an internal corporate subnet or official domain."
+            }
+          ],
+          "explanation": "This is a hard phish. It uses a professional tone, correct corporate context, and a plausible reason for the email. The only red flag is the domain mismatch between the company (@corp.com) and the HR sender (@corp-benefits-dept.com)."
+        },
+        {
+          "id": "email-2",
+          "is_phishing": false,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "Corporate HR",
+            "from_address": "hr@corp.com",
+            "to": "user@corp.com",
+            "date": "Wed, 22 May 2024 10:45:00 GMT",
+            "subject": "Action Required: 2024 Employee Benefits Enrollment",
+            "reply_to": null
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Hello,\n\nAs part of our annual review, all employees are required to acknowledge the updated 2024 Benefits Guide and confirm their selection for the coming year. Please complete this process by Friday to ensure no lapse in coverage.",
+              "href": null,
+              "urgent": null
+            },
+            {
+              "type": "button",
+              "content": "Access Benefits Portal",
+              "href": "https://internal.corp.com/benefits/enrollment",
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "Regards,\nHuman Resources Department",
+              "href": null,
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Internal Domain",
+              "explanation": "The sender address is exactly @corp.com, matching the user's company domain."
+            },
+            {
+              "label": "Internal Link",
+              "explanation": "The link points to 'internal.corp.com', which is a standard internal corporate subdomain."
+            }
+          ],
+          "explanation": "This is a legitimate internal email. The sender and the link both reside within the organization's official domain (@corp.com)."
+        }
+      ]
+    }
+  ]
+}

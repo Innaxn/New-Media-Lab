@@ -22,7 +22,7 @@ def ask_llm(prompt: str) -> Result[Any, str]:
             "content": prompt
           }
         ],
-        "stream": False # one answer
+        "stream": False
       }
       
       response = requests.post(BASE_URL, headers=headers, json=data)

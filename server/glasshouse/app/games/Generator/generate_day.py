@@ -11,6 +11,7 @@ from app.games.json_writer import write_questions_json
 from app.games.write_to_google_drive import upload_to_drive
 from app.games.LLM.llm_api import ask_llm
 from app.games.MultipleChoiceDay.question_reader import parse_multiple_choice_questions_from_string
+from app.games.PhishOrLegitDay.PhishOrLegitJSONReader import parse_phish_or_legit_day_from_string
 from app.games.cookie_banner import CookieBannerDay
 
 PATH: Path = Path(r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\CanBeGenerated.csv")
@@ -33,6 +34,8 @@ def handle_type(t: QuestionType, pipeline: Pipeline) -> None:
                 return _generate_build_a_password(pipeline)
             case QuestionType.CookieBanner:
                 return _generate_cookie_banner(pipeline)
+            case QuestionType.PhishOrLegit:
+                return _generate_phish_or_legit(pipeline)
             
            
 def _generate_cookie_banner(pipeline: Pipeline) -> None:
@@ -60,6 +63,26 @@ def _generate_build_a_password(pipeline: Pipeline) -> None:
         result,
         game_type=QuestionType.BuildAPassword,
         error_msg="Failed to generate build a password question"
+    )
+
+def _generate_phish_or_legit(pipeline: Pipeline) -> None: 
+    result: Result[str, str] = (
+        _getPrompt(QuestionType.PhishOrLegit)
+        .and_then(ask_llm)
+        .and_then(lambda response:
+             parse_phish_or_legit_day_from_string(
+                 response["choices"][0]["message"]["content"]
+             )
+        )
+        .and_then(lambda game: 
+            pipeline.store(game, QuestionType.PhishOrLegit)   
+        )
+    )
+
+    return report_generation(
+        result,
+        game_type=QuestionType.PhishOrLegit,
+        error_msg="Failed to generate Phish or legit email"
     )
    
 
@@ -98,11 +121,13 @@ def report_generation(
 
 def _getPrompt(questionType: QuestionType) -> Result[str, str]: 
     try:
-        path: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\LLM\prompt.txt"
-        with open(path, "r", encoding="utf-8") as f:
+        with open(_build_prompt_path(questionType), "r", encoding="utf-8") as f:
             return Result.Ok(f.read())
     except Exception as ex: 
        return Result.Err(ex.__str__())
+
+def _build_prompt_path(questionType: QuestionType) -> str:
+    return rf"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\LLM\{questionType.value}_prompt.txt"
 
 def _get_question_of_the_day_type() -> Result[QuestionType, str]:
     options_result = _get_options()
