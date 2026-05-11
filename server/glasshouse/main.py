@@ -17,7 +17,7 @@ load_dotenv()
 if __name__ == "__main__":
     
     generate_qotd()
-    # generate_qotd_debug(QuestionType.BuildAPassword)
+    # generate_qotd_debug(QuestionType.SpotTheWeakestPassword)
     # generate_qotd_debug(QuestionType.CookieBanner)
     # generate_qotd_debug(QuestionType.MultipleChoice)
 

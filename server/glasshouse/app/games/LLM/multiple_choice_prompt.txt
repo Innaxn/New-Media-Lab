@@ -16,6 +16,11 @@ RULES:
 - The question must relate to: Data Privacy, Data Security, GDPR, Best practices
 - Ensure all answers are plausible but only one is correct.
 - Avoid ambiguity.
+- The response must start with { and end with }
+- Do NOT wrap the output in ``` or ```json or any markdown
+- Do NOT use code formatting under any circumstance
+- Output must be raw JSON only (first character {, last character })
+
 
 ---
 
@@ -41,5 +46,5 @@ OUTPUT FORMAT (STRICT):
 
 ---
 
-IMPORTANT:
-Return ONLY the JSON object. No extra text.
+IMPORTANT
+Return ONLY THE JSON, NO MARKDOWN OR EXTRA TEXT!

@@ -6,6 +6,9 @@ from typing import Any
 BASE_URL = "https://chat.science.ru.nl/api/chat/completions"
 MODEL = "gemma4:31b"
 
+def extract_response(response: str) -> str:
+   return response["choices"][0]["message"]["content"] 
+
 def ask_llm(prompt: str) -> Result[Any, str]:
     try: 
       CHAT_API_KEY = os.getenv("CHAT_API_KEY")
