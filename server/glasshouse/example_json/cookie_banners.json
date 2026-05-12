@@ -1,9 +1,4 @@
 {
   "date": "2025-04-22",
-  "question_type": "cookie_banners",
-  "questions": [
-    { "id": 1, "type": "cookie_banners", "difficulty": "easy" },
-    { "id": 2, "type": "cookie_banners", "difficulty": "medium" },
-    { "id": 3, "type": "cookie_banners", "difficulty": "hard" }
-  ]
+  "question_type": "cookie_banners"
 }

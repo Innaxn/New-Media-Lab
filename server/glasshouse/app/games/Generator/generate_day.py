@@ -1,6 +1,8 @@
 import csv 
 from pathlib import Path 
+from typing import Any, Callable
 from datetime import datetime
+from app.games.Generator.pipeline import Pipeline
 from app.games.Structs.question_types import QuestionType
 from app.result import Result
 from app.random import get_random_sample
@@ -9,33 +11,60 @@ from app.games.json_writer import write_questions_json
 from app.games.write_to_google_drive import upload_to_drive
 from app.games.LLM.llm_api import ask_llm
 from app.games.MultipleChoiceDay.question_reader import parse_multiple_choice_questions_from_string
+from app.games.cookie_banner import CookieBannerDay
 
 PATH: Path = Path(r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\CanBeGenerated.csv")
-STORE_FOLDER: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\SevenGames"
 
 def generate_qotd() -> None: 
+   pipeline = Pipeline(upload_to_drive, debug=False)
    _get_question_of_the_day_type().and_then(
-      lambda t: handle_type(t)
+      lambda t: handle_type(t, pipeline)
    )
 
-def handle_type(t: QuestionType):
+def generate_qotd_debug(t) -> None:
+    pipeline = Pipeline(upload_to_drive, debug=True)
+    handle_type(t, pipeline)
+
+def handle_type(t: QuestionType, pipeline: Pipeline) -> None:
         match t:
             case QuestionType.MultipleChoice:
-                return _generate_multiple_choice()
+                return _generate_multiple_choice(pipeline)
             case QuestionType.BuildAPassword:
-                return _generate_build_a_password()
+                return _generate_build_a_password(pipeline)
+            case QuestionType.CookieBanner:
+                return _generate_cookie_banner(pipeline)
+            
+           
+def _generate_cookie_banner(pipeline: Pipeline) -> None:
+    result: Result[str, str] = pipeline.store(
+        CookieBannerDay(
+            date=datetime.now().date().isoformat(),
+        ),
+        QuestionType.CookieBanner
+    )
+    return report_generation(
+        result,
+        game_type=QuestionType.CookieBanner,
+        error_msg="Failed to generate cookie banner game"
+    )
       
-def _generate_build_a_password() -> Result[str ,str]:
-   return generate_build_a_password_day().and_then( 
-            lambda passwordGame: write_questions_json(
-              passwordGame, 
-              f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{QuestionType.BuildAPassword.value}.json"
-            ).and_then(lambda filepath: upload_to_drive(filepath))
-         ).tap(lambda res: print(f"Sucessfully generated {{QuestionType.BuildAPassword}}: {res}")
-         ).tap_err(lambda err: print(f"Error during genration: {err}"))
+def _generate_build_a_password(pipeline: Pipeline) -> None:
+    result: Result[str, str] = (
+        generate_build_a_password_day()
+        .and_then(lambda game:
+            pipeline.store(game, QuestionType.BuildAPassword)
+        )
+    )
 
-def _generate_multiple_choice() -> Result[str ,str]:
-    return (
+    return report_generation(
+        result,
+        game_type=QuestionType.BuildAPassword,
+        error_msg="Failed to generate build a password question"
+    )
+   
+
+def _generate_multiple_choice(pipeline: Pipeline) -> None:
+    result: Result[str, str] = (
         _getPrompt(QuestionType.MultipleChoice)
         .and_then(ask_llm)
         .and_then(lambda response:
@@ -43,15 +72,28 @@ def _generate_multiple_choice() -> Result[str ,str]:
                 response["choices"][0]["message"]["content"]
             )
         )
-        .and_then(lambda questions:
-            write_questions_json(
-                questions,
-                f"{STORE_FOLDER}/{datetime.now().date().isoformat()}_{QuestionType.MultipleChoice.value}.json"
-            )
+        .and_then(lambda game:
+            pipeline.store(game, QuestionType.MultipleChoice)
         )
-        .and_then(upload_to_drive)
-        .tap(lambda res: print(f"Successfully generated {QuestionType.MultipleChoice}: {res}"))
+    )
+
+    return report_generation(
+        result,
+        game_type=QuestionType.MultipleChoice,
+        error_msg="Failed to generate multiple choice question"
+    )
+
+def report_generation(
+    result: Result[Any, str],
+    *,
+    game_type: QuestionType,
+    error_msg: str
+) -> None: 
+    return (
+        result
+        .tap(lambda res: print(f"Successfully generated {game_type}: {res}"))
         .tap_err(lambda err: print(f"Error during generation: {err}"))
+        .expect(error_msg)
     )
 
 def _getPrompt(questionType: QuestionType) -> Result[str, str]: 
