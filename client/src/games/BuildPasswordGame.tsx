@@ -125,7 +125,7 @@ function PasswordLevel({ q, onComplete }: { q: BuildPasswordQuestion; onComplete
             Longer passwords are almost always stronger. A 16-character password takes billions of times longer to crack than an 8-character one — even without special symbols.
           </Alert>
           <Button variant="contained" color="primary" onClick={onComplete} endIcon={<ArrowForwardIcon />} sx={{ minWidth: 160 }}>
-            Continue →
+            Continue
           </Button>
         </Box>
       </Fade>
@@ -134,7 +134,7 @@ function PasswordLevel({ q, onComplete }: { q: BuildPasswordQuestion; onComplete
         <Tooltip title={allPassed ? '' : 'Fill in all the requirements above first'} arrow placement="top">
           <span>
             <Button variant="contained" color="primary" size="large" disabled={!allPassed} onClick={handleSubmit} endIcon={<ArrowForwardIcon />} sx={{ minWidth: 160 }}>
-              Check password →
+              Check password
             </Button>
           </span>
         </Tooltip>

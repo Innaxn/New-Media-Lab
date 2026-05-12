@@ -18,8 +18,15 @@ npm install @mui/icons-material
 
 ## Back-end
 
+### Install
+
+pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
+
 ```Bash
     cd .\server\
     . .venv\Scripts\activate
     python manage.py runserver
+
+    Testing
+    python server\glasshouse\main.py
 ```
