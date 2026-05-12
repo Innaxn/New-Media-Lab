@@ -9,7 +9,6 @@ import {
   Fade,
   Button,
   Collapse,
-  LinearProgress,
 } from "@mui/material";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -37,7 +36,7 @@ interface Props {
   onBack: () => void;
 }
 
-// ─── Single question card ─────────────────────────────────────────────────────
+// Single question card
 
 function QuestionCard({
   q,
@@ -235,7 +234,7 @@ function QuestionCard({
   );
 }
 
-// ─── Level runner — plays all questions for one difficulty sequentially ────────
+// Level runner — plays all questions for one difficulty sequentially
 
 function LevelRunner({
   questions,
@@ -322,7 +321,7 @@ function LevelRunner({
   );
 }
 
-// ─── Main game — groups questions by difficulty, shows level picker ────────────
+// Main game — groups questions by difficulty, shows level picker
 
 export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
   const theme = useTheme();

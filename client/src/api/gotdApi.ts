@@ -5,11 +5,13 @@ import type {
   SpotWeakestQuestion,
   PhishOrLegitQuestion,
   MultipleChoiceQuestion,
-  CookieBannersQuestion,
 } from "./types";
 
+// ─── Fetch ────────────────────────────────────────────────────────────────────
+
 export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
-  const url = process.env.REACT_APP_SECRET_NAME as string | undefined;
+  const url = undefined; //
+  // process.env.REACT_APP_SECRET_NAME as string | undefined;
   if (!url) {
     console.info("[GOTD] No URL configured — using mock data.");
     return MOCK_GAME_OF_THE_DAY;
@@ -28,6 +30,7 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
 }
 
 // ─── Mock: Build a Password ───────────────────────────────────────────────────
+
 const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   {
     id: 1,
@@ -297,7 +300,6 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
         ],
         explanation:
           "Classic bank impersonation. The domain and Reply-To mismatch confirm phishing.",
-        xp_reward: 40,
       },
       {
         id: "ph-easy-2",
@@ -321,7 +323,6 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           },
         ],
         explanation: "Legitimate GitHub security notification.",
-        xp_reward: 40,
       },
     ],
   },
@@ -381,7 +382,6 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
         ],
         explanation:
           "DigiD phishing — domain, HTTP link and urgency all confirm it.",
-        xp_reward: 60,
       },
       {
         id: "ph-med-2",
@@ -428,7 +428,6 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           },
         ],
         explanation: "Legitimate LinkedIn notification.",
-        xp_reward: 60,
       },
     ],
   },
@@ -488,7 +487,6 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
         ],
         explanation:
           "Sophisticated spear phishing. Uses real name and address — but the domain is ru-ict-support.nl, not ru.nl.",
-        xp_reward: 80,
       },
       {
         id: "ph-hard-2",
@@ -531,14 +529,12 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           },
         ],
         explanation: "Legitimate Radboud notification.",
-        xp_reward: 80,
       },
     ],
   },
 ];
 
 // ─── Mock: Multiple Choice ────────────────────────────────────────────────────
-// Note: two easy questions to demonstrate multi-question-per-difficulty support
 
 const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
   {
@@ -582,20 +578,12 @@ const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
   },
 ];
 
-// ─── Mock: Cookie Banners ─────────────────────────────────────────────────────
-
-const MOCK_COOKIE_QUESTIONS: CookieBannersQuestion[] = [
-  { id: 1, difficulty: "easy" },
-  { id: 2, difficulty: "medium" },
-  { id: 3, difficulty: "hard" },
-];
-
-// ─── Active mock ──────────────────────────────────────────────────────────────
+// ─── Active mock — change question_type to test different games ───────────────
 
 export const MOCK_GAME_OF_THE_DAY: GameOfTheDay = {
   date: new Date().toISOString().slice(0, 10),
-  question_type: "multiple_choice",
-  questions: MOCK_MULTIPLE_CHOICE_QUESTIONS,
+  question_type: "phish_or_legit",
+  questions: MOCK_PHISH_QUESTIONS,
 };
 
 export const ALL_MOCKS: Record<string, GameOfTheDay> = {
@@ -627,6 +615,5 @@ export const ALL_MOCKS: Record<string, GameOfTheDay> = {
   cookie_banners: {
     date: "2025-01-06",
     question_type: "cookie_banners",
-    questions: MOCK_COOKIE_QUESTIONS,
   },
 };

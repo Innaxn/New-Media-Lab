@@ -564,38 +564,6 @@ function VerdictPanel({
               </Box>
             ))}
           </Box>
-          <Box sx={{ mb: 2.5 }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                mb: 0.625,
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "0.625rem",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "text.disabled",
-                  fontWeight: 700,
-                }}
-              >
-                How confident are you?
-              </Typography>
-              <Typography sx={{ fontSize: "0.75rem", color: "text.secondary" }}>
-                {confidence}%
-              </Typography>
-            </Box>
-            <Slider
-              value={confidence}
-              onChange={(_, v) => setConfidence(v as number)}
-              min={0}
-              max={100}
-              step={5}
-              size="small"
-            />
-          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -688,37 +656,6 @@ function VerdictPanel({
               </List>
             </Box>
 
-            {isCorrect && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  bgcolor: alpha(p.primary, 0.08),
-                  border: `1px solid ${alpha(p.primary, 0.25)}`,
-                  borderRadius: "8px",
-                  px: 2,
-                  py: 1,
-                  mb: 2,
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: 800,
-                    fontSize: "1.375rem",
-                    color: p.primary,
-                  }}
-                >
-                  +{email.xp_reward}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: "0.8125rem", color: "text.secondary" }}
-                >
-                  XP earned
-                </Typography>
-              </Box>
-            )}
-
             <Button
               variant="contained"
               color="primary"
@@ -748,12 +685,10 @@ function PhishLevel({
   const theme = useTheme();
   const p = theme.palette.gh;
   const [emailIdx, setEmailIdx] = useState(0);
-  const [xp, setXP] = useState(0);
   const [done, setDone] = useState(false);
 
   const handleNext = useCallback(
     (correct: boolean) => {
-      if (correct) setXP((x) => x + q.emails[emailIdx].xp_reward);
       if (emailIdx < q.emails.length - 1) setEmailIdx((i) => i + 1);
       else setDone(true);
     },
@@ -766,9 +701,6 @@ function PhishLevel({
         <EmojiEventsIcon sx={{ fontSize: 48, color: p.primary, mb: 1.5 }} />
         <Typography variant="h3" sx={{ mb: 0.5 }}>
           Level complete!
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
-          XP earned this level: {xp}
         </Typography>
         <Button
           variant="contained"
@@ -833,18 +765,6 @@ function PhishLevel({
           <EmailClient email={current} />
         </Box>
         <Box sx={{ position: { md: "sticky" }, top: { md: 72 } }}>
-          <Typography
-            sx={{
-              fontSize: "0.625rem",
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "text.disabled",
-              fontWeight: 700,
-              mb: 1.5,
-            }}
-          >
-            Your verdict
-          </Typography>
           <VerdictPanel
             key={current.id}
             email={current}
