@@ -10,8 +10,7 @@ import type {
 // ─── Fetch ────────────────────────────────────────────────────────────────────
 
 export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
-  const url = undefined; //
-  // process.env.REACT_APP_SECRET_NAME as string | undefined;
+  const url = process.env.REACT_APP_SECRET_NAME as string | undefined;
   if (!url) {
     console.info("[GOTD] No URL configured — using mock data.");
     return MOCK_GAME_OF_THE_DAY;
