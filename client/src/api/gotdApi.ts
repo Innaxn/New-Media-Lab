@@ -30,7 +30,176 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
 
 // ─── Mock: Build a Password ───────────────────────────────────────────────────
 
-const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [];
+const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
+  {
+    question: "Build the password adhering to the rules (easy)",
+    id: 1,
+    rules: [
+      {
+        regex: "[a-z]",
+        description: "At least one lowercase letter",
+      },
+    ],
+    difficulty: "easy",
+  },
+  {
+    question: "Build the password adhering to the rules (easy)",
+    id: 2,
+    rules: [
+      {
+        regex: "\\d",
+        description: "At least one number",
+      },
+    ],
+    difficulty: "easy",
+  },
+  {
+    question: "Build the password adhering to the rules (easy)",
+    id: 3,
+    rules: [
+      {
+        regex: "^[A-Za-z0-9].*[A-Za-z0-9]$",
+        description: "No special characters at start or end",
+      },
+    ],
+    difficulty: "easy",
+  },
+  {
+    question: "Build the password adhering to the rules (easy)",
+    id: 4,
+    rules: [
+      {
+        regex: "^(?!.*(.)\\1\\1).*$",
+        description: "Must not have a character repeated 3+ times",
+      },
+    ],
+    difficulty: "easy",
+  },
+  {
+    question: "Build the password adhering to the rules (easy)",
+    id: 5,
+    rules: [
+      {
+        regex: ".{8,}",
+        description: "At least 8 characters",
+      },
+    ],
+    difficulty: "easy",
+  },
+  {
+    question: "Build the password adhering to the rules (medium)",
+    id: 6,
+    rules: [
+      {
+        regex: '^[A-Za-z0-9].*[!@#$%^&*(),.?\\":{}|<>].*[A-Za-z0-9]$',
+        description: "Must contain a special character not at the start or end",
+      },
+    ],
+    difficulty: "medium",
+  },
+  {
+    question: "Build the password adhering to the rules (medium)",
+    id: 7,
+    rules: [
+      {
+        regex: "^[^\\s]+ [^\\s]+$",
+        description: "Must be exactly 2 words",
+      },
+    ],
+    difficulty: "medium",
+  },
+  {
+    question: "Build the password adhering to the rules (medium)",
+    id: 8,
+    rules: [
+      {
+        regex: "^.{10,}$",
+        description: "Total length must be at least 10 characters",
+      },
+    ],
+    difficulty: "medium",
+  },
+  {
+    question: "Build the password adhering to the rules (medium)",
+    id: 9,
+    rules: [
+      {
+        regex: "^(?!.*(.)\\1).+$",
+        description: "Must not contain the same character twice in a row",
+      },
+    ],
+    difficulty: "medium",
+  },
+  {
+    question: "Build the password adhering to the rules (medium)",
+    id: 10,
+    rules: [
+      {
+        regex: "^(?=.*[a-z])(?=.*[A-Z]).+$",
+        description: "Must contain both uppercase and lowercase letters",
+      },
+    ],
+    difficulty: "medium",
+  },
+  {
+    question: "Build the password adhering to the rules (hard)",
+    id: 11,
+    rules: [
+      {
+        regex: "^.{15,}$",
+        description: "Total length must be at least 15 characters",
+      },
+    ],
+    difficulty: "hard",
+  },
+  {
+    question: "Build the password adhering to the rules (hard)",
+    id: 12,
+    rules: [
+      {
+        regex:
+          '^[^\\s]+ [^\\s]*[!@#$%^&*(),.?\\":{}|<>][^\\s]* [^\\s]+ [^\\s]+$',
+        description:
+          "Must contain at least one special character in the middle (not first or last word)",
+      },
+    ],
+    difficulty: "hard",
+  },
+  {
+    question: "Build the password adhering to the rules (hard)",
+    id: 13,
+    rules: [
+      {
+        regex: '^(?=.*[!@#$%^&*(),.?\\":{}|<>])(?=.*\\d).+$',
+        description:
+          "Must contain at least one special character and one digit",
+      },
+    ],
+    difficulty: "hard",
+  },
+  {
+    question: "Build the password adhering to the rules (hard)",
+    id: 14,
+    rules: [
+      {
+        regex: "^(?!\\d)(?:\\S+ )(?!\\d)(?:\\S+ )(?!\\d)(?:\\S+ )(?!\\d)\\S+$",
+        description: "No word may start with a digit",
+      },
+    ],
+    difficulty: "hard",
+  },
+  {
+    question: "Build the password adhering to the rules (hard)",
+    id: 15,
+    rules: [
+      {
+        regex: "^(?:\\S+\\s){3}\\S+$",
+        description: "Must be exactly 4 words",
+      },
+    ],
+    difficulty: "hard",
+  },
+];
 
 // ─── Mock: Spot the Weakest DONE───────────────────────────────────────────────────
 
@@ -232,64 +401,111 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
   },
 ];
 
-// ─── Mock: Phish or Legit ─────────────────────────────────────────────────────
+// ─── Mock: Phish or Legit DONE ─────────────────────────────────────────────────────
 
 const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
   {
     id: 1,
     difficulty: "easy",
-    instruction: "Examine the sender address. Is this email legitimate?",
+    instruction:
+      "You received two shipping alerts. One is a scam trying to steal your credit card info. Which one is the phishing email?",
     teaching_point:
-      "Always check the actual sender domain — not just the display name.",
+      "Always check the sender's email address. Official companies do not use free providers like @gmail.com or @outlook.com for official business, and they avoid generic greetings like 'Dear Customer'.",
     emails: [
       {
-        id: "ph-easy-1",
+        id: "email-1",
         is_phishing: true,
-        focus_area: "headers",
+        focus_area: "full",
         headers: {
-          from_name: "ING Bank",
-          from_address: "noreply@ing-secure-alerts.com",
-          reply_to: "support@ing-phish.ru",
-          to: "j.vandenberg@gmail.com",
-          date: "Fri, 14 Mar 2025 08:42:11 +0100",
-          subject: "Your account has been temporarily locked",
+          from_name: "DHL Express Support",
+          from_address: "dhl-shipping-update12@gmail.com",
+          to: "user@example.com",
+          date: "Wed, 22 May 2024 10:00:00 GMT",
+          subject: "URGENT: Parcel delivery failure",
+          reply_to: "dhl-shipping-update12@gmail.com",
         },
-        clues: [
+        body: [
           {
-            label: "Spoofed domain",
-            explanation:
-              "Real ING emails come from @ing.nl. ing-secure-alerts.com is a lookalike.",
+            type: "text",
+            content:
+              "Dear Customer,\n\nYour package is currently held at our warehouse due to an incomplete delivery address. To avoid the package being returned to the sender, please pay the small re-delivery fee of $2.99 immediately.",
+            href: null,
+            urgent: true,
           },
           {
-            label: "Suspicious Reply-To",
-            explanation: "Replies route to a .ru domain — unrelated to ING.",
+            type: "button",
+            content: "Pay Fee Now",
+            href: "http://dhl-payment-portal-secure.xyz/pay",
+            urgent: true,
+          },
+          {
+            type: "text",
+            content: "Thank you for choosing DHL.",
+            href: null,
+            urgent: false,
+          },
+        ],
+        clues: [
+          {
+            label: "Sender Address",
+            explanation:
+              "The email is sent from a @gmail.com address, which is a huge red flag for a multi-billion dollar shipping company.",
+          },
+          {
+            label: "Generic Greeting",
+            explanation:
+              "'Dear Customer' is a generic greeting used when the attacker doesn't know your actual name.",
+          },
+          {
+            label: "Suspicious Link",
+            explanation:
+              "The URL uses 'http' instead of 'https' and ends in '.xyz', which is uncommon for official corporate sites.",
           },
         ],
         explanation:
-          "Classic bank impersonation. The domain and Reply-To mismatch confirm phishing.",
+          "This email is a classic phishing attempt using high urgency, a fake sender address, and a dangerous link to steal payment information.",
       },
       {
-        id: "ph-easy-2",
+        id: "email-2",
         is_phishing: false,
-        focus_area: "headers",
+        focus_area: "full",
         headers: {
-          from_name: "GitHub",
-          from_address: "noreply@github.com",
+          from_name: "DHL Express",
+          from_address: "noreply@dhl.com",
           to: "user@example.com",
-          date: "Thu, 13 Mar 2025 16:03:45 +0000",
-          subject: "[GitHub] A new SSH key was added to your account",
+          date: "Wed, 22 May 2024 10:05:00 GMT",
+          subject: "Your shipment 84029174 is arriving today",
+          reply_to: null,
         },
-        clues: [
+        body: [
           {
-            label: "Verified domain",
-            explanation: "noreply@github.com is GitHub's real domain.",
+            type: "text",
+            content:
+              "Hello Sarah,\n\nYour shipment 84029174 is out for delivery and is expected to arrive by 5:00 PM today. You can track your package in real-time using the link below.",
+            href: null,
+            urgent: null,
           },
           {
-            label: "No Reply-To trick",
-            explanation: "No separate Reply-To — replies stay on github.com.",
+            type: "link",
+            content: "Track my package",
+            href: "https://www.dhl.com/en/express/tracking.html?awb=84029174",
+            urgent: null,
           },
         ],
-        explanation: "Legitimate GitHub security notification.",
+        clues: [
+          {
+            label: "Sender Domain",
+            explanation:
+              "The email comes from @dhl.com, the legitimate corporate domain.",
+          },
+          {
+            label: "Personalization",
+            explanation:
+              "The email addresses the user by their actual name, Sarah.",
+          },
+        ],
+        explanation:
+          "This is a legitimate transactional email. It uses the correct domain, provides a specific tracking number, and contains no requests for payment or urgent passwords.",
       },
     ],
   },
@@ -297,104 +513,89 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
     id: 2,
     difficulty: "medium",
     instruction:
-      "Read the email body. Hover over links to see where they actually go.",
+      "Your account security is being questioned. One of these is a sophisticated fake. Can you identify it?",
     teaching_point:
-      "Hover over links before clicking — the real URL often reveals the truth.",
+      "Attackers often use 'look-alike' domains (typosquatting). Look closely at the domain name for subtle misspellings or extra words that seem official but aren't.",
     emails: [
       {
-        id: "ph-med-1",
+        id: "email-1",
         is_phishing: true,
-        focus_area: "full",
+        focus_area: "headers",
         headers: {
-          from_name: "DigiD",
-          from_address: "beveiliging@digid-verificatie.com",
-          to: "user@example.nl",
-          date: "Thu, 13 Mar 2025 22:11:44 +0100",
-          subject: "Uw DigiD account is geblokkeerd",
-        },
-        body: [
-          { type: "text", content: "Geachte gebruiker," },
-          {
-            type: "text",
-            content: "Uw DigiD-account is tijdelijk geblokkeerd.",
-            urgent: true,
-          },
-          {
-            type: "button",
-            content: "Deblokkeer mijn DigiD",
-            href: "http://digid-verificatie.com/deblokkeer",
-          },
-          {
-            type: "text",
-            content: "Actie vereist binnen 12 uur.",
-            urgent: true,
-          },
-        ],
-        clues: [
-          {
-            label: "Lookalike domain",
-            explanation:
-              "Real DigiD is @digid.nl. digid-verificatie.com is a fake.",
-          },
-          {
-            label: "HTTP link",
-            explanation:
-              "No legitimate government service uses HTTP for login pages.",
-          },
-          {
-            label: "12-hour threat",
-            explanation:
-              "Government agencies never delete accounts by email within hours.",
-          },
-        ],
-        explanation:
-          "DigiD phishing — domain, HTTP link and urgency all confirm it.",
-      },
-      {
-        id: "ph-med-2",
-        is_phishing: false,
-        focus_area: "full",
-        headers: {
-          from_name: "LinkedIn",
-          from_address: "messages-noreply@linkedin.com",
+          from_name: "Microsoft Account Team",
+          from_address: "security-noreply@microsft-support.com",
           to: "user@example.com",
-          date: "Mon, 10 Mar 2025 10:00:00 +0000",
-          subject: "You appeared in 12 searches this week",
+          date: "Wed, 22 May 2024 11:20:00 GMT",
+          subject: "Unusual sign-in activity for your account",
+          reply_to: "security-noreply@microsft-support.com",
         },
         body: [
-          { type: "text", content: "Hi there," },
           {
             type: "text",
             content:
-              "Your profile is getting attention — 12 searches this week.",
+              "We detected an unusual sign-in attempt from a new device in Moscow, Russia. If this was not you, please review your account activity immediately to secure your data.",
+            href: null,
+            urgent: null,
           },
           {
             type: "button",
-            content: "View who viewed your profile",
-            href: "https://www.linkedin.com/notifications/?filter=all",
-          },
-          {
-            type: "link",
-            content: "Unsubscribe",
-            href: "https://www.linkedin.com/psettings/email",
+            content: "Review Activity",
+            href: "https://microsft-support.com/account/security-check",
+            urgent: true,
           },
         ],
         clues: [
           {
-            label: "Real domain",
+            label: "Domain Typo",
             explanation:
-              "messages-noreply@linkedin.com is a verified LinkedIn domain.",
+              "The domain is 'microsft-support.com'. Note the missing 'o' in Microsoft ('microsft').",
           },
           {
-            label: "HTTPS links",
-            explanation: "Both links resolve to www.linkedin.com over HTTPS.",
-          },
-          {
-            label: "No credentials",
-            explanation: "Nothing requested — passive notification only.",
+            label: "Urgency",
+            explanation:
+              "The mention of a login from a foreign country is designed to panic the user into clicking without thinking.",
           },
         ],
-        explanation: "Legitimate LinkedIn notification.",
+        explanation:
+          "This is a medium-difficulty phish. It looks professional and uses a believable scenario, but the domain name is a clever misspelling of the real brand.",
+      },
+      {
+        id: "email-2",
+        is_phishing: false,
+        focus_area: "headers",
+        headers: {
+          from_name: "Microsoft account team",
+          from_address:
+            "account-security-noreply@accountprotection.microsoft.com",
+          to: "user@example.com",
+          date: "Wed, 22 May 2024 11:25:00 GMT",
+          subject: "Security alert",
+          reply_to: null,
+        },
+        body: [
+          {
+            type: "text",
+            content:
+              "Your password was recently changed. If you did not perform this action, you can recover your account using the link below.",
+            href: null,
+            urgent: null,
+          },
+          {
+            type: "link",
+            content: "Recover account",
+            href: "https://account.microsoft.com/security",
+            urgent: null,
+          },
+        ],
+        clues: [
+          {
+            label: "Official Domain",
+            explanation:
+              "The email ends in .microsoft.com, which is the official root domain.",
+          },
+        ],
+        explanation:
+          "This is a legitimate security alert. It points directly to the official microsoft.com domain without any typos or redirection.",
       },
     ],
   },
@@ -402,100 +603,95 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
     id: 3,
     difficulty: "hard",
     instruction:
-      "Analyse everything — headers and body. Some emails look very polished.",
+      "You have received two emails regarding your corporate payroll and benefits. One is a highly targeted phishing attempt. Which one is it?",
     teaching_point:
-      "Spear phishing uses your real name and company details. The only reliable indicator is often the sender domain.",
+      "In high-level phishing, attackers use perfect branding and personalized context. The only way to detect them is to scrutinize the sender's domain and the destination of the links against the company's actual infrastructure.",
     emails: [
       {
-        id: "ph-hard-1",
+        id: "email-1",
         is_phishing: true,
         focus_area: "full",
         headers: {
-          from_name: "IT Helpdesk — Radboud University",
-          from_address: "helpdesk@ru-ict-support.nl",
-          to: "i.georgieva@radboud.nl",
-          date: "Fri, 14 Mar 2025 09:15:03 +0100",
-          subject: "Action required: Email quota exceeded (92%)",
+          from_name: "GlobalCorp Payroll",
+          from_address: "payroll-admin@globalcorp-portal.com",
+          to: "user@globalcorp.com",
+          date: "Wed, 22 May 2024 14:00:00 GMT",
+          subject: "Action Required: 2024 Benefit Selection Window",
+          reply_to: "payroll-admin@globalcorp-portal.com",
         },
         body: [
-          { type: "text", content: "Dear Ivelina," },
           {
             type: "text",
             content:
-              "Your account has reached 92% storage. Act within 48 hours.",
-            urgent: true,
+              "Dear Employee,\n\nThe open enrollment window for your 2024 health and dental benefits is now open. To ensure your coverage continues without interruption, please verify your selections in the employee portal by Friday, May 24th.",
+            href: null,
+            urgent: null,
           },
           {
             type: "button",
-            content: "Request Storage Extension",
-            href: "https://ru-ict-support.nl/quota-extend?token=a8f2c1",
+            content: "Access Benefits Portal",
+            href: "https://globalcorp-portal.com/auth/benefits-selection",
+            urgent: false,
           },
           {
             type: "text",
-            content: "ICT Helpdesk — Radboud University, Houtlaan 4, Nijmegen",
+            content: "Regards,\nGlobalCorp Human Resources",
+            href: null,
+            urgent: null,
           },
         ],
         clues: [
           {
-            label: "Lookalike domain",
+            label: "Domain Discrepancy",
             explanation:
-              "Radboud's real domain is ru.nl. ru-ict-support.nl is a separately registered fake.",
-          },
-          {
-            label: "Spear phishing",
-            explanation:
-              "Uses your real name and university address — harvested from public sources.",
-          },
-          {
-            label: "48-hour pressure",
-            explanation:
-              "ICT departments send warnings well in advance. Urgent links are not a helpdesk workflow.",
+              "The company domain is 'globalcorp.com', but this email comes from 'globalcorp-portal.com'. Attackers often register a separate domain that sounds like a sub-service (like a 'portal') to trick employees.",
           },
         ],
         explanation:
-          "Sophisticated spear phishing. Uses real name and address — but the domain is ru-ict-support.nl, not ru.nl.",
+          "This is a hard phishing attempt. The tone is professional, the timing (benefits season) is realistic, and there are no obvious typos. Only a careful check of the domain reveals it is not the official company domain.",
       },
       {
-        id: "ph-hard-2",
+        id: "email-2",
         is_phishing: false,
         focus_area: "full",
         headers: {
-          from_name: "Radboud University",
-          from_address: "noreply@ru.nl",
-          to: "i.georgieva@radboud.nl",
-          date: "Wed, 12 Mar 2025 09:00:00 +0100",
-          subject: "Reminder: thesis submission deadline — 28 March",
+          from_name: "GlobalCorp HR",
+          from_address: "hr@globalcorp.com",
+          to: "user@globalcorp.com",
+          date: "Wed, 22 May 2024 14:10:00 GMT",
+          subject: "Annual Performance Review Cycle",
+          reply_to: null,
         },
         body: [
-          { type: "text", content: "Dear Ivelina," },
           {
             type: "text",
             content:
-              "Reminder: thesis submission deadline is 28 March 2025 at 23:59.",
+              "Hello,\n\nYour manager has submitted your performance review for the last quarter. You can now view the feedback and add your own comments via the internal HR system.",
+            href: null,
+            urgent: null,
           },
           {
-            type: "button",
-            content: "Go to Student Portal",
-            href: "https://www.ru.nl/students/thesis-portal",
+            type: "link",
+            content: "View Review",
+            href: "https://internal.globalcorp.com/hr/performance/review_882",
+            urgent: null,
           },
-          { type: "text", content: "Questions? Contact student@ru.nl." },
+          {
+            type: "text",
+            content: "Thank you,\nHR Department",
+            href: null,
+            urgent: null,
+          },
         ],
         clues: [
           {
-            label: "Real ru.nl domain",
-            explanation: "noreply@ru.nl is Radboud's verified sending domain.",
-          },
-          {
-            label: "HTTPS portal link",
+            label: "Internal Domain",
             explanation:
-              "Button resolves to https://www.ru.nl — same domain as sender.",
-          },
-          {
-            label: "No urgency tricks",
-            explanation: "Calm, specific, with a real contact address.",
+              "The link leads to a subdomain (internal.globalcorp.com) of the actual company domain.",
           },
         ],
-        explanation: "Legitimate Radboud notification.",
+        explanation:
+          "This is a legitimate internal communication. It uses the correct primary domain and follows standard corporate communication patterns.",
       },
     ],
   },

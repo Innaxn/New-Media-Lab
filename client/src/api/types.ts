@@ -26,7 +26,7 @@ export interface MultipleChoiceQuestion {
   question: string;
   options: string[];
   correct_index: number;
-  hint?: string; // optional
+  hint?: string | null; // optional
 }
 
 // ─── Build a Password ─────────────────────────────────────────────────────────
@@ -80,7 +80,7 @@ export type PhishingFocusArea = "headers" | "body" | "full";
 export interface EmailHeaders {
   from_name: string;
   from_address: string;
-  reply_to?: string;
+  reply_to?: string | null;
   to: string;
   date: string;
   subject: string;
@@ -88,9 +88,9 @@ export interface EmailHeaders {
 
 export interface EmailBodyBlock {
   type: EmailBodyBlockType;
-  content?: string;
-  href?: string;
-  urgent?: boolean;
+  content?: string | null;
+  href?: string | null;
+  urgent?: boolean | null;
 }
 
 export interface PhishingClue {
@@ -103,10 +103,9 @@ export interface PhishingEmail {
   is_phishing: boolean;
   focus_area: PhishingFocusArea;
   headers: EmailHeaders;
-  body?: EmailBodyBlock[];
+  body?: EmailBodyBlock[] | null;
   clues: PhishingClue[];
   explanation: string;
-  // xp_reward removed — XP system not used in this version
 }
 
 export interface PhishOrLegitQuestion {
