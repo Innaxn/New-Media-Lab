@@ -74,112 +74,241 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
 // ─── Mock: Spot the Weakest ───────────────────────────────────────────────────
 
 const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
+  // {
+  //   id: 1,
+  //   difficulty: "easy",
+  //   scenario:
+  //     "These passwords were found in a data breach. Which would a hacker crack first?",
+  //   candidates: [
+  //     {
+  //       id: "c1",
+  //       value: "password1",
+  //       is_weakest: true,
+  //       explanation: "Top of every leaked list — cracked in milliseconds.",
+  //       entropy_label: "~6 bits",
+  //     },
+  //     {
+  //       id: "c2",
+  //       value: "Tr0ub4dor",
+  //       is_weakest: false,
+  //       explanation:
+  //         "Symbol substitution looks complex but is very predictable.",
+  //       entropy_label: "~28 bits",
+  //     },
+  //     {
+  //       id: "c3",
+  //       value: "xkQ$8mN!vP",
+  //       is_weakest: false,
+  //       explanation: "10 truly random characters — hard to crack.",
+  //       entropy_label: "~65 bits",
+  //     },
+  //   ],
+  //   hint: "Which password appears in every leaked credential list?",
+  // },
+  // {
+  //   id: 2,
+  //   difficulty: "medium",
+  //   scenario:
+  //     "Four passwords from a company breach. Which is easiest to crack?",
+  //   candidates: [
+  //     {
+  //       id: "c1",
+  //       value: "Company2024!",
+  //       is_weakest: true,
+  //       explanation:
+  //         "Company name + year is the most predictable corporate pattern.",
+  //       entropy_label: "~18 bits",
+  //     },
+  //     {
+  //       id: "c2",
+  //       value: "Tr0ub4dor&3",
+  //       is_weakest: false,
+  //       explanation: "Known pattern — weakens it.",
+  //       entropy_label: "~28 bits",
+  //     },
+  //     {
+  //       id: "c3",
+  //       value: "xkQ$8mN!vPz2",
+  //       is_weakest: false,
+  //       explanation: "12 truly random characters — high strength.",
+  //       entropy_label: "~72 bits",
+  //     },
+  //     {
+  //       id: "c4",
+  //       value: "correct-horse-battery-staple",
+  //       is_weakest: false,
+  //       explanation: "Long passphrase — very hard to crack.",
+  //       entropy_label: "~44 bits",
+  //     },
+  //   ],
+  //   hint: "Company name + year patterns are always the first thing attackers try.",
+  // },
+  // {
+  //   id: 3,
+  //   difficulty: "hard",
+  //   scenario:
+  //     "All four look strong at first glance. Which one is actually the weakest?",
+  //   candidates: [
+  //     {
+  //       id: "c1",
+  //       value: "P@$$w0rd!23",
+  //       is_weakest: true,
+  //       explanation:
+  //         "Classic substitutions are in every dictionary attack wordlist.",
+  //       entropy_label: "~20 bits effective",
+  //     },
+  //     {
+  //       id: "c2",
+  //       value: "correct-horse-staple-44",
+  //       is_weakest: false,
+  //       explanation: "Long passphrase — centuries to crack.",
+  //       entropy_label: "~52 bits",
+  //     },
+  //     {
+  //       id: "c3",
+  //       value: "zt9!Kw#mP2qL",
+  //       is_weakest: false,
+  //       explanation: "12 truly random characters.",
+  //       entropy_label: "~78 bits",
+  //     },
+  //     {
+  //       id: "c4",
+  //       value: "piano-eagle-7-river-!",
+  //       is_weakest: false,
+  //       explanation: "5-word passphrase with symbol — very strong.",
+  //       entropy_label: "~60 bits",
+  //     },
+  //   ],
+  //   hint: "Symbol substitutions like @ for a and $ for s are in every attacker's dictionary.",
+  // },
   {
-    id: 1,
-    difficulty: "easy",
-    scenario:
-      "These passwords were found in a data breach. Which would a hacker crack first?",
-    candidates: [
+    date: "2023-10-27",
+    question_type: "spot_the_weakest_password",
+    questions: [
       {
-        id: "c1",
-        value: "password1",
-        is_weakest: true,
-        explanation: "Top of every leaked list — cracked in milliseconds.",
-        entropy_label: "~6 bits",
+        id: 1,
+        difficulty: "easy",
+        scenario:
+          "A user is setting up a temporary password for a guest account.",
+        hint: "Look for the most common, predictable sequences used by millions of people.",
+        candidates: [
+          {
+            id: "c1",
+            value: "password123",
+            is_weakest: true,
+            explanation:
+              "This is one of the most common passwords globally and is found in every basic cracking dictionary.",
+            entropy_label: "~20 bits",
+          },
+          {
+            id: "c2",
+            value: "jK9#mN2!p",
+            is_weakest: false,
+            explanation:
+              "A random mix of characters provides high entropy and is resistant to dictionary attacks.",
+            entropy_label: "~60 bits",
+          },
+          {
+            id: "c3",
+            value: "Purple-Rain-Cloudy",
+            is_weakest: false,
+            explanation:
+              "Passphrases using unrelated words are long and difficult for computers to guess, despite being easy for humans to remember.",
+            entropy_label: "~75 bits",
+          },
+          {
+            id: "c4",
+            value: "zP9vR3mK",
+            is_weakest: false,
+            explanation:
+              "High randomness and lack of dictionary words make this a strong candidate.",
+            entropy_label: "~45 bits",
+          },
+        ],
       },
       {
-        id: "c2",
-        value: "Tr0ub4dor",
-        is_weakest: false,
-        explanation:
-          "Symbol substitution looks complex but is very predictable.",
-        entropy_label: "~28 bits",
+        id: 2,
+        difficulty: "medium",
+        scenario:
+          "An employee is creating a corporate password for their internal workstation.",
+        hint: "Attackers often target patterns that combine a known entity (like a company name) with a current date.",
+        candidates: [
+          {
+            id: "c1",
+            value: "Globex2024!",
+            is_weakest: true,
+            explanation:
+              "The 'Company + Year + Symbol' pattern is highly predictable and is a primary target for corporate credential stuffing attacks.",
+            entropy_label: "~35 bits",
+          },
+          {
+            id: "c2",
+            value: "vP2#zR8!kL",
+            is_weakest: false,
+            explanation:
+              "Random characters without a predictable pattern offer strong protection.",
+            entropy_label: "~60 bits",
+          },
+          {
+            id: "c3",
+            value: "Blue-Ocean-Deep-99",
+            is_weakest: false,
+            explanation:
+              "Combining a long passphrase with a number significantly increases the effort required to crack it.",
+            entropy_label: "~80 bits",
+          },
+          {
+            id: "c4",
+            value: "mK7-pL2-xS9",
+            is_weakest: false,
+            explanation:
+              "Segmented random strings avoid dictionary patterns and are quite strong.",
+            entropy_label: "~50 bits",
+          },
+        ],
       },
       {
-        id: "c3",
-        value: "xkQ$8mN!vP",
-        is_weakest: false,
-        explanation: "10 truly random characters — hard to crack.",
-        entropy_label: "~65 bits",
+        id: 3,
+        difficulty: "hard",
+        scenario:
+          "An IT professional wants a 'complex' password that meets all character requirements.",
+        hint: "Don't be fooled by symbols; common character substitutions (Leet-speak) are easily calculated by modern cracking tools.",
+        candidates: [
+          {
+            id: "c1",
+            value: "S3cur1ty2024!",
+            is_weakest: true,
+            explanation:
+              "While it looks complex, 'Leet-speak' (3 for e, 1 for i) and the addition of a year are standard rules in cracking software, making it very weak.",
+            entropy_label: "~40 bits",
+          },
+          {
+            id: "c2",
+            value: "kS7#mN2@pX",
+            is_weakest: false,
+            explanation:
+              "True randomness is far superior to 'complexity' based on substitutions.",
+            entropy_label: "~60 bits",
+          },
+          {
+            id: "c3",
+            value: "Forest-Wind-Silent-Moon",
+            is_weakest: false,
+            explanation:
+              "Length is the most important factor in entropy. A long passphrase outweighs complex characters.",
+            entropy_label: "~90 bits",
+          },
+          {
+            id: "c4",
+            value: "zP9-vR3-mK7",
+            is_weakest: false,
+            explanation:
+              "Avoids dictionary words and predictable sequences, providing a high level of security.",
+            entropy_label: "~55 bits",
+          },
+        ],
       },
     ],
-    hint: "Which password appears in every leaked credential list?",
-  },
-  {
-    id: 2,
-    difficulty: "medium",
-    scenario:
-      "Four passwords from a company breach. Which is easiest to crack?",
-    candidates: [
-      {
-        id: "c1",
-        value: "Company2024!",
-        is_weakest: true,
-        explanation:
-          "Company name + year is the most predictable corporate pattern.",
-        entropy_label: "~18 bits",
-      },
-      {
-        id: "c2",
-        value: "Tr0ub4dor&3",
-        is_weakest: false,
-        explanation: "Known pattern — weakens it.",
-        entropy_label: "~28 bits",
-      },
-      {
-        id: "c3",
-        value: "xkQ$8mN!vPz2",
-        is_weakest: false,
-        explanation: "12 truly random characters — high strength.",
-        entropy_label: "~72 bits",
-      },
-      {
-        id: "c4",
-        value: "correct-horse-battery-staple",
-        is_weakest: false,
-        explanation: "Long passphrase — very hard to crack.",
-        entropy_label: "~44 bits",
-      },
-    ],
-    hint: "Company name + year patterns are always the first thing attackers try.",
-  },
-  {
-    id: 3,
-    difficulty: "hard",
-    scenario:
-      "All four look strong at first glance. Which one is actually the weakest?",
-    candidates: [
-      {
-        id: "c1",
-        value: "P@$$w0rd!23",
-        is_weakest: true,
-        explanation:
-          "Classic substitutions are in every dictionary attack wordlist.",
-        entropy_label: "~20 bits effective",
-      },
-      {
-        id: "c2",
-        value: "correct-horse-staple-44",
-        is_weakest: false,
-        explanation: "Long passphrase — centuries to crack.",
-        entropy_label: "~52 bits",
-      },
-      {
-        id: "c3",
-        value: "zt9!Kw#mP2qL",
-        is_weakest: false,
-        explanation: "12 truly random characters.",
-        entropy_label: "~78 bits",
-      },
-      {
-        id: "c4",
-        value: "piano-eagle-7-river-!",
-        is_weakest: false,
-        explanation: "5-word passphrase with symbol — very strong.",
-        entropy_label: "~60 bits",
-      },
-    ],
-    hint: "Symbol substitutions like @ for a and $ for s are in every attacker's dictionary.",
   },
 ];
 
