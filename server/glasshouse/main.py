@@ -18,8 +18,9 @@ load_dotenv()
 if __name__ == "__main__":
 
     # dump(build_a_passhprase())
-    generate_qotd()
-    # generate_qotd_debug(QuestionType.SpotTheWeakestPassword)
+    # for i in range(0, 5):
+      #  generate_qotd()
+    generate_qotd_debug(QuestionType.BuildAPassword)
     # generate_qotd_debug(QuestionType.CookieBanner)
     # generate_qotd_debug(QuestionType.PhishOrLegit)
 
