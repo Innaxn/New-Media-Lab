@@ -16,6 +16,7 @@ class PasswordRule:
 @dataclass(kw_only=True)
 class PasswordQuestion:
     question: str 
+    id: int 
     rules: list[PasswordRule] 
     difficulty: Difficulty
 
@@ -117,49 +118,50 @@ HARD_REGEX_RULES = [
     ),
 ]
 
-def generate_build_a_password_day() -> Result [PasswordDay, str]:
-    return _generate_question_set(Difficulty.EASY).map(
+def generate_build_a_password_day() -> Result[PasswordDay, str]:
+    return _generate_question_set(Difficulty.EASY).and_then(
         lambda easy: _generate_question_set(Difficulty.MEDIUM).and_then(
-            lambda medium: _generate_question_set(Difficulty.HARD).and_then(
+            lambda medium: _generate_question_set(Difficulty.HARD).map(
                 lambda hard: PasswordDay(
-                    date=datetime.now().isoformat(),
-                    questions=[easy, medium, hard]
+                    date=date.today(),
+                    questions=with_sequential_ids(easy + medium + hard),
                 )
             )
-        ) 
+        )
     )
 
-def _generate_question_set(difficulty: Difficulty) -> Result[PasswordQuestion, str]:
+def with_sequential_ids(questions: list[PasswordQuestion]) -> list[PasswordQuestion]:
+    return [
+        PasswordQuestion(
+            id=i + 1,
+            question=q.question,
+            rules=q.rules,
+            difficulty=q.difficulty,
+        )
+        for i, q in enumerate(questions)
+    ]
+
+def _generate_question_set(difficulty: Difficulty) -> Result[list[PasswordQuestion], str]:
     N_QUESTIONS = 5
+
+    def build_questions(rules: list[PasswordRule]) -> list[PasswordQuestion]:
+        return [
+            PasswordQuestion(
+                id=0,
+                question=f"Build the password adhering to the rules ({difficulty.name.lower()})",
+                rules=[rule],
+                difficulty=difficulty,
+            )
+            for rule in rules
+        ]
 
     match difficulty:
         case Difficulty.EASY:
-            return get_random_sample(EASY_REGEX_RULES, N_QUESTIONS).map(
-                lambda easy: PasswordQuestion(
-                    question="Build the password adhering to the rules (easy)",
-                    rules=easy,
-                    difficulty=Difficulty.EASY
-                )
-            )
-
+            return get_random_sample(EASY_REGEX_RULES, N_QUESTIONS).map(build_questions)
         case Difficulty.MEDIUM:
-            return get_random_sample(MEDIUM_REGEX_RULES, N_QUESTIONS).map(
-                lambda medium: PasswordQuestion(
-                    question="Build the password adhering to the rules (medium)",
-                    rules=medium,
-                    difficulty=Difficulty.MEDIUM
-                )
-            )
-
+            return get_random_sample(MEDIUM_REGEX_RULES, N_QUESTIONS).map(build_questions)
         case Difficulty.HARD:
-            return get_random_sample(HARD_REGEX_RULES, N_QUESTIONS).map(
-                lambda hard: PasswordQuestion(
-                    question="Build the password adhering to the rules (hard)",
-                    rules=hard,
-                    difficulty=Difficulty.HARD
-                )
-            )
-          
+            return get_random_sample(HARD_REGEX_RULES, N_QUESTIONS).map(build_questions)
         
   
 def test_password_rules(password: str, rules: List[PasswordRule]) -> None:
