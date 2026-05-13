@@ -1,6 +1,7 @@
 import json
 from datetime import date
 from typing import Any
+from random import random
 
 from app.result import Result
 from app.games.SpotTheWeakestDay.SpotTheWeakestPasswordJSON import (
@@ -37,7 +38,7 @@ def parse_weakest_password(data: dict) -> Result[WeakestPasswordDay, str]:
                 difficulty=Difficulty(q["difficulty"]),
                 scenario=q["scenario"],
                 hint=q["hint"],
-                candidates=[
+                candidates=random.shuffle([
                     PasswordCandidate(
                         id=c["id"],
                         value=c["value"],
@@ -46,7 +47,7 @@ def parse_weakest_password(data: dict) -> Result[WeakestPasswordDay, str]:
                         entropy_label=c["entropy_label"]
                     )
                     for c in q["candidates"]
-                ]
+                ])
             )
             for q in data["questions"]
         ]

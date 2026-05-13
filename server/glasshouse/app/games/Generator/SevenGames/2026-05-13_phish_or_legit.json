@@ -5,136 +5,56 @@
     {
       "id": 1,
       "difficulty": "easy",
-      "instruction": "One of these emails is a phishing attempt. Can you spot the red flags?",
-      "teaching_point": "Look for mismatched sender domains, generic greetings, and suspicious HTTP links with high urgency.",
+      "instruction": "Compare these two Amazon-themed emails. Which one is a phishing attempt?",
+      "teaching_point": "Spotting obvious red flags like generic greetings, mismatched domains (gmail.com), and non-HTTPS links.",
       "emails": [
         {
           "id": "email-1",
           "is_phishing": true,
           "focus_area": "full",
           "headers": {
-            "from_name": "Netflix Support",
-            "from_address": "support-netflix@gmail.com",
+            "from_name": "Amazon Support",
+            "from_address": "amazon-security-alert@gmail.com",
             "to": "user@example.com",
-            "date": "2023-10-27 10:00",
-            "subject": "URGENT: Your account will be suspended!",
-            "reply_to": "support-netflix@gmail.com"
+            "date": "Fri, 27 Oct 2023 10:00:00 GMT",
+            "subject": "URGENT: Your account has been locked!",
+            "reply_to": "amazon-security-alert@gmail.com"
           },
           "body": [
             {
               "type": "text",
-              "content": "Dear Customer,\n\nWe were unable to process your last payment. To avoid service interruption, you must update your payment details immediately.",
+              "content": "Dear Customer,",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "We detected unusual activity on your account. To prevent permanent deletion, you must verify your identity immediately.",
               "href": null,
               "urgent": true
             },
             {
               "type": "button",
-              "content": "Update Payment Now",
-              "href": "http://netflix-payment-update.com/login",
-              "urgent": true
-            },
-            {
-              "type": "text",
-              "content": "Failure to do so within 24 hours will result in permanent account cancellation.",
-              "href": null,
+              "content": "Verify Account Now",
+              "href": "http://amazon-update-center.info/login",
               "urgent": true
             }
           ],
           "clues": [
             {
               "label": "Sender Address",
-              "explanation": "Netflix would use a @netflix.com domain, not a free @gmail.com address."
+              "explanation": "Amazon would never use a @gmail.com address for official account security alerts."
             },
             {
-              "label": "Generic Greeting",
-              "explanation": "The use of 'Dear Customer' instead of your actual name is a common sign of mass phishing."
+              "label": "Greeting",
+              "explanation": "Generic greetings like 'Dear Customer' are common in mass phishing campaigns."
             },
             {
-              "label": "Suspicious Link",
-              "explanation": "The link uses 'http' instead of 'https' and points to a non-official domain."
+              "label": "Link URL",
+              "explanation": "The link uses 'http' instead of 'https' and the domain 'amazon-update-center.info' is not an official Amazon domain."
             }
           ],
-          "explanation": "This is a classic phishing email. It uses a free email provider, a generic greeting, a non-secure link, and extreme urgency to pressure the user."
-        },
-        {
-          "id": "email-2",
-          "is_phishing": false,
-          "focus_area": "full",
-          "headers": {
-            "from_name": "Netflix",
-            "from_address": "info@mailer.netflix.com",
-            "to": "user@example.com",
-            "date": "2023-10-27 09:15",
-            "subject": "A quick update regarding your membership",
-            "reply_to": null
-          },
-          "body": [
-            {
-              "type": "text",
-              "content": "Hi Alex,\n\nWe're having some trouble with your current payment method. Please check your account settings to ensure your information is up to date.",
-              "href": null,
-              "urgent": null
-            },
-            {
-              "type": "button",
-              "content": "Manage Account",
-              "href": "https://www.netflix.com/youraccount",
-              "urgent": null
-            }
-          ],
-          "clues": [
-            {
-              "label": "Sender Domain",
-              "explanation": "The email comes from a verified netflix.com subdomain."
-            },
-            {
-              "label": "Personalization",
-              "explanation": "The email addresses the user by their actual name."
-            }
-          ],
-          "explanation": "This is a legitimate email. It uses a professional tone, personalized greeting, and links directly to the official secure Netflix domain."
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "difficulty": "medium",
-      "instruction": "Compare these two Amazon emails. Which one is trying to trick you?",
-      "teaching_point": "Be wary of 'look-alike' domains that look correct at a glance but contain subtle changes.",
-      "emails": [
-        {
-          "id": "email-1",
-          "is_phishing": true,
-          "focus_area": "headers",
-          "headers": {
-            "from_name": "Amazon Security Team",
-            "from_address": "orders-update@amazon-security-check.com",
-            "to": "user@example.com",
-            "date": "2023-10-27 11:30",
-            "subject": "Security Alert: Unusual sign-in activity",
-            "reply_to": "security-alerts@amazon-security-check.com"
-          },
-          "body": [
-            {
-              "type": "text",
-              "content": "Hello,\n\nWe detected an unusual sign-in attempt to your Amazon account from a new device in Singapore. If this was not you, please secure your account immediately to prevent unauthorized purchases.",
-              "href": null,
-              "urgent": null
-            },
-            {
-              "type": "button",
-              "content": "Review Activity",
-              "href": "https://amazon-security-check.com/auth/verify",
-              "urgent": false
-            }
-          ],
-          "clues": [
-            {
-              "label": "Domain Inspection",
-              "explanation": "The domain 'amazon-security-check.com' is not amazon.com. Attackers often add words like 'security' or 'verify' to make fake domains look official."
-            }
-          ],
-          "explanation": "This is a medium-difficulty phish. The branding is professional and the tone is helpful, but the sender address and the link lead to a fake domain created to mimic Amazon."
+          "explanation": "This email is a textbook example of phishing: it uses a free email provider, a generic greeting, high urgency, and a suspicious non-secure link."
         },
         {
           "id": "email-2",
@@ -142,119 +62,215 @@
           "focus_area": "full",
           "headers": {
             "from_name": "Amazon.com",
-            "from_address": "auto-confirm@amazon.com",
+            "from_address": "no-reply@amazon.com",
             "to": "user@example.com",
-            "date": "2023-10-27 12:00",
-            "subject": "Your Amazon.com order #123-4567890 has shipped",
+            "date": "Fri, 27 Oct 2023 10:05:00 GMT",
+            "subject": "Your Amazon.com order has shipped",
             "reply_to": null
           },
           "body": [
             {
               "type": "text",
-              "content": "Hi Alex,\n\nGood news! Your package is on its way. You can track your delivery using the button below.",
+              "content": "Hello Sarah,",
               "href": null,
-              "urgent": null
+              "urgent": false
             },
             {
-              "type": "button",
-              "content": "Track Package",
+              "type": "text",
+              "content": "Great news! Your order #123-456789 has been shipped and is on its way to you.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "link",
+              "content": "Track your package",
               "href": "https://www.amazon.com/gp/your-account/order-history",
               "urgent": null
             }
           ],
           "clues": [
             {
-              "label": "Official Domain",
-              "explanation": "The sender and the link both point directly to the legitimate amazon.com domain."
+              "label": "Sender Address",
+              "explanation": "The email comes from the official @amazon.com domain."
+            },
+            {
+              "label": "Personalization",
+              "explanation": "The email uses the customer's actual name ('Sarah') rather than a generic greeting."
             }
           ],
-          "explanation": "This is a legitimate transactional email with a correct sender address and a secure, official link."
+          "explanation": "This is a legitimate transactional email. It uses the correct domain, personalized greeting, and a secure HTTPS link to the official website."
         }
       ]
     },
     {
-      "id": 3,
-      "difficulty": "hard",
-      "instruction": "These emails look almost identical. Only a very careful check will reveal the fake.",
-      "teaching_point": "High-level phishing uses perfect branding and personalized context. Always inspect the actual domain and headers carefully.",
+      "id": 2,
+      "difficulty": "medium",
+      "instruction": "One of these DHL shipment alerts is fake. Can you find the subtle clue?",
+      "teaching_point": "Identifying 'look-alike' domains and professional-looking but fraudulent URLs.",
       "emails": [
         {
           "id": "email-1",
           "is_phishing": true,
-          "focus_area": "headers",
+          "focus_area": "full",
           "headers": {
-            "from_name": "Corporate IT Service Desk",
-            "from_address": "it-support@company-global-it.com",
-            "to": "user@company.com",
-            "date": "2023-10-27 14:00",
-            "subject": "Mandatory Action: 2024 Remote Work Policy Update",
-            "reply_to": "helpdesk@company-global-it.com"
+            "from_name": "DHL Express",
+            "from_address": "shipping-updates@dhl-parcel-tracking.net",
+            "to": "user@example.com",
+            "date": "Fri, 27 Oct 2023 11:20:00 GMT",
+            "subject": "Delivery Notification: Package Pending",
+            "reply_to": "support@dhl-parcel-tracking.net"
           },
           "body": [
             {
               "type": "text",
-              "content": "Dear Alex,\n\nAs part of our annual compliance review, all employees are required to review and digitally sign the updated 2024 Remote Work Policy. Please complete this by the end of the week to ensure your remote access privileges remain active.",
+              "content": "Your shipment is currently on hold at our sorting center due to an incomplete delivery address.",
               "href": null,
-              "urgent": null
-            },
-            {
-              "type": "button",
-              "content": "Review and Sign Policy",
-              "href": "https://company-policy-portal.com/auth/sign",
               "urgent": false
             },
             {
               "type": "text",
-              "content": "Thank you for your prompt attention to this matter.\n\nIT Service Desk\nGlobal Operations",
+              "content": "Please update your shipping details to avoid the package being returned to the sender.",
               "href": null,
-              "urgent": null
+              "urgent": true
+            },
+            {
+              "type": "button",
+              "content": "Update Address",
+              "href": "https://dhl-delivery-status.com/update-info",
+              "urgent": true
             }
           ],
           "clues": [
             {
-              "label": "Subtle Domain Shift",
-              "explanation": "The corporate domain is 'company.com', but the sender is using 'company-global-it.com'. This is a sophisticated look-alike domain designed to blend in with corporate jargon."
+              "label": "Sender Domain",
+              "explanation": "The domain 'dhl-parcel-tracking.net' is a look-alike. Official DHL emails typically come from 'dhl.com'."
             },
             {
-              "label": "Link Destination",
-              "explanation": "The link points to 'company-policy-portal.com' instead of the internal company intranet."
+              "label": "URL Destination",
+              "explanation": "The link points to 'dhl-delivery-status.com', which is not the official DHL corporate domain."
             }
           ],
-          "explanation": "This is a hard phish. It uses professional corporate tone, correct naming, and a plausible scenario. The only way to detect it is to notice that the domain is slightly different from the official company domain."
+          "explanation": "This is a medium-difficulty phish. It uses HTTPS and a professional tone, but the domain is a look-alike designed to trick users who don't check the exact domain name."
         },
         {
           "id": "email-2",
           "is_phishing": false,
           "focus_area": "full",
           "headers": {
-            "from_name": "Human Resources",
-            "from_address": "hr-notifications@company.com",
-            "to": "user@company.com",
-            "date": "2023-10-27 13:45",
-            "subject": "Update: New Employee Handbook available",
+            "from_name": "DHL Express",
+            "from_address": "noreply@dhl.com",
+            "to": "user@example.com",
+            "date": "Fri, 27 Oct 2023 11:25:00 GMT",
+            "subject": "Your DHL Express shipment is arriving today",
             "reply_to": null
           },
           "body": [
             {
               "type": "text",
-              "content": "Hi Alex,\n\nThe updated 2024 Employee Handbook is now available for viewing on the corporate intranet. Please take a moment to read through the changes regarding benefits and leave.",
+              "content": "Your package with tracking number 10001234567890 is out for delivery and is expected to arrive by 6 PM today.",
               "href": null,
-              "urgent": null
+              "urgent": false
             },
             {
-              "type": "button",
-              "content": "Go to Intranet",
-              "href": "https://intranet.company.com/handbook",
+              "type": "link",
+              "content": "View shipment details",
+              "href": "https://www.dhl.com/en/express/tracking.html",
               "urgent": null
             }
           ],
           "clues": [
             {
-              "label": "Internal Domain",
-              "explanation": "The email originates from the official 'company.com' domain and links to an internal 'intranet.company.com' subdomain."
+              "label": "Domain Verification",
+              "explanation": "The sender and the link both use the official and verified 'dhl.com' domain."
             }
           ],
-          "explanation": "This is a legitimate internal communication. The sender and the destination link both belong to the official company domain."
+          "explanation": "This is a legitimate notification. The domain is the exact corporate domain of the company, and there are no requests for personal information or urgent payment."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "difficulty": "hard",
+      "instruction": "These corporate emails look identical in style. Inspect the headers and domains carefully.",
+      "teaching_point": "Detecting high-fidelity phishing through precise domain analysis (subdomains vs. main domains).",
+      "emails": [
+        {
+          "id": "email-1",
+          "is_phishing": true,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "Corp Payroll Dept",
+            "from_address": "payroll@corp-payroll.com",
+            "to": "employee@corp.com",
+            "date": "Fri, 27 Oct 2023 14:00:00 GMT",
+            "subject": "Action Required: Annual Tax Document Review",
+            "reply_to": "payroll@corp-payroll.com"
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Dear Employee,",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "The annual tax review for the current fiscal year is now open. Please review your documents and sign the electronic acknowledgement by Friday.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "button",
+              "content": "Access Payroll Portal",
+              "href": "https://corp-payroll-portal.com/auth/login",
+              "urgent": false
+            }
+          ],
+          "clues": [
+            {
+              "label": "Domain Analysis",
+              "explanation": "The company's official domain is 'corp.com'. The sender is using 'corp-payroll.com', which is a separate registered domain, not a subdomain of 'corp.com'."
+            },
+            {
+              "label": "URL Logic",
+              "explanation": "The destination 'corp-payroll-portal.com' is another external domain designed to look internal."
+            }
+          ],
+          "explanation": "This is a highly polished phish. It avoids urgent language to build trust and uses a domain that looks like a corporate extension. Only a strict check of the root domain (corp.com vs corp-payroll.com) reveals the fraud."
+        },
+        {
+          "id": "email-2",
+          "is_phishing": false,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "Corp Payroll Dept",
+            "from_address": "payroll@corp.com",
+            "to": "employee@corp.com",
+            "date": "Fri, 27 Oct 2023 14:10:00 GMT",
+            "subject": "Your monthly payslip is now available",
+            "reply_to": null
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Hello, your payslip for the period of October 2023 has been uploaded to the employee portal.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "link",
+              "content": "View Payslip",
+              "href": "https://payroll.corp.com/dashboard",
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Subdomain Verification",
+              "explanation": "The link 'payroll.corp.com' is a legitimate subdomain of the primary corporate domain 'corp.com'."
+            }
+          ],
+          "explanation": "This is a legitimate internal email. The sender address is exactly on the corporate domain, and the link is a proper subdomain of that same corporate domain."
         }
       ]
     }

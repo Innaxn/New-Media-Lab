@@ -5,67 +5,67 @@
     {
       "id": 1,
       "difficulty": "easy",
-      "question": "Which of the following is considered a strong password practice?",
+      "question": "Which of the following is considered the strongest and most secure password?",
       "options": [
-        "Using your birthday as the password",
-        "Using 'password123' for all accounts",
-        "Using a unique mix of uppercase, lowercase, numbers, and symbols",
-        "Using your pet's name"
+        "12345678",
+        "password123",
+        "MyDogName",
+        "K#p9!vR2zL"
       ],
-      "correct_index": 2,
-      "hint": "Complexity and uniqueness make it harder for others to guess."
+      "correct_index": 3,
+      "hint": "Look for a combination of uppercase, lowercase, numbers, and special characters."
     },
     {
       "id": 2,
       "difficulty": "easy",
-      "question": "What is 'phishing' in the context of data security?",
+      "question": "What is the safest action to take when you receive an unexpected email asking you to click a link to verify your account details?",
       "options": [
-        "Updating your software to the latest version",
-        "A trick to steal sensitive info via fake emails or websites",
-        "Storing your files in a cloud drive",
-        "Creating a backup of your computer"
+        "Click the link immediately to fix the account",
+        "Reply to the email asking who sent it",
+        "Delete the email or report it as phishing",
+        "Forward the email to all your contacts"
       ],
-      "correct_index": 1,
-      "hint": "Think of it as 'fishing' for your private information using bait."
+      "correct_index": 2,
+      "hint": "Legitimate companies will rarely ask for sensitive info via an unexpected link in an email."
     },
     {
       "id": 3,
       "difficulty": "medium",
-      "question": "What is the main benefit of enabling Two-Factor Authentication (2FA)?",
+      "question": "What is the primary purpose of enabling Two-Factor Authentication (2FA) on your accounts?",
       "options": [
-        "It removes the need for a password",
-        "It makes the internet connection faster",
-        "It adds an extra layer of security beyond just a password",
-        "It automatically encrypts all files on your hard drive"
+        "To make the login process faster",
+        "To add a second layer of security beyond just a password",
+        "To encrypt all the files on your hard drive",
+        "To hide your browsing history from your internet provider"
       ],
-      "correct_index": 2,
-      "hint": "It requires two different pieces of evidence to prove your identity."
+      "correct_index": 1,
+      "hint": "It requires two different forms of identification to prove who you are."
     },
     {
       "id": 4,
       "difficulty": "medium",
-      "question": "Under GDPR, what does the 'Right to Erasure' (Right to be Forgotten) allow individuals to do?",
+      "question": "Why is it generally discouraged to access sensitive information, like online banking, using public Wi-Fi?",
       "options": [
-        "Delete their browser cookies",
-        "Request that an organization delete their personal data",
-        "Hide their profile from search engines",
-        "Change their legal name in government records"
+        "Public Wi-Fi is always slower than home Wi-Fi",
+        "Public Wi-Fi uses a different version of the internet",
+        "Unencrypted public networks can allow attackers to intercept your data",
+        "Banking apps do not work on public Wi-Fi networks"
       ],
-      "correct_index": 1,
-      "hint": "It focuses on the company's possession of your data."
+      "correct_index": 2,
+      "hint": "Open networks often lack encryption, making the data traveling through them visible to others."
     },
     {
       "id": 5,
       "difficulty": "hard",
-      "question": "Which statement best describes End-to-End Encryption (E2EE)?",
+      "question": "Under the General Data Protection Regulation (GDPR), what does the 'Right to Erasure' specifically allow individuals to do?",
       "options": [
-        "Data is encrypted only while it is stored on a server",
-        "The service provider holds the key to decrypt all messages",
-        "Only the communicating users can read the messages, not the service provider",
-        "Data is encrypted using a single password shared by all users"
+        "Delete their entire browsing history from their local computer",
+        "Request that an organization delete their personal data under certain conditions",
+        "Permanently block a specific website from accessing the internet",
+        "Force a company to stop charging them for a subscription"
       ],
-      "correct_index": 2,
-      "hint": "The encryption happens at the start and decryption happens only at the final destination."
+      "correct_index": 1,
+      "hint": "This is often referred to as the 'Right to be Forgotten'."
     }
   ]
 }
