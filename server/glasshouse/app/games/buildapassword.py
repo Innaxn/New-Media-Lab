@@ -23,7 +23,7 @@ class PasswordQuestion:
 @dataclass(kw_only=True)
 class PasswordDay: 
     date: date 
-    question_type: QuestionType = QuestionType.MultipleChoice
+    question_type: QuestionType = QuestionType.BuildAPassword
     questions: list[PasswordQuestion]
 
 
