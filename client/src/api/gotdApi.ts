@@ -33,52 +33,23 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
 const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   {
     question: "Build the password adhering to the rules (easy)",
-    id: 1,
     rules: [
       {
         regex: "[a-z]",
         description: "At least one lowercase letter",
       },
-    ],
-    difficulty: "easy",
-  },
-  {
-    question: "Build the password adhering to the rules (easy)",
-    id: 2,
-    rules: [
       {
         regex: "\\d",
         description: "At least one number",
       },
-    ],
-    difficulty: "easy",
-  },
-  {
-    question: "Build the password adhering to the rules (easy)",
-    id: 3,
-    rules: [
       {
         regex: "^[A-Za-z0-9].*[A-Za-z0-9]$",
         description: "No special characters at start or end",
       },
-    ],
-    difficulty: "easy",
-  },
-  {
-    question: "Build the password adhering to the rules (easy)",
-    id: 4,
-    rules: [
       {
         regex: "^(?!.*(.)\\1\\1).*$",
         description: "Must not have a character repeated 3+ times",
       },
-    ],
-    difficulty: "easy",
-  },
-  {
-    question: "Build the password adhering to the rules (easy)",
-    id: 5,
-    rules: [
       {
         regex: ".{8,}",
         description: "At least 8 characters",
@@ -88,19 +59,11 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   },
   {
     question: "Build the password adhering to the rules (medium)",
-    id: 6,
     rules: [
       {
         regex: '^[A-Za-z0-9].*[!@#$%^&*(),.?\\":{}|<>].*[A-Za-z0-9]$',
         description: "Must contain a special character not at the start or end",
       },
-    ],
-    difficulty: "medium",
-  },
-  {
-    question: "Build the password adhering to the rules (medium)",
-    id: 7,
-    rules: [
       {
         regex: "^[^\\s]+ [^\\s]+$",
         description: "Must be exactly 2 words",
@@ -109,92 +72,26 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
     difficulty: "medium",
   },
   {
-    question: "Build the password adhering to the rules (medium)",
-    id: 8,
-    rules: [
-      {
-        regex: "^.{10,}$",
-        description: "Total length must be at least 10 characters",
-      },
-    ],
-    difficulty: "medium",
-  },
-  {
-    question: "Build the password adhering to the rules (medium)",
-    id: 9,
-    rules: [
-      {
-        regex: "^(?!.*(.)\\1).+$",
-        description: "Must not contain the same character twice in a row",
-      },
-    ],
-    difficulty: "medium",
-  },
-  {
-    question: "Build the password adhering to the rules (medium)",
-    id: 10,
-    rules: [
-      {
-        regex: "^(?=.*[a-z])(?=.*[A-Z]).+$",
-        description: "Must contain both uppercase and lowercase letters",
-      },
-    ],
-    difficulty: "medium",
-  },
-  {
     question: "Build the password adhering to the rules (hard)",
-    id: 11,
     rules: [
       {
         regex: "^.{15,}$",
         description: "Total length must be at least 15 characters",
       },
-    ],
-    difficulty: "hard",
-  },
-  {
-    question: "Build the password adhering to the rules (hard)",
-    id: 12,
-    rules: [
       {
         regex:
           '^[^\\s]+ [^\\s]*[!@#$%^&*(),.?\\":{}|<>][^\\s]* [^\\s]+ [^\\s]+$',
         description:
           "Must contain at least one special character in the middle (not first or last word)",
       },
-    ],
-    difficulty: "hard",
-  },
-  {
-    question: "Build the password adhering to the rules (hard)",
-    id: 13,
-    rules: [
       {
         regex: '^(?=.*[!@#$%^&*(),.?\\":{}|<>])(?=.*\\d).+$',
         description:
           "Must contain at least one special character and one digit",
       },
-    ],
-    difficulty: "hard",
-  },
-  {
-    question: "Build the password adhering to the rules (hard)",
-    id: 14,
-    rules: [
       {
         regex: "^(?!\\d)(?:\\S+ )(?!\\d)(?:\\S+ )(?!\\d)(?:\\S+ )(?!\\d)\\S+$",
         description: "No word may start with a digit",
-      },
-    ],
-    difficulty: "hard",
-  },
-  {
-    question: "Build the password adhering to the rules (hard)",
-    id: 15,
-    rules: [
-      {
-        regex: "^(?:\\S+\\s){3}\\S+$",
-        description: "Must be exactly 4 words",
       },
     ],
     difficulty: "hard",
@@ -774,8 +671,8 @@ const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
 
 export const MOCK_GAME_OF_THE_DAY: GameOfTheDay = {
   date: new Date().toISOString().slice(0, 10),
-  question_type: "phish_or_legit",
-  questions: MOCK_PHISH_QUESTIONS,
+  question_type: "build_a_password",
+  questions: MOCK_BUILD_PASSWORD_QUESTIONS,
 };
 
 export const ALL_MOCKS: Record<string, GameOfTheDay> = {

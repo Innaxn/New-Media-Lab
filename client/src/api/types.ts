@@ -1,13 +1,4 @@
-// ─────────────────────────────────────────────────────────────────────────────
 // Glass House — API Contract
-//
-// - `type` field removed from all question interfaces — question_type on
-//   the root GameOfTheDay is the discriminant the frontend uses.
-// - Multiple questions per difficulty level are supported for all types.
-// - Cookie banners: backend sends { date, question_type: "cookie_banners" }
-//   with NO questions array. Frontend picks levels from its own bank.
-// ─────────────────────────────────────────────────────────────────────────────
-
 export type Difficulty = "easy" | "medium" | "hard";
 
 export type QuestionType =
@@ -37,7 +28,7 @@ export interface PasswordRule {
 }
 
 export interface BuildPasswordQuestion {
-  id: number;
+  // id: number;
   difficulty: Difficulty;
   question: string;
   rules: PasswordRule[];
