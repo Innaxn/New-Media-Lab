@@ -30,158 +30,11 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
 
 // ─── Mock: Build a Password ───────────────────────────────────────────────────
 
-const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
-  {
-    id: 1,
-    difficulty: "easy",
-    question: "Create a password that satisfies all the rules below.",
-    rules: [
-      { regex: ".{8,}", description: "8+ characters" },
-      { regex: "[A-Z]", description: "At least one uppercase letter" },
-      { regex: "[0-9]", description: "At least one number" },
-    ],
-  },
-  {
-    id: 2,
-    difficulty: "medium",
-    question: "Level up — more rules, stronger password.",
-    rules: [
-      { regex: ".{12,}", description: "12+ characters" },
-      { regex: "[A-Z]", description: "Uppercase letter" },
-      { regex: "[a-z]", description: "Lowercase letter" },
-      { regex: "[0-9]", description: "Number" },
-      { regex: "[^A-Za-z0-9]", description: "Special character (!@#$…)" },
-    ],
-  },
-  {
-    id: 3,
-    difficulty: "hard",
-    question: "Expert mode — avoid common words too.",
-    rules: [
-      { regex: ".{16,}", description: "16+ characters" },
-      { regex: "[A-Z]", description: "Uppercase letter" },
-      { regex: "[a-z]", description: "Lowercase letter" },
-      { regex: "[0-9]", description: "Number" },
-      { regex: "[^A-Za-z0-9]", description: "Special character" },
-      {
-        regex: "^(?!.*(password|qwerty|123456|admin|letmein))",
-        description: "No common words",
-      },
-    ],
-  },
-];
+const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [];
 
-// ─── Mock: Spot the Weakest ───────────────────────────────────────────────────
+// ─── Mock: Spot the Weakest DONE───────────────────────────────────────────────────
 
 const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
-  // {
-  //   id: 1,
-  //   difficulty: "easy",
-  //   scenario:
-  //     "These passwords were found in a data breach. Which would a hacker crack first?",
-  //   candidates: [
-  //     {
-  //       id: "c1",
-  //       value: "password1",
-  //       is_weakest: true,
-  //       explanation: "Top of every leaked list — cracked in milliseconds.",
-  //       entropy_label: "~6 bits",
-  //     },
-  //     {
-  //       id: "c2",
-  //       value: "Tr0ub4dor",
-  //       is_weakest: false,
-  //       explanation:
-  //         "Symbol substitution looks complex but is very predictable.",
-  //       entropy_label: "~28 bits",
-  //     },
-  //     {
-  //       id: "c3",
-  //       value: "xkQ$8mN!vP",
-  //       is_weakest: false,
-  //       explanation: "10 truly random characters — hard to crack.",
-  //       entropy_label: "~65 bits",
-  //     },
-  //   ],
-  //   hint: "Which password appears in every leaked credential list?",
-  // },
-  // {
-  //   id: 2,
-  //   difficulty: "medium",
-  //   scenario:
-  //     "Four passwords from a company breach. Which is easiest to crack?",
-  //   candidates: [
-  //     {
-  //       id: "c1",
-  //       value: "Company2024!",
-  //       is_weakest: true,
-  //       explanation:
-  //         "Company name + year is the most predictable corporate pattern.",
-  //       entropy_label: "~18 bits",
-  //     },
-  //     {
-  //       id: "c2",
-  //       value: "Tr0ub4dor&3",
-  //       is_weakest: false,
-  //       explanation: "Known pattern — weakens it.",
-  //       entropy_label: "~28 bits",
-  //     },
-  //     {
-  //       id: "c3",
-  //       value: "xkQ$8mN!vPz2",
-  //       is_weakest: false,
-  //       explanation: "12 truly random characters — high strength.",
-  //       entropy_label: "~72 bits",
-  //     },
-  //     {
-  //       id: "c4",
-  //       value: "correct-horse-battery-staple",
-  //       is_weakest: false,
-  //       explanation: "Long passphrase — very hard to crack.",
-  //       entropy_label: "~44 bits",
-  //     },
-  //   ],
-  //   hint: "Company name + year patterns are always the first thing attackers try.",
-  // },
-  // {
-  //   id: 3,
-  //   difficulty: "hard",
-  //   scenario:
-  //     "All four look strong at first glance. Which one is actually the weakest?",
-  //   candidates: [
-  //     {
-  //       id: "c1",
-  //       value: "P@$$w0rd!23",
-  //       is_weakest: true,
-  //       explanation:
-  //         "Classic substitutions are in every dictionary attack wordlist.",
-  //       entropy_label: "~20 bits effective",
-  //     },
-  //     {
-  //       id: "c2",
-  //       value: "correct-horse-staple-44",
-  //       is_weakest: false,
-  //       explanation: "Long passphrase — centuries to crack.",
-  //       entropy_label: "~52 bits",
-  //     },
-  //     {
-  //       id: "c3",
-  //       value: "zt9!Kw#mP2qL",
-  //       is_weakest: false,
-  //       explanation: "12 truly random characters.",
-  //       entropy_label: "~78 bits",
-  //     },
-  //     {
-  //       id: "c4",
-  //       value: "piano-eagle-7-river-!",
-  //       is_weakest: false,
-  //       explanation: "5-word passphrase with symbol — very strong.",
-  //       entropy_label: "~60 bits",
-  //     },
-  //   ],
-  //   hint: "Symbol substitutions like @ for a and $ for s are in every attacker's dictionary.",
-  // },
-
   {
     id: 1,
     difficulty: "easy",
@@ -306,19 +159,18 @@ const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
   },
 ];
 
-// ─── Mock: Build a Passphrase ─────────────────────────────────────────────────
-
+// ─── Mock: Build a Passphrase DONE─────────────────────────────────────────────────
 const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
   {
     id: 1,
     difficulty: "easy",
     word_bank: [
-      "hyacinth",
-      "tensibly",
-      "pruinate",
-      "errite",
-      "shikken",
-      "phytonic",
+      "remock",
+      "maronite",
+      "inlying",
+      "beulah",
+      "adage",
+      "floricin",
       "3",
       "!",
     ],
@@ -331,16 +183,16 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
     id: 2,
     difficulty: "medium",
     word_bank: [
-      "besaint",
-      "bislings",
-      "townside",
-      "muezzin",
-      "ashanti",
-      "brushing",
-      "codding",
-      "bearwort",
-      "contrail",
-      "simmon",
+      "kame",
+      "araroba",
+      "hydatid",
+      "olykoek",
+      "fluidize",
+      "sluice",
+      "birching",
+      "catchy",
+      "formene",
+      "geotonic",
       "3",
       "7",
       "!",
@@ -354,20 +206,20 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
     id: 3,
     difficulty: "hard",
     word_bank: [
-      "shrimper",
-      "dusack",
-      "organal",
-      "pedated",
-      "emptings",
-      "barbe",
-      "smarting",
-      "eardrum",
-      "earlship",
-      "premiate",
-      "hardy",
-      "hogherd",
-      "auchenia",
-      "peakyish",
+      "meethelp",
+      "limbo",
+      "unfired",
+      "gallet",
+      "cadbote",
+      "digynian",
+      "kurdish",
+      "neiper",
+      "monodize",
+      "serology",
+      "dumontia",
+      "sabazios",
+      "kroner",
+      "tuna",
       "3",
       "7",
       "!",
@@ -649,47 +501,76 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
   },
 ];
 
-// ─── Mock: Multiple Choice ────────────────────────────────────────────────────
-
+// ─── Mock: Multiple Choice DONE ────────────────────────────────────────────────────
 const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
   {
     id: 1,
     difficulty: "easy",
-    question: "What does GDPR stand for?",
+    question:
+      "Which of the following is the best practice for creating a strong password?",
     options: [
-      "General Data Protection Regulation",
-      "Global Digital Privacy Rules",
-      "Government Data Processing Rights",
-      "General Digital Privacy Regulation",
+      "Using your date of birth",
+      "Using a mix of uppercase letters, lowercase letters, numbers, and symbols",
+      "Using the word 'password123'",
+      "Using your pet's name",
     ],
-    correct_index: 0,
-    hint: 'It\'s a European Union regulation — think "regulation", not "rules".',
+    correct_index: 1,
+    hint: "Complexity makes it much harder for hackers to guess your password.",
   },
   {
     id: 2,
     difficulty: "easy",
-    question: "Which of the following is considered the strongest password?",
-    options: ["Password123", "12345678", "qwertyuiop", "G7#kP2!sX9"],
-    correct_index: 3,
-    hint: "A strong password uses a mix of uppercase, lowercase, numbers, and special symbols.",
+    question: "What is the primary purpose of Two-Factor Authentication (2FA)?",
+    options: [
+      "To make the login process slower",
+      "To replace the need for a password entirely",
+      "To add an extra layer of security by requiring a second form of identification",
+      "To encrypt your hard drive",
+    ],
+    correct_index: 2,
+    hint: "It ensures that knowing the password alone isn't enough to access an account.",
   },
   {
     id: 3,
     difficulty: "medium",
     question:
-      "Under GDPR, within how many hours must a data breach be reported to the supervisory authority?",
-    options: ["24 hours", "48 hours", "72 hours", "7 days"],
+      "You receive an urgent email from your bank asking you to click a link to 'verify your account' to avoid suspension. What is the safest action?",
+    options: [
+      "Click the link and enter your details immediately",
+      "Reply to the email asking for more information",
+      "Ignore the link and contact your bank via their official app or phone number",
+      "Forward the email to your friends to see if they got it too",
+    ],
     correct_index: 2,
-    hint: "Article 33 specifies a specific time window from the moment of becoming aware.",
+    hint: "This is a common tactic called 'phishing' designed to steal credentials.",
   },
   {
     id: 4,
+    difficulty: "medium",
+    question:
+      "Why is it risky to access sensitive information, like online banking, while connected to public Wi-Fi at a cafe?",
+    options: [
+      "Public Wi-Fi is usually too slow for banking apps",
+      "Your battery will drain faster",
+      "Unencrypted data sent over public networks can be intercepted by others",
+      "Public Wi-Fi automatically deletes your browser history",
+    ],
+    correct_index: 2,
+    hint: "Open networks often lack the encryption needed to keep your data private from other users on the same network.",
+  },
+  {
+    id: 5,
     difficulty: "hard",
     question:
-      "Which GDPR article states that pre-ticked consent checkboxes do NOT constitute valid consent?",
-    options: ["Article 6", "Article 7", "Recital 32", "Article 17"],
-    correct_index: 2,
-    hint: "Recitals provide interpretive guidance on the articles. This one is about the form consent must take.",
+      "Under the General Data Protection Regulation (GDPR), what does the 'Right to Erasure' (also known as the Right to be Forgotten) entitle a user to do?",
+    options: [
+      "Request that a company delete their personal data under certain conditions",
+      "Prevent any company from ever collecting their data in the future",
+      "Force a company to pay them for using their data",
+      "Anonymize their identity across the entire internet",
+    ],
+    correct_index: 0,
+    hint: "This right focuses on the ability of an individual to have their personal data removed from a controller's records.",
   },
 ];
 
