@@ -6,11 +6,14 @@ from app.games.Generator.pipeline import Pipeline
 from app.games.Structs.question_types import QuestionType
 from app.result import Result
 from app.random import get_random_sample
-from app.games.buildapassword import generate_build_a_password_day, PasswordDay
+from app.games.buildapassword import generate_build_a_password_day
+from app.games.BuildAPassphrase import build_a_passhprase
 from app.games.json_writer import write_questions_json
 from app.games.write_to_google_drive import upload_to_drive
-from app.games.LLM.llm_api import ask_llm
+from app.games.LLM.llm_api import ask_llm, extract_response
 from app.games.MultipleChoiceDay.question_reader import parse_multiple_choice_questions_from_string
+from app.games.PhishOrLegitDay.PhishOrLegitJSONReader import parse_phish_or_legit_day_from_string
+from app.games.SpotTheWeakestDay.SpotTheWeakestPasswordJSONReader import parse_weakest_password_from_string
 from app.games.cookie_banner import CookieBannerDay
 
 PATH: Path = Path(r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\Generator\CanBeGenerated.csv")
@@ -33,6 +36,12 @@ def handle_type(t: QuestionType, pipeline: Pipeline) -> None:
                 return _generate_build_a_password(pipeline)
             case QuestionType.CookieBanner:
                 return _generate_cookie_banner(pipeline)
+            case QuestionType.PhishOrLegit:
+                return _generate_phish_or_legit(pipeline)
+            case QuestionType.SpotTheWeakestPassword:
+                return _generate_spot_the_weakest_password(pipeline)
+            case QuestionType.BuildAPassphrase:
+                return _generate_build_a_passphrase(pipeline)
             
            
 def _generate_cookie_banner(pipeline: Pipeline) -> None:
@@ -46,6 +55,20 @@ def _generate_cookie_banner(pipeline: Pipeline) -> None:
         result,
         game_type=QuestionType.CookieBanner,
         error_msg="Failed to generate cookie banner game"
+    )
+
+def _generate_build_a_passphrase(pipeline: Pipeline) -> None:
+    result: Result[str, str] = (
+        build_a_passhprase()
+        .and_then(lambda game:
+            pipeline.store(game, QuestionType.BuildAPassphrase)
+        )
+    )
+
+    return report_generation(
+        result,
+        game_type=QuestionType.BuildAPassphrase,
+        error_msg="Failed to generate build a password question"
     )
       
 def _generate_build_a_password(pipeline: Pipeline) -> None:
@@ -61,31 +84,34 @@ def _generate_build_a_password(pipeline: Pipeline) -> None:
         game_type=QuestionType.BuildAPassword,
         error_msg="Failed to generate build a password question"
     )
-   
+
+def _generate_llm_question(pipeline: Pipeline, questionType: QuestionType, parse: Callable[[str], Any]) -> None:
+   result: Result[str, str] = (
+       _getPrompt(questionType)
+       .and_then(ask_llm)
+       .and_then(lambda response: parse(extract_response(response)))
+       .and_then(lambda game: pipeline.store(game, questionType))
+   )
+
+   return report_generation(
+       result,
+       questionType,
+       error_msg=f"Failed to generate {questionType.value} day"
+   )
+
+
+def _generate_spot_the_weakest_password(pipeline) -> None:
+    return _generate_llm_question(pipeline, QuestionType.SpotTheWeakestPassword, parse_weakest_password_from_string)
+
+
+def _generate_phish_or_legit(pipeline: Pipeline) -> None: 
+    return _generate_llm_question(pipeline, QuestionType.PhishOrLegit, parse_phish_or_legit_day_from_string)
 
 def _generate_multiple_choice(pipeline: Pipeline) -> None:
-    result: Result[str, str] = (
-        _getPrompt(QuestionType.MultipleChoice)
-        .and_then(ask_llm)
-        .and_then(lambda response:
-            parse_multiple_choice_questions_from_string(
-                response["choices"][0]["message"]["content"]
-            )
-        )
-        .and_then(lambda game:
-            pipeline.store(game, QuestionType.MultipleChoice)
-        )
-    )
-
-    return report_generation(
-        result,
-        game_type=QuestionType.MultipleChoice,
-        error_msg="Failed to generate multiple choice question"
-    )
+    return _generate_llm_question(pipeline, QuestionType.MultipleChoice, parse_multiple_choice_questions_from_string)
 
 def report_generation(
     result: Result[Any, str],
-    *,
     game_type: QuestionType,
     error_msg: str
 ) -> None: 
@@ -98,11 +124,13 @@ def report_generation(
 
 def _getPrompt(questionType: QuestionType) -> Result[str, str]: 
     try:
-        path: str = r"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\LLM\prompt.txt"
-        with open(path, "r", encoding="utf-8") as f:
+        with open(_build_prompt_path(questionType), "r", encoding="utf-8") as f:
             return Result.Ok(f.read())
     except Exception as ex: 
        return Result.Err(ex.__str__())
+
+def _build_prompt_path(questionType: QuestionType) -> str:
+    return rf"C:\Users\justi\Documents\NewMediaLab\GlassHouse\New-Media-Lab\server\glasshouse\app\games\LLM\{questionType.value}_prompt.txt"
 
 def _get_question_of_the_day_type() -> Result[QuestionType, str]:
     options_result = _get_options()

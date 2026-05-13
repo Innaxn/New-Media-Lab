@@ -4,7 +4,6 @@
   "questions": [
     {
       "id": 1,
-      "type": "build_a_passphrase",
       "difficulty": "easy",
       "word_bank": ["purple", "bicycle", "lamp", "cloud", "socks", "melon", "tiger", "3", "!"],
       "min_words": 3,
@@ -13,7 +12,6 @@
     },
     {
       "id": 2,
-      "type": "build_a_passphrase",
       "difficulty": "medium",
       "word_bank": ["purple", "bicycle", "friday", "lamp", "tiger", "cloud", "rocket", "socks", "dancing", "melon", "silver", "mountain", "3", "7", "!"],
       "min_words": 4,
@@ -22,7 +20,6 @@
     },
     {
       "id": 3,
-      "type": "build_a_passphrase",
       "difficulty": "hard",
       "word_bank": ["purple", "bicycle", "friday", "lamp", "tiger", "cloud", "rocket", "socks", "dancing", "melon", "silver", "mountain", "pepper", "echo", "bridge", "candle", "pigeon", "anchor", "3", "7", "!", "#"],
       "min_words": 5,
