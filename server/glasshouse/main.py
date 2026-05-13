@@ -18,11 +18,10 @@ load_dotenv()
 if __name__ == "__main__":
 
     # dump(build_a_passhprase())
-    
-    generate_qotd()
+    # generate_qotd()
     # generate_qotd_debug(QuestionType.SpotTheWeakestPassword)
     # generate_qotd_debug(QuestionType.CookieBanner)
-    # generate_qotd_debug(QuestionType.MultipleChoice)
+    generate_qotd_debug(QuestionType.PhishOrLegit)
 
     # generate_build_a_password_day().and_then(lambda x: dump(x))
 
