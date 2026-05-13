@@ -88,7 +88,7 @@ def _parse_body(body_data: list | None):
 
     return [
         BodyElement(
-            type=b["type"],
+            question_type=b["type"],
             content=b["content"],
             href=b.get("href"),
             urgent=b.get("urgent"),

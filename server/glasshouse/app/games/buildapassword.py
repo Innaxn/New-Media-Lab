@@ -12,7 +12,6 @@ import re
 class PasswordRule:
   regex: str
   description: str
-  
 
 @dataclass(kw_only=True)
 class PasswordQuestion:
@@ -23,7 +22,7 @@ class PasswordQuestion:
 @dataclass(kw_only=True)
 class PasswordDay: 
     date: date 
-    type: QuestionType = QuestionType.MultipleChoice
+    question_type: QuestionType = QuestionType.MultipleChoice
     questions: list[PasswordQuestion]
 
 
