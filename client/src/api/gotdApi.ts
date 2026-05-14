@@ -32,7 +32,7 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
 
 const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   {
-    question: "Build the password adhering to the rules (easy)",
+    question: "Build the password adhering to the rules",
     rules: [
       {
         regex: "[a-z]",
@@ -41,18 +41,6 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
       {
         regex: "\\d",
         description: "At least one number",
-      },
-      {
-        regex: "^[A-Za-z0-9].*[A-Za-z0-9]$",
-        description: "No special characters at start or end",
-      },
-      {
-        regex: "^(?!.*(.)\\1\\1).*$",
-        description: "Must not have a character repeated 3+ times",
-      },
-      {
-        regex: ".{8,}",
-        description: "At least 8 characters",
       },
     ],
     difficulty: "easy",
@@ -65,8 +53,16 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
         description: "Must contain a special character not at the start or end",
       },
       {
-        regex: "^[^\\s]+ [^\\s]+$",
-        description: "Must be exactly 2 words",
+        regex: "^[A-Za-z0-9].*[A-Za-z0-9]$",
+        description: "No special characters at start or end",
+      },
+      {
+        regex: "^(?!.*(.)\\1\\1).*$",
+        description: "Must not have a character repeated 3+ times",
+      },
+      {
+        regex: ".{8,}",
+        description: "At least 8 characters",
       },
     ],
     difficulty: "medium",
@@ -83,6 +79,10 @@ const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
           '^[^\\s]+ [^\\s]*[!@#$%^&*(),.?\\":{}|<>][^\\s]* [^\\s]+ [^\\s]+$',
         description:
           "Must contain at least one special character in the middle (not first or last word)",
+      },
+      {
+        regex: "^[^\\s]+ [^\\s]+$",
+        description: "Must be exactly 2 words",
       },
       {
         regex: '^(?=.*[!@#$%^&*(),.?\\":{}|<>])(?=.*\\d).+$',
@@ -305,62 +305,169 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
     id: 1,
     difficulty: "easy",
     instruction:
-      "You received two shipping alerts. One is a scam trying to steal your credit card info. Which one is the phishing email?",
+      "Compare these two Amazon-themed emails. Which one is a phishing attempt?",
     teaching_point:
-      "Always check the sender's email address. Official companies do not use free providers like @gmail.com or @outlook.com for official business, and they avoid generic greetings like 'Dear Customer'.",
+      "Spotting obvious red flags like generic greetings, mismatched domains (gmail.com), and non-HTTPS links.",
     emails: [
       {
         id: "email-1",
         is_phishing: true,
         focus_area: "full",
         headers: {
-          from_name: "DHL Express Support",
-          from_address: "dhl-shipping-update12@gmail.com",
+          from_name: "Amazon Support",
+          from_address: "amazon-security-alert@gmail.com",
           to: "user@example.com",
-          date: "Wed, 22 May 2024 10:00:00 GMT",
-          subject: "URGENT: Parcel delivery failure",
-          reply_to: "dhl-shipping-update12@gmail.com",
+          date: "Fri, 27 Oct 2023 10:00:00 GMT",
+          subject: "URGENT: Your account has been locked!",
+          reply_to: "amazon-security-alert@gmail.com",
         },
         body: [
           {
             type: "text",
+            content: "Dear Customer,",
+            href: null,
+            urgent: false,
+          },
+          {
+            type: "text",
             content:
-              "Dear Customer,\n\nYour package is currently held at our warehouse due to an incomplete delivery address. To avoid the package being returned to the sender, please pay the small re-delivery fee of $2.99 immediately.",
+              "We detected unusual activity on your account. To prevent permanent deletion, you must verify your identity immediately.",
             href: null,
             urgent: true,
           },
           {
             type: "button",
-            content: "Pay Fee Now",
-            href: "http://dhl-payment-portal-secure.xyz/pay",
+            content: "Verify Account Now",
+            href: "http://amazon-update-center.info/login",
             urgent: true,
-          },
-          {
-            type: "text",
-            content: "Thank you for choosing DHL.",
-            href: null,
-            urgent: false,
           },
         ],
         clues: [
           {
             label: "Sender Address",
             explanation:
-              "The email is sent from a @gmail.com address, which is a huge red flag for a multi-billion dollar shipping company.",
+              "Amazon would never use a @gmail.com address for official account security alerts.",
           },
           {
-            label: "Generic Greeting",
+            label: "Greeting",
             explanation:
-              "'Dear Customer' is a generic greeting used when the attacker doesn't know your actual name.",
+              "Generic greetings like 'Dear Customer' are common in mass phishing campaigns.",
           },
           {
-            label: "Suspicious Link",
+            label: "Link URL",
             explanation:
-              "The URL uses 'http' instead of 'https' and ends in '.xyz', which is uncommon for official corporate sites.",
+              "The link uses 'http' instead of 'https' and the domain 'amazon-update-center.info' is not an official Amazon domain.",
           },
         ],
         explanation:
-          "This email is a classic phishing attempt using high urgency, a fake sender address, and a dangerous link to steal payment information.",
+          "This email is a textbook example of phishing: it uses a free email provider, a generic greeting, high urgency, and a suspicious non-secure link.",
+      },
+      {
+        id: "email-2",
+        is_phishing: false,
+        focus_area: "full",
+        headers: {
+          from_name: "Amazon.com",
+          from_address: "no-reply@amazon.com",
+          to: "user@example.com",
+          date: "Fri, 27 Oct 2023 10:05:00 GMT",
+          subject: "Your Amazon.com order has shipped",
+          reply_to: null,
+        },
+        body: [
+          {
+            type: "text",
+            content: "Hello Sarah,",
+            href: null,
+            urgent: false,
+          },
+          {
+            type: "text",
+            content:
+              "Great news! Your order #123-456789 has been shipped and is on its way to you.",
+            href: null,
+            urgent: false,
+          },
+          {
+            type: "link",
+            content: "Track your package",
+            href: "https://www.amazon.com/gp/your-account/order-history",
+            urgent: null,
+          },
+        ],
+        clues: [
+          {
+            label: "Sender Address",
+            explanation:
+              "The email comes from the official @amazon.com domain.",
+          },
+          {
+            label: "Personalization",
+            explanation:
+              "The email uses the customer's actual name ('Sarah') rather than a generic greeting.",
+          },
+        ],
+        explanation:
+          "This is a legitimate transactional email. It uses the correct domain, personalized greeting, and a secure HTTPS link to the official website.",
+      },
+    ],
+  },
+  {
+    id: 2,
+    difficulty: "medium",
+    instruction:
+      "One of these DHL shipment alerts is fake. Can you find the subtle clue?",
+    teaching_point:
+      "Identifying 'look-alike' domains and professional-looking but fraudulent URLs.",
+    emails: [
+      {
+        id: "email-1",
+        is_phishing: true,
+        focus_area: "full",
+        headers: {
+          from_name: "DHL Express",
+          from_address: "shipping-updates@dhl-parcel-tracking.net",
+          to: "user@example.com",
+          date: "Fri, 27 Oct 2023 11:20:00 GMT",
+          subject: "Delivery Notification: Package Pending",
+          reply_to: "support@dhl-parcel-tracking.net",
+        },
+        body: [
+          {
+            type: "text",
+            content:
+              "Your shipment is currently on hold at our sorting center due to an incomplete delivery address.",
+            href: null,
+            urgent: false,
+          },
+          {
+            type: "text",
+            content:
+              "Please update your shipping details to avoid the package being returned to the sender.",
+            href: null,
+            urgent: true,
+          },
+          {
+            type: "button",
+            content: "Update Address",
+            href: "https://dhl-delivery-status.com/update-info",
+            urgent: true,
+          },
+        ],
+        clues: [
+          {
+            label: "Sender Domain",
+            explanation:
+              "The domain 'dhl-parcel-tracking.net' is a look-alike. Official DHL emails typically come from 'dhl.com'.",
+          },
+          {
+            label: "URL Destination",
+            explanation:
+              "The link points to 'dhl-delivery-status.com', which is not the official DHL corporate domain.",
+          },
+        ],
+        explanation:
+          "This is a medium-difficulty phish. It uses HTTPS and a professional tone, but the domain is a look-alike designed to trick users who don't check the exact domain name.",
       },
       {
         id: "email-2",
@@ -370,129 +477,34 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
           from_name: "DHL Express",
           from_address: "noreply@dhl.com",
           to: "user@example.com",
-          date: "Wed, 22 May 2024 10:05:00 GMT",
-          subject: "Your shipment 84029174 is arriving today",
+          date: "Fri, 27 Oct 2023 11:25:00 GMT",
+          subject: "Your DHL Express shipment is arriving today",
           reply_to: null,
         },
         body: [
           {
             type: "text",
             content:
-              "Hello Sarah,\n\nYour shipment 84029174 is out for delivery and is expected to arrive by 5:00 PM today. You can track your package in real-time using the link below.",
+              "Your package with tracking number 10001234567890 is out for delivery and is expected to arrive by 6 PM today.",
             href: null,
-            urgent: null,
+            urgent: false,
           },
           {
             type: "link",
-            content: "Track my package",
-            href: "https://www.dhl.com/en/express/tracking.html?awb=84029174",
+            content: "View shipment details",
+            href: "https://www.dhl.com/en/express/tracking.html",
             urgent: null,
           },
         ],
         clues: [
           {
-            label: "Sender Domain",
+            label: "Domain Verification",
             explanation:
-              "The email comes from @dhl.com, the legitimate corporate domain.",
-          },
-          {
-            label: "Personalization",
-            explanation:
-              "The email addresses the user by their actual name, Sarah.",
+              "The sender and the link both use the official and verified 'dhl.com' domain.",
           },
         ],
         explanation:
-          "This is a legitimate transactional email. It uses the correct domain, provides a specific tracking number, and contains no requests for payment or urgent passwords.",
-      },
-    ],
-  },
-  {
-    id: 2,
-    difficulty: "medium",
-    instruction:
-      "Your account security is being questioned. One of these is a sophisticated fake. Can you identify it?",
-    teaching_point:
-      "Attackers often use 'look-alike' domains (typosquatting). Look closely at the domain name for subtle misspellings or extra words that seem official but aren't.",
-    emails: [
-      {
-        id: "email-1",
-        is_phishing: true,
-        focus_area: "headers",
-        headers: {
-          from_name: "Microsoft Account Team",
-          from_address: "security-noreply@microsft-support.com",
-          to: "user@example.com",
-          date: "Wed, 22 May 2024 11:20:00 GMT",
-          subject: "Unusual sign-in activity for your account",
-          reply_to: "security-noreply@microsft-support.com",
-        },
-        body: [
-          {
-            type: "text",
-            content:
-              "We detected an unusual sign-in attempt from a new device in Moscow, Russia. If this was not you, please review your account activity immediately to secure your data.",
-            href: null,
-            urgent: null,
-          },
-          {
-            type: "button",
-            content: "Review Activity",
-            href: "https://microsft-support.com/account/security-check",
-            urgent: true,
-          },
-        ],
-        clues: [
-          {
-            label: "Domain Typo",
-            explanation:
-              "The domain is 'microsft-support.com'. Note the missing 'o' in Microsoft ('microsft').",
-          },
-          {
-            label: "Urgency",
-            explanation:
-              "The mention of a login from a foreign country is designed to panic the user into clicking without thinking.",
-          },
-        ],
-        explanation:
-          "This is a medium-difficulty phish. It looks professional and uses a believable scenario, but the domain name is a clever misspelling of the real brand.",
-      },
-      {
-        id: "email-2",
-        is_phishing: false,
-        focus_area: "headers",
-        headers: {
-          from_name: "Microsoft account team",
-          from_address:
-            "account-security-noreply@accountprotection.microsoft.com",
-          to: "user@example.com",
-          date: "Wed, 22 May 2024 11:25:00 GMT",
-          subject: "Security alert",
-          reply_to: null,
-        },
-        body: [
-          {
-            type: "text",
-            content:
-              "Your password was recently changed. If you did not perform this action, you can recover your account using the link below.",
-            href: null,
-            urgent: null,
-          },
-          {
-            type: "link",
-            content: "Recover account",
-            href: "https://account.microsoft.com/security",
-            urgent: null,
-          },
-        ],
-        clues: [
-          {
-            label: "Official Domain",
-            explanation:
-              "The email ends in .microsoft.com, which is the official root domain.",
-          },
-        ],
-        explanation:
-          "This is a legitimate security alert. It points directly to the official microsoft.com domain without any typos or redirection.",
+          "This is a legitimate notification. The domain is the exact corporate domain of the company, and there are no requests for personal information or urgent payment.",
       },
     ],
   },
@@ -500,95 +512,94 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
     id: 3,
     difficulty: "hard",
     instruction:
-      "You have received two emails regarding your corporate payroll and benefits. One is a highly targeted phishing attempt. Which one is it?",
+      "These corporate emails look identical in style. Inspect the headers and domains carefully.",
     teaching_point:
-      "In high-level phishing, attackers use perfect branding and personalized context. The only way to detect them is to scrutinize the sender's domain and the destination of the links against the company's actual infrastructure.",
+      "Detecting high-fidelity phishing through precise domain analysis (subdomains vs. main domains).",
     emails: [
       {
         id: "email-1",
         is_phishing: true,
-        focus_area: "full",
+        focus_area: "headers",
         headers: {
-          from_name: "GlobalCorp Payroll",
-          from_address: "payroll-admin@globalcorp-portal.com",
-          to: "user@globalcorp.com",
-          date: "Wed, 22 May 2024 14:00:00 GMT",
-          subject: "Action Required: 2024 Benefit Selection Window",
-          reply_to: "payroll-admin@globalcorp-portal.com",
+          from_name: "Corp Payroll Dept",
+          from_address: "payroll@corp-payroll.com",
+          to: "employee@corp.com",
+          date: "Fri, 27 Oct 2023 14:00:00 GMT",
+          subject: "Action Required: Annual Tax Document Review",
+          reply_to: "payroll@corp-payroll.com",
         },
         body: [
           {
             type: "text",
-            content:
-              "Dear Employee,\n\nThe open enrollment window for your 2024 health and dental benefits is now open. To ensure your coverage continues without interruption, please verify your selections in the employee portal by Friday, May 24th.",
+            content: "Dear Employee,",
             href: null,
-            urgent: null,
-          },
-          {
-            type: "button",
-            content: "Access Benefits Portal",
-            href: "https://globalcorp-portal.com/auth/benefits-selection",
             urgent: false,
           },
           {
             type: "text",
-            content: "Regards,\nGlobalCorp Human Resources",
+            content:
+              "The annual tax review for the current fiscal year is now open. Please review your documents and sign the electronic acknowledgement by Friday.",
             href: null,
-            urgent: null,
+            urgent: false,
+          },
+          {
+            type: "button",
+            content: "Access Payroll Portal",
+            href: "https://corp-payroll-portal.com/auth/login",
+            urgent: false,
           },
         ],
         clues: [
           {
-            label: "Domain Discrepancy",
+            label: "Domain Analysis",
             explanation:
-              "The company domain is 'globalcorp.com', but this email comes from 'globalcorp-portal.com'. Attackers often register a separate domain that sounds like a sub-service (like a 'portal') to trick employees.",
+              "The company's official domain is 'corp.com'. The sender is using 'corp-payroll.com', which is a separate registered domain, not a subdomain of 'corp.com'.",
+          },
+          {
+            label: "URL Logic",
+            explanation:
+              "The destination 'corp-payroll-portal.com' is another external domain designed to look internal.",
           },
         ],
         explanation:
-          "This is a hard phishing attempt. The tone is professional, the timing (benefits season) is realistic, and there are no obvious typos. Only a careful check of the domain reveals it is not the official company domain.",
+          "This is a highly polished phish. It avoids urgent language to build trust and uses a domain that looks like a corporate extension. Only a strict check of the root domain (corp.com vs corp-payroll.com) reveals the fraud.",
       },
       {
         id: "email-2",
         is_phishing: false,
-        focus_area: "full",
+        focus_area: "headers",
         headers: {
-          from_name: "GlobalCorp HR",
-          from_address: "hr@globalcorp.com",
-          to: "user@globalcorp.com",
-          date: "Wed, 22 May 2024 14:10:00 GMT",
-          subject: "Annual Performance Review Cycle",
+          from_name: "Corp Payroll Dept",
+          from_address: "payroll@corp.com",
+          to: "employee@corp.com",
+          date: "Fri, 27 Oct 2023 14:10:00 GMT",
+          subject: "Your monthly payslip is now available",
           reply_to: null,
         },
         body: [
           {
             type: "text",
             content:
-              "Hello,\n\nYour manager has submitted your performance review for the last quarter. You can now view the feedback and add your own comments via the internal HR system.",
+              "Hello, your payslip for the period of October 2023 has been uploaded to the employee portal.",
             href: null,
-            urgent: null,
+            urgent: false,
           },
           {
             type: "link",
-            content: "View Review",
-            href: "https://internal.globalcorp.com/hr/performance/review_882",
-            urgent: null,
-          },
-          {
-            type: "text",
-            content: "Thank you,\nHR Department",
-            href: null,
+            content: "View Payslip",
+            href: "https://payroll.corp.com/dashboard",
             urgent: null,
           },
         ],
         clues: [
           {
-            label: "Internal Domain",
+            label: "Subdomain Verification",
             explanation:
-              "The link leads to a subdomain (internal.globalcorp.com) of the actual company domain.",
+              "The link 'payroll.corp.com' is a legitimate subdomain of the primary corporate domain 'corp.com'.",
           },
         ],
         explanation:
-          "This is a legitimate internal communication. It uses the correct primary domain and follows standard corporate communication patterns.",
+          "This is a legitimate internal email. The sender address is exactly on the corporate domain, and the link is a proper subdomain of that same corporate domain.",
       },
     ],
   },
@@ -671,8 +682,8 @@ const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
 
 export const MOCK_GAME_OF_THE_DAY: GameOfTheDay = {
   date: new Date().toISOString().slice(0, 10),
-  question_type: "build_a_password",
-  questions: MOCK_BUILD_PASSWORD_QUESTIONS,
+  question_type: "cookie_banners",
+  // questions: MOCK_MULTIPLE_CHOICE_QUESTIONS,
 };
 
 export const ALL_MOCKS: Record<string, GameOfTheDay> = {

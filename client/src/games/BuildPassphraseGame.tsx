@@ -16,6 +16,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
+import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
 import { evaluatePassphrase } from "../utils/passwordUtils";
 import type { BuildPassphraseQuestion, Difficulty } from "../api/types";
@@ -230,7 +231,8 @@ function PassphraseLevel({
                 variant="caption"
                 sx={{ color: strength.color, fontWeight: 600 }}
               >
-                ~{strength.bits} bits strength · {strength.label}
+                {/* ~{strength.bits} bits strength  */}
+                {strength.label}
               </Typography>
               <Typography
                 variant="caption"
@@ -250,25 +252,30 @@ function PassphraseLevel({
             </Typography>
           )}
 
-          <Box sx={{ display: "flex", gap: 1.5 }}>
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!strength.ready || submitted}
-              onClick={() => setSubmitted(true)}
-              sx={{ minWidth: 140 }}
-            >
-              Lock it in
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={clear}
-              startIcon={<RefreshIcon />}
-              disabled={submitted}
-            >
-              Clear
-            </Button>
-          </Box>
+          {!submitted && (
+            <Box sx={{ display: "flex", gap: 1.5 }}>
+              {phrase.length > 0 && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={!strength.ready}
+                  onClick={() => setSubmitted(true)}
+                  sx={{ minWidth: 140 }}
+                >
+                  Lock it in
+                </Button>
+              )}
+              {phrase.length > 0 && (
+                <Button
+                  variant="outlined"
+                  onClick={clear}
+                  startIcon={<RefreshIcon />}
+                >
+                  Clear
+                </Button>
+              )}
+            </Box>
+          )}
         </CardContent>
       </Card>
 
@@ -334,8 +341,6 @@ export default function BuildPassphraseGame({
         difficulty={activeLevel}
         date={date}
         onBack={() => setActiveLevel(null)}
-        infoTitle="What is a passphrase?"
-        infoContent={INFO_TEXT}
       >
         <Typography
           variant="overline"
@@ -363,8 +368,6 @@ export default function BuildPassphraseGame({
         date={date}
         progress={100}
         onBack={onBack}
-        infoTitle="What is a passphrase?"
-        infoContent={INFO_TEXT}
       >
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
@@ -378,6 +381,14 @@ export default function BuildPassphraseGame({
             Four or more random words beats almost any short complex password.
             And the best part — you can actually remember it.
           </Alert>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onBack}
+            sx={{ mt: 3 }}
+          >
+            Back to home
+          </Button>
         </Box>
       </GameShell>
     );
@@ -389,8 +400,6 @@ export default function BuildPassphraseGame({
       difficulty="easy"
       date={date}
       onBack={onBack}
-      infoTitle="What is a passphrase?"
-      infoContent={INFO_TEXT}
     >
       <Typography
         variant="overline"
@@ -398,13 +407,10 @@ export default function BuildPassphraseGame({
       >
         Today's Challenge
       </Typography>
-      <Typography variant="h2" sx={{ mb: 1 }}>
+      <Typography variant="h2" sx={{ mb: 3 }}>
         Build a Passphrase
       </Typography>
-      <Typography variant="body2" sx={{ mb: 4, maxWidth: 520 }}>
-        Each level gives you a set of words. Combine enough of them to create a
-        passphrase that's long and hard to guess.
-      </Typography>
+      <InfoPanel title="What is a passphrase?" content={INFO_TEXT} />
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,

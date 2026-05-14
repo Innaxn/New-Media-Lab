@@ -25,6 +25,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
+import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
 import type {
   PhishOrLegitQuestion,
@@ -564,6 +565,38 @@ function VerdictPanel({
               </Box>
             ))}
           </Box>
+          <Box sx={{ mb: 2.5 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                mb: 0.625,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "0.625rem",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: "text.disabled",
+                  fontWeight: 700,
+                }}
+              >
+                How confident are you?
+              </Typography>
+              <Typography sx={{ fontSize: "0.75rem", color: "text.secondary" }}>
+                {confidence}%
+              </Typography>
+            </Box>
+            <Slider
+              value={confidence}
+              onChange={(_, v) => setConfidence(v as number)}
+              min={0}
+              max={100}
+              step={5}
+              size="small"
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -765,6 +798,18 @@ function PhishLevel({
           <EmailClient email={current} />
         </Box>
         <Box sx={{ position: { md: "sticky" }, top: { md: 72 } }}>
+          <Typography
+            sx={{
+              fontSize: "0.625rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "text.disabled",
+              fontWeight: 700,
+              mb: 1.5,
+            }}
+          >
+            Your verdict
+          </Typography>
           <VerdictPanel
             key={current.id}
             email={current}
@@ -812,8 +857,6 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
         date={date}
         onBack={() => setActiveLevel(null)}
         maxWidth="lg"
-        infoTitle="What is phishing?"
-        infoContent={INFO_TEXT}
       >
         <Typography
           variant="overline"
@@ -838,8 +881,6 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
         progress={100}
         onBack={onBack}
         maxWidth="lg"
-        infoTitle="What is phishing?"
-        infoContent={INFO_TEXT}
       >
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
@@ -854,6 +895,14 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
             never click links in suspicious emails; type the address yourself
             instead.
           </Alert>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onBack}
+            sx={{ mt: 3 }}
+          >
+            Back to home
+          </Button>
         </Box>
       </GameShell>
     );
@@ -866,8 +915,6 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
       date={date}
       onBack={onBack}
       maxWidth="lg"
-      infoTitle="What is phishing?"
-      infoContent={INFO_TEXT}
     >
       <Typography
         variant="overline"
@@ -875,13 +922,10 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
       >
         Today's Challenge
       </Typography>
-      <Typography variant="h2" sx={{ mb: 1 }}>
+      <Typography variant="h2" sx={{ mb: 3 }}>
         Phish or Real?
       </Typography>
-      <Typography variant="body2" sx={{ mb: 4, maxWidth: 520 }}>
-        You'll see emails that may or may not be scams. Study the sender, links,
-        and wording — then decide: real or fake?
-      </Typography>
+      <InfoPanel title="What is phishing?" content={INFO_TEXT} />
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,

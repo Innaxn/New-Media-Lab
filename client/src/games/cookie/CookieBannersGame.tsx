@@ -26,6 +26,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "../GameShell";
+import { InfoPanel } from "../InfoPanel";
 import { LevelPicker } from "../LevelPicker";
 import type { Difficulty } from "../../api/types";
 
@@ -1945,8 +1946,6 @@ export default function CookieBannersGame({ date, onBack }: Props) {
         difficulty={activeLevel}
         date={date}
         onBack={() => setActiveLevel(null)}
-        infoTitle="What are cookie banners?"
-        infoContent={INFO_TEXT}
       >
         <Typography
           variant="overline"
@@ -1990,8 +1989,6 @@ export default function CookieBannersGame({ date, onBack }: Props) {
         date={date}
         progress={100}
         onBack={onBack}
-        infoTitle="What are cookie banners?"
-        infoContent={INFO_TEXT}
       >
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
@@ -2010,6 +2007,14 @@ export default function CookieBannersGame({ date, onBack }: Props) {
             as easy as accepting them — one click, clearly labelled. If it
             isn't, the site is probably breaking the law.
           </Alert>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onBack}
+            sx={{ mt: 3 }}
+          >
+            Back to home
+          </Button>
         </Box>
       </GameShell>
     );
@@ -2021,8 +2026,6 @@ export default function CookieBannersGame({ date, onBack }: Props) {
       difficulty="easy"
       date={date}
       onBack={onBack}
-      infoTitle="What are cookie banners?"
-      infoContent={INFO_TEXT}
     >
       <Typography
         variant="overline"
@@ -2030,14 +2033,10 @@ export default function CookieBannersGame({ date, onBack }: Props) {
       >
         Today's Challenge
       </Typography>
-      <Typography variant="h2" sx={{ mb: 1 }}>
+      <Typography variant="h2" sx={{ mb: 3 }}>
         Cookie Trap
       </Typography>
-      <Typography variant="body2" sx={{ mb: 4, maxWidth: 540 }}>
-        Every day, three realistic cookie banners — one easy, one medium, one
-        hard. Learn to spot the tricks websites use to make you accept tracking
-        cookies.
-      </Typography>
+      <InfoPanel title="What are cookie banners?" content={INFO_TEXT} />
       <LevelPicker
         levels={[
           {

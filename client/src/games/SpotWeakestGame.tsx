@@ -16,6 +16,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
+import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
 import type { SpotWeakestQuestion, Difficulty } from "../api/types";
 
@@ -56,11 +57,6 @@ function SpotLevel({
       setRevealed(true);
     } else {
       setState("wrong");
-      // Brief highlight then reset — user must try again
-      setTimeout(() => {
-        setState("idle");
-        setSelected(null);
-      }, 1200);
     }
   };
 
@@ -153,7 +149,8 @@ function SpotLevel({
                   >
                     {c.value}
                   </Typography>
-                  <Chip
+                  {/* Removing the bit part */}
+                  {/* <Chip
                     label={c.entropy_label}
                     size="small"
                     sx={{
@@ -163,7 +160,7 @@ function SpotLevel({
                       color: "text.disabled",
                       borderRadius: "4px",
                     }}
-                  />
+                  /> */}
                 </Box>
                 {isSelected && state === "correct" && c.is_weakest && (
                   <Box
@@ -213,13 +210,25 @@ function SpotLevel({
         </CardContent>
       </Card>
 
-      {/* Wrong answer hint — stays visible until they retry */}
+      {/* Wrong answer — stays until user clicks Try again */}
       <Fade in={state === "wrong"}>
         <Box>
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert severity="error" sx={{ mb: 1.5 }}>
             Not quite — try another one. <br />
             <em>Hint: {q.hint}</em>
           </Alert>
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            onClick={() => {
+              setState("idle");
+              setSelected(null);
+            }}
+            sx={{ mb: 2 }}
+          >
+            Try again
+          </Button>
         </Box>
       </Fade>
 
@@ -311,8 +320,6 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
         difficulty={activeLevel}
         date={date}
         onBack={() => setActiveLevel(null)}
-        infoTitle="What makes a password weak?"
-        infoContent={INFO_TEXT}
       >
         <Typography
           variant="overline"
@@ -340,8 +347,6 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
         date={date}
         progress={100}
         onBack={onBack}
-        infoTitle="What makes a password weak?"
-        infoContent={INFO_TEXT}
       >
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
@@ -356,6 +361,14 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
             not computers — hackers already know all these tricks. Random length
             wins every time.
           </Alert>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onBack}
+            sx={{ mt: 3 }}
+          >
+            Back to home
+          </Button>
         </Box>
       </GameShell>
     );
@@ -367,8 +380,6 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
       difficulty="easy"
       date={date}
       onBack={onBack}
-      infoTitle="What makes a password weak?"
-      infoContent={INFO_TEXT}
     >
       <Typography
         variant="overline"
@@ -376,13 +387,10 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
       >
         Today's Challenge
       </Typography>
-      <Typography variant="h2" sx={{ mb: 1 }}>
+      <Typography variant="h2" sx={{ mb: 3 }}>
         Spot the Weakest Password
       </Typography>
-      <Typography variant="body2" sx={{ mb: 4, maxWidth: 520 }}>
-        Each level shows you a group of passwords. Your job: pick the one a
-        hacker would crack first.
-      </Typography>
+      <InfoPanel title="What makes a password weak?" content={INFO_TEXT} />
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,
