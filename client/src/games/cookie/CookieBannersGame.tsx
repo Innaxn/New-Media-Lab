@@ -6,8 +6,6 @@ import {
   Alert,
   Fade,
   Chip,
-  Card,
-  CardContent,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -19,7 +17,6 @@ import {
   ListItemText,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";

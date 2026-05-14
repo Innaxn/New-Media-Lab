@@ -9,7 +9,6 @@ import {
   Fade,
   Button,
   Collapse,
-  LinearProgress,
 } from "@mui/material";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
