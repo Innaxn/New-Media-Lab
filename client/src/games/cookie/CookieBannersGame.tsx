@@ -2736,22 +2736,23 @@ function LevelRunner({
                     : "Cookies rejected! ✓"}
                 </strong>
               </Alert>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => setDebriefOpen(true)}
-                sx={{ mb: 2, mr: 1.5 }}
-              >
-                Read explanation
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                endIcon={<ArrowForwardIcon />}
-                onClick={onComplete}
-              >
-                Continue
-              </Button>
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => setDebriefOpen(true)}
+                >
+                  Read explanation
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<ArrowForwardIcon />}
+                  onClick={onComplete}
+                >
+                  Continue
+                </Button>
+              </Box>
             </>
           )}
           {result === "lost" && (
@@ -2776,9 +2777,9 @@ function LevelRunner({
               >
                 Try again
               </Button>
-              <Button variant="text" onClick={onComplete} sx={{ mb: 2 }}>
+              {/* <Button variant="text" onClick={onComplete} sx={{ mb: 2 }}>
                 Skip this level
-              </Button>
+              </Button> */}
             </>
           )}
         </Box>
