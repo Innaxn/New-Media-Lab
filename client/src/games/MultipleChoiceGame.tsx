@@ -18,6 +18,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
+import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
 import type { MultipleChoiceQuestion, Difficulty } from "../api/types";
 
@@ -273,8 +274,6 @@ function LevelRunner({
       date={date}
       progress={progress}
       onBack={onBack}
-      infoTitle="What is this quiz about?"
-      infoContent={INFO_TEXT}
     >
       <Box
         sx={{
@@ -378,8 +377,6 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
         date={date}
         progress={100}
         onBack={onBack}
-        infoTitle="What is this quiz about?"
-        infoContent={INFO_TEXT}
       >
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
@@ -393,6 +390,14 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
             Knowing your rights online is the first step to protecting yourself.
             Come back tomorrow for new questions.
           </Alert>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onBack}
+            sx={{ mt: 3 }}
+          >
+            Back to home
+          </Button>
         </Box>
       </GameShell>
     );
@@ -405,8 +410,6 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
       difficulty="easy"
       date={date}
       onBack={onBack}
-      infoTitle="What is this quiz about?"
-      infoContent={INFO_TEXT}
     >
       <Typography
         variant="overline"
@@ -414,13 +417,10 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
       >
         Today's Challenge
       </Typography>
-      <Typography variant="h2" sx={{ mb: 1 }}>
+      <Typography variant="h2" sx={{ mb: 3 }}>
         Privacy Quiz
       </Typography>
-      <Typography variant="body2" sx={{ mb: 4, maxWidth: 520 }}>
-        Questions about how your personal data is used and protected online. No
-        jargon — just everyday situations.
-      </Typography>
+      <InfoPanel title="What is this quiz about?" content={INFO_TEXT} />
       <LevelPicker
         levels={availableLevels.map((d) => ({
           difficulty: d,

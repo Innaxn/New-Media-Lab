@@ -1,0 +1,71 @@
+{
+  "date": "2023-10-27",
+  "question_type": "multiple_choice",
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "question": "Which of the following is considered the strongest and most secure password?",
+      "options": [
+        "12345678",
+        "password123",
+        "MyDogName",
+        "K#p9!vR2zL"
+      ],
+      "correct_index": 3,
+      "hint": "Look for a combination of uppercase, lowercase, numbers, and special characters."
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": "What is the safest action to take when you receive an unexpected email asking you to click a link to verify your account details?",
+      "options": [
+        "Click the link immediately to fix the account",
+        "Reply to the email asking who sent it",
+        "Delete the email or report it as phishing",
+        "Forward the email to all your contacts"
+      ],
+      "correct_index": 2,
+      "hint": "Legitimate companies will rarely ask for sensitive info via an unexpected link in an email."
+    },
+    {
+      "id": 3,
+      "difficulty": "medium",
+      "question": "What is the primary purpose of enabling Two-Factor Authentication (2FA) on your accounts?",
+      "options": [
+        "To make the login process faster",
+        "To add a second layer of security beyond just a password",
+        "To encrypt all the files on your hard drive",
+        "To hide your browsing history from your internet provider"
+      ],
+      "correct_index": 1,
+      "hint": "It requires two different forms of identification to prove who you are."
+    },
+    {
+      "id": 4,
+      "difficulty": "medium",
+      "question": "Why is it generally discouraged to access sensitive information, like online banking, using public Wi-Fi?",
+      "options": [
+        "Public Wi-Fi is always slower than home Wi-Fi",
+        "Public Wi-Fi uses a different version of the internet",
+        "Unencrypted public networks can allow attackers to intercept your data",
+        "Banking apps do not work on public Wi-Fi networks"
+      ],
+      "correct_index": 2,
+      "hint": "Open networks often lack encryption, making the data traveling through them visible to others."
+    },
+    {
+      "id": 5,
+      "difficulty": "hard",
+      "question": "Under the General Data Protection Regulation (GDPR), what does the 'Right to Erasure' specifically allow individuals to do?",
+      "options": [
+        "Delete their entire browsing history from their local computer",
+        "Request that an organization delete their personal data under certain conditions",
+        "Permanently block a specific website from accessing the internet",
+        "Force a company to stop charging them for a subscription"
+      ],
+      "correct_index": 1,
+      "hint": "This is often referred to as the 'Right to be Forgotten'."
+    }
+  ]
+}

@@ -25,6 +25,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
+import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
 import type {
   PhishOrLegitQuestion,
@@ -688,37 +689,6 @@ function VerdictPanel({
               </List>
             </Box>
 
-            {isCorrect && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  bgcolor: alpha(p.primary, 0.08),
-                  border: `1px solid ${alpha(p.primary, 0.25)}`,
-                  borderRadius: "8px",
-                  px: 2,
-                  py: 1,
-                  mb: 2,
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: 800,
-                    fontSize: "1.375rem",
-                    color: p.primary,
-                  }}
-                >
-                  +{email.xp_reward}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: "0.8125rem", color: "text.secondary" }}
-                >
-                  XP earned
-                </Typography>
-              </Box>
-            )}
-
             <Button
               variant="contained"
               color="primary"
@@ -748,12 +718,10 @@ function PhishLevel({
   const theme = useTheme();
   const p = theme.palette.gh;
   const [emailIdx, setEmailIdx] = useState(0);
-  const [xp, setXP] = useState(0);
   const [done, setDone] = useState(false);
 
   const handleNext = useCallback(
     (correct: boolean) => {
-      if (correct) setXP((x) => x + q.emails[emailIdx].xp_reward);
       if (emailIdx < q.emails.length - 1) setEmailIdx((i) => i + 1);
       else setDone(true);
     },
@@ -766,9 +734,6 @@ function PhishLevel({
         <EmojiEventsIcon sx={{ fontSize: 48, color: p.primary, mb: 1.5 }} />
         <Typography variant="h3" sx={{ mb: 0.5 }}>
           Level complete!
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
-          XP earned this level: {xp}
         </Typography>
         <Button
           variant="contained"
@@ -892,8 +857,6 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
         date={date}
         onBack={() => setActiveLevel(null)}
         maxWidth="lg"
-        infoTitle="What is phishing?"
-        infoContent={INFO_TEXT}
       >
         <Typography
           variant="overline"
@@ -918,8 +881,6 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
         progress={100}
         onBack={onBack}
         maxWidth="lg"
-        infoTitle="What is phishing?"
-        infoContent={INFO_TEXT}
       >
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
@@ -934,6 +895,14 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
             never click links in suspicious emails; type the address yourself
             instead.
           </Alert>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onBack}
+            sx={{ mt: 3 }}
+          >
+            Back to home
+          </Button>
         </Box>
       </GameShell>
     );
@@ -946,8 +915,6 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
       date={date}
       onBack={onBack}
       maxWidth="lg"
-      infoTitle="What is phishing?"
-      infoContent={INFO_TEXT}
     >
       <Typography
         variant="overline"
@@ -955,13 +922,10 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
       >
         Today's Challenge
       </Typography>
-      <Typography variant="h2" sx={{ mb: 1 }}>
+      <Typography variant="h2" sx={{ mb: 3 }}>
         Phish or Real?
       </Typography>
-      <Typography variant="body2" sx={{ mb: 4, maxWidth: 520 }}>
-        You'll see emails that may or may not be scams. Study the sender, links,
-        and wording — then decide: real or fake?
-      </Typography>
+      <InfoPanel title="What is phishing?" content={INFO_TEXT} />
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,

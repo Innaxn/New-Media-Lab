@@ -61,7 +61,7 @@ class Result(Generic[T, E]):
 
     def tap_err(self, f: Callable[[E], None]) -> "Result[A, E]": 
         if self.is_err():
-            f(self.unwrap())
+            f(self.unwrap_err())
         return self; 
 
     def __repr__(self):

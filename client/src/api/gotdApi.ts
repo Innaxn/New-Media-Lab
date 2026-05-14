@@ -5,8 +5,9 @@ import type {
   SpotWeakestQuestion,
   PhishOrLegitQuestion,
   MultipleChoiceQuestion,
-  CookieBannersQuestion,
 } from "./types";
+
+// ─── Fetch ────────────────────────────────────────────────────────────────────
 
 export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
   const url = process.env.REACT_APP_SECRET_NAME as string | undefined;
@@ -28,173 +29,214 @@ export async function fetchGameOfTheDay(): Promise<GameOfTheDay> {
 }
 
 // ─── Mock: Build a Password ───────────────────────────────────────────────────
+
 const MOCK_BUILD_PASSWORD_QUESTIONS: BuildPasswordQuestion[] = [
   {
-    id: 1,
-    difficulty: "easy",
-    question: "Create a password that satisfies all the rules below.",
+    question: "Build the password adhering to the rules",
     rules: [
-      { regex: ".{8,}", description: "8+ characters" },
-      { regex: "[A-Z]", description: "At least one uppercase letter" },
-      { regex: "[0-9]", description: "At least one number" },
-    ],
-  },
-  {
-    id: 2,
-    difficulty: "medium",
-    question: "Level up — more rules, stronger password.",
-    rules: [
-      { regex: ".{12,}", description: "12+ characters" },
-      { regex: "[A-Z]", description: "Uppercase letter" },
-      { regex: "[a-z]", description: "Lowercase letter" },
-      { regex: "[0-9]", description: "Number" },
-      { regex: "[^A-Za-z0-9]", description: "Special character (!@#$…)" },
-    ],
-  },
-  {
-    id: 3,
-    difficulty: "hard",
-    question: "Expert mode — avoid common words too.",
-    rules: [
-      { regex: ".{16,}", description: "16+ characters" },
-      { regex: "[A-Z]", description: "Uppercase letter" },
-      { regex: "[a-z]", description: "Lowercase letter" },
-      { regex: "[0-9]", description: "Number" },
-      { regex: "[^A-Za-z0-9]", description: "Special character" },
       {
-        regex: "^(?!.*(password|qwerty|123456|admin|letmein))",
-        description: "No common words",
+        regex: "[a-z]",
+        description: "At least one lowercase letter",
+      },
+      {
+        regex: "\\d",
+        description: "At least one number",
       },
     ],
+    difficulty: "easy",
+  },
+  {
+    question: "Build the password adhering to the rules (medium)",
+    rules: [
+      {
+        regex: '^[A-Za-z0-9].*[!@#$%^&*(),.?\\":{}|<>].*[A-Za-z0-9]$',
+        description: "Must contain a special character not at the start or end",
+      },
+      {
+        regex: "^[A-Za-z0-9].*[A-Za-z0-9]$",
+        description: "No special characters at start or end",
+      },
+      {
+        regex: "^(?!.*(.)\\1\\1).*$",
+        description: "Must not have a character repeated 3+ times",
+      },
+      {
+        regex: ".{8,}",
+        description: "At least 8 characters",
+      },
+    ],
+    difficulty: "medium",
+  },
+  {
+    question: "Build the password adhering to the rules (hard)",
+    rules: [
+      {
+        regex: "^.{15,}$",
+        description: "Total length must be at least 15 characters",
+      },
+      {
+        regex:
+          '^[^\\s]+ [^\\s]*[!@#$%^&*(),.?\\":{}|<>][^\\s]* [^\\s]+ [^\\s]+$',
+        description:
+          "Must contain at least one special character in the middle (not first or last word)",
+      },
+      {
+        regex: "^[^\\s]+ [^\\s]+$",
+        description: "Must be exactly 2 words",
+      },
+      {
+        regex: '^(?=.*[!@#$%^&*(),.?\\":{}|<>])(?=.*\\d).+$',
+        description:
+          "Must contain at least one special character and one digit",
+      },
+      {
+        regex: "^(?!\\d)(?:\\S+ )(?!\\d)(?:\\S+ )(?!\\d)(?:\\S+ )(?!\\d)\\S+$",
+        description: "No word may start with a digit",
+      },
+    ],
+    difficulty: "hard",
   },
 ];
 
-// ─── Mock: Spot the Weakest ───────────────────────────────────────────────────
+// ─── Mock: Spot the Weakest DONE───────────────────────────────────────────────────
 
 const MOCK_SPOT_WEAKEST_QUESTIONS: SpotWeakestQuestion[] = [
   {
     id: 1,
     difficulty: "easy",
-    scenario:
-      "These passwords were found in a data breach. Which would a hacker crack first?",
+    scenario: "A user is setting up a temporary password for a guest account.",
+    hint: "Look for the most common, predictable sequences used by millions of people.",
     candidates: [
       {
         id: "c1",
-        value: "password1",
+        value: "password123",
         is_weakest: true,
-        explanation: "Top of every leaked list — cracked in milliseconds.",
-        entropy_label: "~6 bits",
+        explanation:
+          "This is one of the most common passwords globally and is found in every basic cracking dictionary.",
+        entropy_label: "~20 bits",
       },
       {
         id: "c2",
-        value: "Tr0ub4dor",
+        value: "jK9#mN2!p",
         is_weakest: false,
         explanation:
-          "Symbol substitution looks complex but is very predictable.",
-        entropy_label: "~28 bits",
+          "A random mix of characters provides high entropy and is resistant to dictionary attacks.",
+        entropy_label: "~60 bits",
       },
       {
         id: "c3",
-        value: "xkQ$8mN!vP",
+        value: "Purple-Rain-Cloudy",
         is_weakest: false,
-        explanation: "10 truly random characters — hard to crack.",
-        entropy_label: "~65 bits",
+        explanation:
+          "Passphrases using unrelated words are long and difficult for computers to guess, despite being easy for humans to remember.",
+        entropy_label: "~75 bits",
+      },
+      {
+        id: "c4",
+        value: "zP9vR3mK",
+        is_weakest: false,
+        explanation:
+          "High randomness and lack of dictionary words make this a strong candidate.",
+        entropy_label: "~45 bits",
       },
     ],
-    hint: "Which password appears in every leaked credential list?",
   },
   {
     id: 2,
     difficulty: "medium",
     scenario:
-      "Four passwords from a company breach. Which is easiest to crack?",
+      "An employee is creating a corporate password for their internal workstation.",
+    hint: "Attackers often target patterns that combine a known entity (like a company name) with a current date.",
     candidates: [
       {
         id: "c1",
-        value: "Company2024!",
+        value: "Globex2024!",
         is_weakest: true,
         explanation:
-          "Company name + year is the most predictable corporate pattern.",
-        entropy_label: "~18 bits",
+          "The 'Company + Year + Symbol' pattern is highly predictable and is a primary target for corporate credential stuffing attacks.",
+        entropy_label: "~35 bits",
       },
       {
         id: "c2",
-        value: "Tr0ub4dor&3",
+        value: "vP2#zR8!kL",
         is_weakest: false,
-        explanation: "Known pattern — weakens it.",
-        entropy_label: "~28 bits",
+        explanation:
+          "Random characters without a predictable pattern offer strong protection.",
+        entropy_label: "~60 bits",
       },
       {
         id: "c3",
-        value: "xkQ$8mN!vPz2",
+        value: "Blue-Ocean-Deep-99",
         is_weakest: false,
-        explanation: "12 truly random characters — high strength.",
-        entropy_label: "~72 bits",
+        explanation:
+          "Combining a long passphrase with a number significantly increases the effort required to crack it.",
+        entropy_label: "~80 bits",
       },
       {
         id: "c4",
-        value: "correct-horse-battery-staple",
+        value: "mK7-pL2-xS9",
         is_weakest: false,
-        explanation: "Long passphrase — very hard to crack.",
-        entropy_label: "~44 bits",
+        explanation:
+          "Segmented random strings avoid dictionary patterns and are quite strong.",
+        entropy_label: "~50 bits",
       },
     ],
-    hint: "Company name + year patterns are always the first thing attackers try.",
   },
   {
     id: 3,
     difficulty: "hard",
     scenario:
-      "All four look strong at first glance. Which one is actually the weakest?",
+      "An IT professional wants a 'complex' password that meets all character requirements.",
+    hint: "Don't be fooled by symbols; common character substitutions (Leet-speak) are easily calculated by modern cracking tools.",
     candidates: [
       {
         id: "c1",
-        value: "P@$$w0rd!23",
+        value: "S3cur1ty2024!",
         is_weakest: true,
         explanation:
-          "Classic substitutions are in every dictionary attack wordlist.",
-        entropy_label: "~20 bits effective",
+          "While it looks complex, 'Leet-speak' (3 for e, 1 for i) and the addition of a year are standard rules in cracking software, making it very weak.",
+        entropy_label: "~40 bits",
       },
       {
         id: "c2",
-        value: "correct-horse-staple-44",
+        value: "kS7#mN2@pX",
         is_weakest: false,
-        explanation: "Long passphrase — centuries to crack.",
-        entropy_label: "~52 bits",
+        explanation:
+          "True randomness is far superior to 'complexity' based on substitutions.",
+        entropy_label: "~60 bits",
       },
       {
         id: "c3",
-        value: "zt9!Kw#mP2qL",
+        value: "Forest-Wind-Silent-Moon",
         is_weakest: false,
-        explanation: "12 truly random characters.",
-        entropy_label: "~78 bits",
+        explanation:
+          "Length is the most important factor in entropy. A long passphrase outweighs complex characters.",
+        entropy_label: "~90 bits",
       },
       {
         id: "c4",
-        value: "piano-eagle-7-river-!",
+        value: "zP9-vR3-mK7",
         is_weakest: false,
-        explanation: "5-word passphrase with symbol — very strong.",
-        entropy_label: "~60 bits",
+        explanation:
+          "Avoids dictionary words and predictable sequences, providing a high level of security.",
+        entropy_label: "~55 bits",
       },
     ],
-    hint: "Symbol substitutions like @ for a and $ for s are in every attacker's dictionary.",
   },
 ];
 
-// ─── Mock: Build a Passphrase ─────────────────────────────────────────────────
-
+// ─── Mock: Build a Passphrase DONE─────────────────────────────────────────────────
 const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
   {
     id: 1,
     difficulty: "easy",
     word_bank: [
-      "purple",
-      "bicycle",
-      "lamp",
-      "cloud",
-      "socks",
-      "melon",
-      "tiger",
+      "remock",
+      "maronite",
+      "inlying",
+      "beulah",
+      "adage",
+      "floricin",
       "3",
       "!",
     ],
@@ -207,18 +249,16 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
     id: 2,
     difficulty: "medium",
     word_bank: [
-      "purple",
-      "bicycle",
-      "friday",
-      "lamp",
-      "tiger",
-      "cloud",
-      "rocket",
-      "socks",
-      "dancing",
-      "melon",
-      "silver",
-      "mountain",
+      "kame",
+      "araroba",
+      "hydatid",
+      "olykoek",
+      "fluidize",
+      "sluice",
+      "birching",
+      "catchy",
+      "formene",
+      "geotonic",
       "3",
       "7",
       "!",
@@ -232,24 +272,20 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
     id: 3,
     difficulty: "hard",
     word_bank: [
-      "purple",
-      "bicycle",
-      "friday",
-      "lamp",
-      "tiger",
-      "cloud",
-      "rocket",
-      "socks",
-      "dancing",
-      "melon",
-      "silver",
-      "mountain",
-      "pepper",
-      "echo",
-      "bridge",
-      "candle",
-      "pigeon",
-      "anchor",
+      "meethelp",
+      "limbo",
+      "unfired",
+      "gallet",
+      "cadbote",
+      "digynian",
+      "kurdish",
+      "neiper",
+      "monodize",
+      "serology",
+      "dumontia",
+      "sabazios",
+      "kroner",
+      "tuna",
       "3",
       "7",
       "!",
@@ -262,66 +298,117 @@ const MOCK_BUILD_PASSPHRASE_QUESTIONS: BuildPassphraseQuestion[] = [
   },
 ];
 
-// ─── Mock: Phish or Legit ─────────────────────────────────────────────────────
+// ─── Mock: Phish or Legit DONE ─────────────────────────────────────────────────────
 
 const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
   {
     id: 1,
     difficulty: "easy",
-    instruction: "Examine the sender address. Is this email legitimate?",
+    instruction:
+      "Compare these two Amazon-themed emails. Which one is a phishing attempt?",
     teaching_point:
-      "Always check the actual sender domain — not just the display name.",
+      "Spotting obvious red flags like generic greetings, mismatched domains (gmail.com), and non-HTTPS links.",
     emails: [
       {
-        id: "ph-easy-1",
+        id: "email-1",
         is_phishing: true,
-        focus_area: "headers",
+        focus_area: "full",
         headers: {
-          from_name: "ING Bank",
-          from_address: "noreply@ing-secure-alerts.com",
-          reply_to: "support@ing-phish.ru",
-          to: "j.vandenberg@gmail.com",
-          date: "Fri, 14 Mar 2025 08:42:11 +0100",
-          subject: "Your account has been temporarily locked",
+          from_name: "Amazon Support",
+          from_address: "amazon-security-alert@gmail.com",
+          to: "user@example.com",
+          date: "Fri, 27 Oct 2023 10:00:00 GMT",
+          subject: "URGENT: Your account has been locked!",
+          reply_to: "amazon-security-alert@gmail.com",
         },
-        clues: [
+        body: [
           {
-            label: "Spoofed domain",
-            explanation:
-              "Real ING emails come from @ing.nl. ing-secure-alerts.com is a lookalike.",
+            type: "text",
+            content: "Dear Customer,",
+            href: null,
+            urgent: false,
           },
           {
-            label: "Suspicious Reply-To",
-            explanation: "Replies route to a .ru domain — unrelated to ING.",
+            type: "text",
+            content:
+              "We detected unusual activity on your account. To prevent permanent deletion, you must verify your identity immediately.",
+            href: null,
+            urgent: true,
+          },
+          {
+            type: "button",
+            content: "Verify Account Now",
+            href: "http://amazon-update-center.info/login",
+            urgent: true,
+          },
+        ],
+        clues: [
+          {
+            label: "Sender Address",
+            explanation:
+              "Amazon would never use a @gmail.com address for official account security alerts.",
+          },
+          {
+            label: "Greeting",
+            explanation:
+              "Generic greetings like 'Dear Customer' are common in mass phishing campaigns.",
+          },
+          {
+            label: "Link URL",
+            explanation:
+              "The link uses 'http' instead of 'https' and the domain 'amazon-update-center.info' is not an official Amazon domain.",
           },
         ],
         explanation:
-          "Classic bank impersonation. The domain and Reply-To mismatch confirm phishing.",
-        xp_reward: 40,
+          "This email is a textbook example of phishing: it uses a free email provider, a generic greeting, high urgency, and a suspicious non-secure link.",
       },
       {
-        id: "ph-easy-2",
+        id: "email-2",
         is_phishing: false,
-        focus_area: "headers",
+        focus_area: "full",
         headers: {
-          from_name: "GitHub",
-          from_address: "noreply@github.com",
+          from_name: "Amazon.com",
+          from_address: "no-reply@amazon.com",
           to: "user@example.com",
-          date: "Thu, 13 Mar 2025 16:03:45 +0000",
-          subject: "[GitHub] A new SSH key was added to your account",
+          date: "Fri, 27 Oct 2023 10:05:00 GMT",
+          subject: "Your Amazon.com order has shipped",
+          reply_to: null,
         },
-        clues: [
+        body: [
           {
-            label: "Verified domain",
-            explanation: "noreply@github.com is GitHub's real domain.",
+            type: "text",
+            content: "Hello Sarah,",
+            href: null,
+            urgent: false,
           },
           {
-            label: "No Reply-To trick",
-            explanation: "No separate Reply-To — replies stay on github.com.",
+            type: "text",
+            content:
+              "Great news! Your order #123-456789 has been shipped and is on its way to you.",
+            href: null,
+            urgent: false,
+          },
+          {
+            type: "link",
+            content: "Track your package",
+            href: "https://www.amazon.com/gp/your-account/order-history",
+            urgent: null,
           },
         ],
-        explanation: "Legitimate GitHub security notification.",
-        xp_reward: 40,
+        clues: [
+          {
+            label: "Sender Address",
+            explanation:
+              "The email comes from the official @amazon.com domain.",
+          },
+          {
+            label: "Personalization",
+            explanation:
+              "The email uses the customer's actual name ('Sarah') rather than a generic greeting.",
+          },
+        ],
+        explanation:
+          "This is a legitimate transactional email. It uses the correct domain, personalized greeting, and a secure HTTPS link to the official website.",
       },
     ],
   },
@@ -329,106 +416,95 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
     id: 2,
     difficulty: "medium",
     instruction:
-      "Read the email body. Hover over links to see where they actually go.",
+      "One of these DHL shipment alerts is fake. Can you find the subtle clue?",
     teaching_point:
-      "Hover over links before clicking — the real URL often reveals the truth.",
+      "Identifying 'look-alike' domains and professional-looking but fraudulent URLs.",
     emails: [
       {
-        id: "ph-med-1",
+        id: "email-1",
         is_phishing: true,
         focus_area: "full",
         headers: {
-          from_name: "DigiD",
-          from_address: "beveiliging@digid-verificatie.com",
-          to: "user@example.nl",
-          date: "Thu, 13 Mar 2025 22:11:44 +0100",
-          subject: "Uw DigiD account is geblokkeerd",
-        },
-        body: [
-          { type: "text", content: "Geachte gebruiker," },
-          {
-            type: "text",
-            content: "Uw DigiD-account is tijdelijk geblokkeerd.",
-            urgent: true,
-          },
-          {
-            type: "button",
-            content: "Deblokkeer mijn DigiD",
-            href: "http://digid-verificatie.com/deblokkeer",
-          },
-          {
-            type: "text",
-            content: "Actie vereist binnen 12 uur.",
-            urgent: true,
-          },
-        ],
-        clues: [
-          {
-            label: "Lookalike domain",
-            explanation:
-              "Real DigiD is @digid.nl. digid-verificatie.com is a fake.",
-          },
-          {
-            label: "HTTP link",
-            explanation:
-              "No legitimate government service uses HTTP for login pages.",
-          },
-          {
-            label: "12-hour threat",
-            explanation:
-              "Government agencies never delete accounts by email within hours.",
-          },
-        ],
-        explanation:
-          "DigiD phishing — domain, HTTP link and urgency all confirm it.",
-        xp_reward: 60,
-      },
-      {
-        id: "ph-med-2",
-        is_phishing: false,
-        focus_area: "full",
-        headers: {
-          from_name: "LinkedIn",
-          from_address: "messages-noreply@linkedin.com",
+          from_name: "DHL Express",
+          from_address: "shipping-updates@dhl-parcel-tracking.net",
           to: "user@example.com",
-          date: "Mon, 10 Mar 2025 10:00:00 +0000",
-          subject: "You appeared in 12 searches this week",
+          date: "Fri, 27 Oct 2023 11:20:00 GMT",
+          subject: "Delivery Notification: Package Pending",
+          reply_to: "support@dhl-parcel-tracking.net",
         },
         body: [
-          { type: "text", content: "Hi there," },
           {
             type: "text",
             content:
-              "Your profile is getting attention — 12 searches this week.",
+              "Your shipment is currently on hold at our sorting center due to an incomplete delivery address.",
+            href: null,
+            urgent: false,
+          },
+          {
+            type: "text",
+            content:
+              "Please update your shipping details to avoid the package being returned to the sender.",
+            href: null,
+            urgent: true,
           },
           {
             type: "button",
-            content: "View who viewed your profile",
-            href: "https://www.linkedin.com/notifications/?filter=all",
-          },
-          {
-            type: "link",
-            content: "Unsubscribe",
-            href: "https://www.linkedin.com/psettings/email",
+            content: "Update Address",
+            href: "https://dhl-delivery-status.com/update-info",
+            urgent: true,
           },
         ],
         clues: [
           {
-            label: "Real domain",
+            label: "Sender Domain",
             explanation:
-              "messages-noreply@linkedin.com is a verified LinkedIn domain.",
+              "The domain 'dhl-parcel-tracking.net' is a look-alike. Official DHL emails typically come from 'dhl.com'.",
           },
           {
-            label: "HTTPS links",
-            explanation: "Both links resolve to www.linkedin.com over HTTPS.",
-          },
-          {
-            label: "No credentials",
-            explanation: "Nothing requested — passive notification only.",
+            label: "URL Destination",
+            explanation:
+              "The link points to 'dhl-delivery-status.com', which is not the official DHL corporate domain.",
           },
         ],
-        explanation: "Legitimate LinkedIn notification.",
-        xp_reward: 60,
+        explanation:
+          "This is a medium-difficulty phish. It uses HTTPS and a professional tone, but the domain is a look-alike designed to trick users who don't check the exact domain name.",
+      },
+      {
+        id: "email-2",
+        is_phishing: false,
+        focus_area: "full",
+        headers: {
+          from_name: "DHL Express",
+          from_address: "noreply@dhl.com",
+          to: "user@example.com",
+          date: "Fri, 27 Oct 2023 11:25:00 GMT",
+          subject: "Your DHL Express shipment is arriving today",
+          reply_to: null,
+        },
+        body: [
+          {
+            type: "text",
+            content:
+              "Your package with tracking number 10001234567890 is out for delivery and is expected to arrive by 6 PM today.",
+            href: null,
+            urgent: false,
+          },
+          {
+            type: "link",
+            content: "View shipment details",
+            href: "https://www.dhl.com/en/express/tracking.html",
+            urgent: null,
+          },
+        ],
+        clues: [
+          {
+            label: "Domain Verification",
+            explanation:
+              "The sender and the link both use the official and verified 'dhl.com' domain.",
+          },
+        ],
+        explanation:
+          "This is a legitimate notification. The domain is the exact corporate domain of the company, and there are no requests for personal information or urgent payment.",
       },
     ],
   },
@@ -436,166 +512,178 @@ const MOCK_PHISH_QUESTIONS: PhishOrLegitQuestion[] = [
     id: 3,
     difficulty: "hard",
     instruction:
-      "Analyse everything — headers and body. Some emails look very polished.",
+      "These corporate emails look identical in style. Inspect the headers and domains carefully.",
     teaching_point:
-      "Spear phishing uses your real name and company details. The only reliable indicator is often the sender domain.",
+      "Detecting high-fidelity phishing through precise domain analysis (subdomains vs. main domains).",
     emails: [
       {
-        id: "ph-hard-1",
+        id: "email-1",
         is_phishing: true,
-        focus_area: "full",
+        focus_area: "headers",
         headers: {
-          from_name: "IT Helpdesk — Radboud University",
-          from_address: "helpdesk@ru-ict-support.nl",
-          to: "i.georgieva@radboud.nl",
-          date: "Fri, 14 Mar 2025 09:15:03 +0100",
-          subject: "Action required: Email quota exceeded (92%)",
+          from_name: "Corp Payroll Dept",
+          from_address: "payroll@corp-payroll.com",
+          to: "employee@corp.com",
+          date: "Fri, 27 Oct 2023 14:00:00 GMT",
+          subject: "Action Required: Annual Tax Document Review",
+          reply_to: "payroll@corp-payroll.com",
         },
         body: [
-          { type: "text", content: "Dear Ivelina," },
+          {
+            type: "text",
+            content: "Dear Employee,",
+            href: null,
+            urgent: false,
+          },
           {
             type: "text",
             content:
-              "Your account has reached 92% storage. Act within 48 hours.",
-            urgent: true,
+              "The annual tax review for the current fiscal year is now open. Please review your documents and sign the electronic acknowledgement by Friday.",
+            href: null,
+            urgent: false,
           },
           {
             type: "button",
-            content: "Request Storage Extension",
-            href: "https://ru-ict-support.nl/quota-extend?token=a8f2c1",
-          },
-          {
-            type: "text",
-            content: "ICT Helpdesk — Radboud University, Houtlaan 4, Nijmegen",
+            content: "Access Payroll Portal",
+            href: "https://corp-payroll-portal.com/auth/login",
+            urgent: false,
           },
         ],
         clues: [
           {
-            label: "Lookalike domain",
+            label: "Domain Analysis",
             explanation:
-              "Radboud's real domain is ru.nl. ru-ict-support.nl is a separately registered fake.",
+              "The company's official domain is 'corp.com'. The sender is using 'corp-payroll.com', which is a separate registered domain, not a subdomain of 'corp.com'.",
           },
           {
-            label: "Spear phishing",
+            label: "URL Logic",
             explanation:
-              "Uses your real name and university address — harvested from public sources.",
-          },
-          {
-            label: "48-hour pressure",
-            explanation:
-              "ICT departments send warnings well in advance. Urgent links are not a helpdesk workflow.",
+              "The destination 'corp-payroll-portal.com' is another external domain designed to look internal.",
           },
         ],
         explanation:
-          "Sophisticated spear phishing. Uses real name and address — but the domain is ru-ict-support.nl, not ru.nl.",
-        xp_reward: 80,
+          "This is a highly polished phish. It avoids urgent language to build trust and uses a domain that looks like a corporate extension. Only a strict check of the root domain (corp.com vs corp-payroll.com) reveals the fraud.",
       },
       {
-        id: "ph-hard-2",
+        id: "email-2",
         is_phishing: false,
-        focus_area: "full",
+        focus_area: "headers",
         headers: {
-          from_name: "Radboud University",
-          from_address: "noreply@ru.nl",
-          to: "i.georgieva@radboud.nl",
-          date: "Wed, 12 Mar 2025 09:00:00 +0100",
-          subject: "Reminder: thesis submission deadline — 28 March",
+          from_name: "Corp Payroll Dept",
+          from_address: "payroll@corp.com",
+          to: "employee@corp.com",
+          date: "Fri, 27 Oct 2023 14:10:00 GMT",
+          subject: "Your monthly payslip is now available",
+          reply_to: null,
         },
         body: [
-          { type: "text", content: "Dear Ivelina," },
           {
             type: "text",
             content:
-              "Reminder: thesis submission deadline is 28 March 2025 at 23:59.",
+              "Hello, your payslip for the period of October 2023 has been uploaded to the employee portal.",
+            href: null,
+            urgent: false,
           },
           {
-            type: "button",
-            content: "Go to Student Portal",
-            href: "https://www.ru.nl/students/thesis-portal",
+            type: "link",
+            content: "View Payslip",
+            href: "https://payroll.corp.com/dashboard",
+            urgent: null,
           },
-          { type: "text", content: "Questions? Contact student@ru.nl." },
         ],
         clues: [
           {
-            label: "Real ru.nl domain",
-            explanation: "noreply@ru.nl is Radboud's verified sending domain.",
-          },
-          {
-            label: "HTTPS portal link",
+            label: "Subdomain Verification",
             explanation:
-              "Button resolves to https://www.ru.nl — same domain as sender.",
-          },
-          {
-            label: "No urgency tricks",
-            explanation: "Calm, specific, with a real contact address.",
+              "The link 'payroll.corp.com' is a legitimate subdomain of the primary corporate domain 'corp.com'.",
           },
         ],
-        explanation: "Legitimate Radboud notification.",
-        xp_reward: 80,
+        explanation:
+          "This is a legitimate internal email. The sender address is exactly on the corporate domain, and the link is a proper subdomain of that same corporate domain.",
       },
     ],
   },
 ];
 
-// ─── Mock: Multiple Choice ────────────────────────────────────────────────────
-// Note: two easy questions to demonstrate multi-question-per-difficulty support
-
+// ─── Mock: Multiple Choice DONE ────────────────────────────────────────────────────
 const MOCK_MULTIPLE_CHOICE_QUESTIONS: MultipleChoiceQuestion[] = [
   {
     id: 1,
     difficulty: "easy",
-    question: "What does GDPR stand for?",
+    question:
+      "Which of the following is the best practice for creating a strong password?",
     options: [
-      "General Data Protection Regulation",
-      "Global Digital Privacy Rules",
-      "Government Data Processing Rights",
-      "General Digital Privacy Regulation",
+      "Using your date of birth",
+      "Using a mix of uppercase letters, lowercase letters, numbers, and symbols",
+      "Using the word 'password123'",
+      "Using your pet's name",
     ],
-    correct_index: 0,
-    hint: 'It\'s a European Union regulation — think "regulation", not "rules".',
+    correct_index: 1,
+    hint: "Complexity makes it much harder for hackers to guess your password.",
   },
   {
     id: 2,
     difficulty: "easy",
-    question: "Which of the following is considered the strongest password?",
-    options: ["Password123", "12345678", "qwertyuiop", "G7#kP2!sX9"],
-    correct_index: 3,
-    hint: "A strong password uses a mix of uppercase, lowercase, numbers, and special symbols.",
+    question: "What is the primary purpose of Two-Factor Authentication (2FA)?",
+    options: [
+      "To make the login process slower",
+      "To replace the need for a password entirely",
+      "To add an extra layer of security by requiring a second form of identification",
+      "To encrypt your hard drive",
+    ],
+    correct_index: 2,
+    hint: "It ensures that knowing the password alone isn't enough to access an account.",
   },
   {
     id: 3,
     difficulty: "medium",
     question:
-      "Under GDPR, within how many hours must a data breach be reported to the supervisory authority?",
-    options: ["24 hours", "48 hours", "72 hours", "7 days"],
+      "You receive an urgent email from your bank asking you to click a link to 'verify your account' to avoid suspension. What is the safest action?",
+    options: [
+      "Click the link and enter your details immediately",
+      "Reply to the email asking for more information",
+      "Ignore the link and contact your bank via their official app or phone number",
+      "Forward the email to your friends to see if they got it too",
+    ],
     correct_index: 2,
-    hint: "Article 33 specifies a specific time window from the moment of becoming aware.",
+    hint: "This is a common tactic called 'phishing' designed to steal credentials.",
   },
   {
     id: 4,
+    difficulty: "medium",
+    question:
+      "Why is it risky to access sensitive information, like online banking, while connected to public Wi-Fi at a cafe?",
+    options: [
+      "Public Wi-Fi is usually too slow for banking apps",
+      "Your battery will drain faster",
+      "Unencrypted data sent over public networks can be intercepted by others",
+      "Public Wi-Fi automatically deletes your browser history",
+    ],
+    correct_index: 2,
+    hint: "Open networks often lack the encryption needed to keep your data private from other users on the same network.",
+  },
+  {
+    id: 5,
     difficulty: "hard",
     question:
-      "Which GDPR article states that pre-ticked consent checkboxes do NOT constitute valid consent?",
-    options: ["Article 6", "Article 7", "Recital 32", "Article 17"],
-    correct_index: 2,
-    hint: "Recitals provide interpretive guidance on the articles. This one is about the form consent must take.",
+      "Under the General Data Protection Regulation (GDPR), what does the 'Right to Erasure' (also known as the Right to be Forgotten) entitle a user to do?",
+    options: [
+      "Request that a company delete their personal data under certain conditions",
+      "Prevent any company from ever collecting their data in the future",
+      "Force a company to pay them for using their data",
+      "Anonymize their identity across the entire internet",
+    ],
+    correct_index: 0,
+    hint: "This right focuses on the ability of an individual to have their personal data removed from a controller's records.",
   },
 ];
 
-// ─── Mock: Cookie Banners ─────────────────────────────────────────────────────
-
-const MOCK_COOKIE_QUESTIONS: CookieBannersQuestion[] = [
-  { id: 1, difficulty: "easy" },
-  { id: 2, difficulty: "medium" },
-  { id: 3, difficulty: "hard" },
-];
-
-// ─── Active mock ──────────────────────────────────────────────────────────────
+// ─── Active mock — change question_type to test different games ───────────────
 
 export const MOCK_GAME_OF_THE_DAY: GameOfTheDay = {
   date: new Date().toISOString().slice(0, 10),
-  question_type: "multiple_choice",
-  questions: MOCK_MULTIPLE_CHOICE_QUESTIONS,
+  question_type: "cookie_banners",
+  // questions: MOCK_MULTIPLE_CHOICE_QUESTIONS,
 };
 
 export const ALL_MOCKS: Record<string, GameOfTheDay> = {
@@ -627,6 +715,5 @@ export const ALL_MOCKS: Record<string, GameOfTheDay> = {
   cookie_banners: {
     date: "2025-01-06",
     question_type: "cookie_banners",
-    questions: MOCK_COOKIE_QUESTIONS,
   },
 };
