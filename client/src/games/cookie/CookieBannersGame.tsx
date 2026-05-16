@@ -26,29 +26,46 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "../GameShell";
-import { InfoPanel } from "../InfoPanel";
 import { LevelPicker } from "../LevelPicker";
 import type { Difficulty } from "../../api/types";
+import RobotGreeter from "../../components/RobotGreeter";
 
-// ─── Info text for ? button ───────────────────────────────────────────────────
+const ROBOT_HEADLINE =
+  "Hi! I'm Cipher. Cookie banners are designed to trick you. Let's learn to spot the traps together.";
 
-const INFO_TEXT = `When you visit almost any website, a popup appears asking you to agree to "cookies". But what are cookies, and why should you care?
-
+const ROBOT_DETAILS = `When you visit almost any website, a popup appears asking you to agree to "cookies". But what are cookies, and why should you care?
+ 
 What are cookies?
 Cookies are tiny files a website saves on your device. Some are useful — they remember you're logged in, or keep items in your shopping cart. But many cookies exist only to track your behaviour across the internet and show you targeted ads.
-
+ 
 You have the right to say no to tracking cookies. European law (GDPR + ePrivacy Directive) requires websites to make this just as easy as saying yes.
-
+ 
 But most don't. Instead they use tricks called "dark patterns":
-
+ 
 • The "Accept All" button is big and brightly coloured. The "Reject" option is a tiny grey link, or hidden behind "Manage options".
 • The ✕ button looks like it closes the popup — but it actually accepts all cookies.
 • "Legitimate Interest" tabs hide pre-enabled tracking that you never see.
 • Multi-step rejection flows: 3 or 4 clicks to say no, 1 click to say yes.
 • Cookie walls: "Pay €X/month OR accept tracking" — forcing you to choose between privacy and access.
 • Guilt-tripping language: "Continue without supporting us".
-
+ 
 In these challenges you will practice spotting and avoiding these tricks on banners modelled on real consent management platforms (OneTrust, Cookiebot, Quantcast Choice, IAB TCF) and on infamous real-world examples from Yahoo, Le Monde, and others.`;
+
+// Per-level robot lines — what Cipher says before each level starts
+const ROBOT_LEVEL_LINES: Record<string, string> = {
+  e1: "Heads up, the reject option is here, but it's disguised as link text. Look closely at every grey word.",
+  e2: "Watch out for the ✕ in the corner. On this banner, it doesn't do what you think.",
+  e3: "Both buttons are visible this time. But which one is the site quietly nudging you toward?",
+  e4: "Three buttons, one of them rejects everything. But even the 'compliant' version has a subtle nudge — can you spot it?",
+  m1: "The wording on the checkbox here is intentionally confusing. Read it slowly. Twice if you have to.",
+  m2: "Click 'Customise Settings' — but check every toggle's starting position. Defaults matter.",
+  m3: "847 partners. Don't be overwhelmed — the reject option is one screen away.",
+  m4: "There's a second tab most people never click. The trap is hidden there.",
+  h1: "This is the French press playbook. Three dark patterns are hiding in plain sight.",
+  h2: "Full-screen, no escape. Four dark patterns to find here.",
+  h3: "Accepting is one click. Rejecting is four. Read each button label carefully — the wording flips around.",
+  h4: "Pay or be tracked. There's no free reject. Find three patterns to continue.",
+};
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
@@ -2572,8 +2589,16 @@ function LevelRunner({
   const isInterstitial = level.layout === "interstitial";
   const isModal = level.layout === "modal";
 
+  const robotLine = ROBOT_LEVEL_LINES[level.id];
   return (
     <Box>
+      {robotLine && (
+        <RobotGreeter
+          headline={robotLine}
+          robotSize={56}
+          robotColor={p.primary}
+        />
+      )}
       <Alert
         severity="info"
         icon={<InfoOutlinedIcon />}
@@ -2975,21 +3000,16 @@ export default function CookieBannersGame({ date, onBack }: Props) {
           <Typography variant="h2" sx={{ mb: 1 }}>
             All levels done! 🎉
           </Typography>
-          <Typography variant="body2" sx={{ mb: 3, color: "text.secondary" }}>
-            You can now spot and avoid the most common cookie consent tricks —
-            including the ones used by major publishers across the EU. Come back
-            tomorrow for new banners.
-          </Typography>
-          <Alert
-            severity="success"
-            sx={{ maxWidth: 480, mx: "auto", textAlign: "left" }}
-          >
-            <strong>The golden rule:</strong> rejecting cookies should always be
-            as easy as accepting them — one click, equal visual weight, clearly
-            labelled. If it isn't, the site is probably breaking the law. The
-            EDPB Cookie Banner Taskforce (2023) and CNIL guidelines both make
-            this explicit.
-          </Alert>
+          <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
+            <RobotGreeter
+              headline={
+                "You can now spot and avoid the most common cookie consent tricks, including the ones used by major publishers across the EU. Come back tomorrow for new challenges!"
+              }
+              robotSize={56}
+              robotColor={p.primary}
+            />
+          </Box>
+
           <Button
             variant="contained"
             color="primary"
@@ -3019,7 +3039,12 @@ export default function CookieBannersGame({ date, onBack }: Props) {
       <Typography variant="h2" sx={{ mb: 3 }}>
         Cookie Trap
       </Typography>
-      <InfoPanel title="What are cookie banners?" content={INFO_TEXT} />
+      <RobotGreeter
+        headline={ROBOT_HEADLINE}
+        details={ROBOT_DETAILS}
+        robotColor={p.primary}
+        robotSize={88}
+      />
       <LevelPicker
         levels={[
           {

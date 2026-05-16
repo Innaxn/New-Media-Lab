@@ -16,6 +16,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useColorMode } from "../context/ThemeContext";
+import Cipher from "../components/Cipher";
 
 interface Props {
   onPlay: () => void;
@@ -133,7 +134,6 @@ export default function LandingPage({ onPlay }: Props) {
         }}
         className="slide-up"
       >
-        {/* Date badge */}
         <Chip
           icon={<CalendarTodayIcon sx={{ fontSize: "13px !important" }} />}
           label={TODAY}
@@ -152,7 +152,6 @@ export default function LandingPage({ onPlay }: Props) {
           }}
         />
 
-        {/* Wordmark */}
         <Typography
           component="h1"
           sx={{
@@ -177,32 +176,81 @@ export default function LandingPage({ onPlay }: Props) {
             letterSpacing: "-0.04em",
             color: p.primary,
             display: "block",
-            mb: 3,
+            mb: 4,
           }}
         >
           House
         </Typography>
 
-        <Typography
-          variant="body1"
+        <Box
           sx={{
-            color: "text.secondary",
-            maxWidth: 400,
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            gap: { xs: 1.5, sm: 2 },
+            mb: 4,
+            maxWidth: 480,
             mx: "auto",
-            mb: 1.5,
-            fontSize: "1rem",
-            lineHeight: 1.65,
+            textAlign: "left",
           }}
         >
-          A new data privacy challenge every day.
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: "text.disabled", mb: 4, fontSize: "0.8125rem" }}
-        >
-          One new challenge every morning. Spend just five minutes a day
-          learning to protect yourself online.
-        </Typography>
+          <Box
+            sx={{
+              flexShrink: 0,
+              transform: "rotate(-6deg)",
+              mt: 0.5,
+            }}
+          >
+            <Cipher size={72} color="#10B981" accent="#FBBF24" />
+          </Box>
+          <Box
+            sx={{
+              position: "relative",
+              flex: 1,
+              bgcolor: alpha(p.primary, 0.08),
+              border: `1px solid ${alpha(p.primary, 0.25)}`,
+              borderRadius: "18px",
+              px: 2.25,
+              py: 1.75,
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                top: 18,
+                left: -8,
+                width: 14,
+                height: 14,
+                bgcolor: alpha(p.primary, 0.08),
+                borderLeft: `1px solid ${alpha(p.primary, 0.25)}`,
+                borderBottom: `1px solid ${alpha(p.primary, 0.25)}`,
+                transform: "rotate(45deg)",
+              },
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                color: "text.primary",
+                fontSize: "0.95rem",
+                lineHeight: 1.5,
+                fontWeight: 600,
+                mb: 0.5,
+              }}
+            >
+              A new data privacy challenge every day.
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "text.secondary",
+                fontSize: "0.8125rem",
+                lineHeight: 1.6,
+              }}
+            >
+              One new challenge every morning. Spend just five minutes a day
+              learning to protect yourself online.
+            </Typography>
+          </Box>
+        </Box>
 
         <Button
           variant="contained"

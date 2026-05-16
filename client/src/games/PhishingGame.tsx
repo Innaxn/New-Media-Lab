@@ -5,7 +5,6 @@ import {
   Alert,
   Button,
   Fade,
-  Slider,
   List,
   ListItem,
   ListItemIcon,
@@ -23,8 +22,8 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
-import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
+import RobotGreeter from "../components/RobotGreeter";
 import type {
   PhishOrLegitQuestion,
   PhishingEmail,
@@ -32,7 +31,10 @@ import type {
   Difficulty,
 } from "../api/types";
 
-const INFO_TEXT = `Phishing is when someone sends a fake email pretending to be a trustworthy company — like your bank, Netflix, or a government office — to steal your password or personal details.
+const ROBOT_HEADLINE =
+  "Cipher here — and I've seen a lot of fake emails. Stick with me and I'll show you what to look for.";
+
+const ROBOT_DETAILS = `Phishing is when someone sends a fake email pretending to be a trustworthy company — like your bank, Netflix, or a government office — to steal your password or personal details.
 
 How to spot a phishing email:
 • Check the sender's email address, not just the display name. "PayPal Support" could be sent from random@shady.ru.
@@ -234,19 +236,6 @@ function EmailClient({ email }: { email: PhishingEmail }) {
                   />
                 )}
               </>
-            )}
-            {!expanded && (
-              <Typography
-                sx={{
-                  fontSize: "0.5625rem",
-                  color: "text.disabled",
-                  mt: 0.75,
-                  fontStyle: "italic",
-                }}
-              >
-                ▼ Expand to see full details
-                {email.headers.reply_to ? " including Reply-To" : ""}
-              </Typography>
             )}
           </Box>
         )}
@@ -454,7 +443,6 @@ function VerdictPanel({
   const [verdict, setVerdict] = useState<"phishing" | "legitimate" | null>(
     null,
   );
-  const [confidence, setConfidence] = useState(50);
   const [submitted, setSubmitted] = useState(false);
   const isCorrect =
     verdict !== null &&
@@ -562,38 +550,6 @@ function VerdictPanel({
                 </Box>
               </Box>
             ))}
-          </Box>
-          <Box sx={{ mb: 2.5 }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                mb: 0.625,
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "0.625rem",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "text.disabled",
-                  fontWeight: 700,
-                }}
-              >
-                How confident are you?
-              </Typography>
-              <Typography sx={{ fontSize: "0.75rem", color: "text.secondary" }}>
-                {confidence}%
-              </Typography>
-            </Box>
-            <Slider
-              value={confidence}
-              onChange={(_, v) => setConfidence(v as number)}
-              min={0}
-              max={100}
-              step={5}
-              size="small"
-            />
           </Box>
           <Button
             variant="contained"
@@ -708,9 +664,11 @@ function VerdictPanel({
 
 function PhishLevel({
   q,
+  difficulty,
   onComplete,
 }: {
   q: PhishOrLegitQuestion;
+  difficulty: Difficulty;
   onComplete: () => void;
 }) {
   const theme = useTheme();
@@ -746,32 +704,22 @@ function PhishLevel({
   }
 
   const current = q.emails[emailIdx];
+
+  // Prefer per-email teaching_point if your data has it; fall back to per-level.
+  // The `key` on RobotGreeter forces a re-render whenever the line changes,
+  // so the speech bubble animates fresh for each email's tip.
+  const robotLine =
+    (current as PhishingEmail & { teaching_point?: string }).teaching_point ??
+    q.teaching_point;
+
   return (
     <Box>
-      <Alert
-        severity="info"
-        icon={false}
-        sx={{
-          mb: 2.5,
-          bgcolor: alpha(p.warning, 0.07),
-          borderColor: alpha(p.warning, 0.22),
-          color: "text.primary",
-          fontSize: "0.875rem",
-        }}
-      >
-        <strong
-          style={{
-            fontSize: "0.625rem",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: p.warning,
-          }}
-        >
-          What to look for
-        </strong>
-        <br />
-        {q.teaching_point}
-      </Alert>
+      <RobotGreeter
+        key={`robot-${emailIdx}`}
+        headline={robotLine}
+        robotSize={56}
+        robotColor={p.primary}
+      />
       <Box
         sx={{
           display: "grid",
@@ -865,7 +813,11 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
         <Typography variant="h3" sx={{ mb: 3 }}>
           {q.instruction}
         </Typography>
-        <PhishLevel q={q} onComplete={() => handleComplete(activeLevel)} />
+        <PhishLevel
+          q={q}
+          difficulty={activeLevel}
+          onComplete={() => handleComplete(activeLevel)}
+        />
       </GameShell>
     );
   }
@@ -885,14 +837,15 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
           <Typography variant="h2" sx={{ mb: 1 }}>
             All levels done! 🎉
           </Typography>
-          <Alert
-            severity="success"
-            sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}
-          >
-            Always check the sender's email address — not just the name. And
-            never click links in suspicious emails; type the address yourself
-            instead.
-          </Alert>
+          <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
+            <RobotGreeter
+              headline={
+                "Always check the sender's email address, not just the name. And never click links in suspicious emails; type the address yourself instead. See you tomorrow for a new challenge!"
+              }
+              robotSize={56}
+              robotColor={p.primary}
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -923,7 +876,14 @@ export default function PhishingGame({ questions, date, onBack }: Props) {
       <Typography variant="h2" sx={{ mb: 3 }}>
         Phish or Real?
       </Typography>
-      <InfoPanel title="What is phishing?" content={INFO_TEXT} />
+
+      <RobotGreeter
+        headline={ROBOT_HEADLINE}
+        details={ROBOT_DETAILS}
+        robotColor={p.primary}
+        robotSize={88}
+      />
+
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,

@@ -139,7 +139,6 @@ export function GameShell({
         </Container>
       </Box>
 
-      {/* ── Content ── */}
       <Container maxWidth={maxWidth} sx={{ py: { xs: 3, sm: 5 } }}>
         {children}
       </Container>
