@@ -19,12 +19,15 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
-import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
+import RobotGreeter from "../components/RobotGreeter";
 import { evaluateRule, getStrengthInfo } from "../utils/passwordUtils";
 import type { BuildPasswordQuestion, Difficulty } from "../api/types";
 
-const INFO_TEXT = `A password is like the key to your front door — except online, someone might try millions of keys per second.
+const ROBOT_HEADLINE =
+  "Hey, I'm Cipher! Most people pick passwords a computer can crack in seconds. Let's build one that actually holds up.";
+
+const ROBOT_DETAILS = `A password is like the key to your front door — except online, someone might try millions of keys per second.
 
 What makes a password strong?
 • Length matters most. A 16-character password is vastly harder to crack than an 8-character one, even if the short one has symbols.
@@ -32,6 +35,13 @@ What makes a password strong?
 • Don't reuse passwords. If one website gets hacked, your other accounts stay safe.
 
 The "crack time" shown here is a rough estimate of how long it would take an attacker to guess your password using a fast computer. Aim for something that would take years, not seconds!`;
+
+const ROBOT_LEVEL_LINES: Record<Difficulty, string> = {
+  easy: "Start with the basics — meet every rule below. Watch the crack time grow as your password gets longer.",
+  medium:
+    "More rules this time. Don't just bolt a '1!' onto a dictionary word — attackers try that pattern first.",
+  hard: "These rules are strict for a reason. Aim for length over cleverness — a long random string beats any short 'tricky' one.",
+};
 
 interface Props {
   questions: BuildPasswordQuestion[];
@@ -316,6 +326,13 @@ export default function BuildPasswordGame({ questions, date, onBack }: Props) {
           Make a password that passes all the checks below. A new set of checks
           appears every day.
         </Typography>
+
+        <RobotGreeter
+          headline={ROBOT_LEVEL_LINES[activeLevel]}
+          robotSize={56}
+          robotColor={p.primary}
+        />
+
         <PasswordLevel q={q} onComplete={() => handleComplete(activeLevel)} />
       </GameShell>
     );
@@ -342,16 +359,15 @@ export default function BuildPasswordGame({ questions, date, onBack }: Props) {
           <Typography variant="h2" sx={{ mb: 1 }}>
             All levels done! 🎉
           </Typography>
-          <Typography variant="body2" sx={{ mb: 3, color: "text.secondary" }}>
-            Come back tomorrow for a new password challenge.
-          </Typography>
-          <Alert
-            severity="success"
-            sx={{ maxWidth: 420, mx: "auto", textAlign: "left" }}
-          >
-            Remember: longer passwords win. A random 16-character password is
-            almost impossible to crack — even for the fastest computers.
-          </Alert>
+          <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
+            <RobotGreeter
+              headline={
+                "Remember: longer passwords win. A random 16-character password is almost impossible to crack — even for the fastest computers. See you tomorrow for a new challenge!"
+              }
+              robotSize={56}
+              robotColor={p.primary}
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -381,7 +397,15 @@ export default function BuildPasswordGame({ questions, date, onBack }: Props) {
       <Typography variant="h2" sx={{ mb: 3 }}>
         Build a Password
       </Typography>
-      <InfoPanel title="Why do passwords matter?" content={INFO_TEXT} />
+
+      {/* Robot greeter — replaces the old InfoPanel */}
+      <RobotGreeter
+        headline={ROBOT_HEADLINE}
+        details={ROBOT_DETAILS}
+        robotColor={p.primary}
+        robotSize={88}
+      />
+
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,

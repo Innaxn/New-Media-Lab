@@ -17,11 +17,14 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
-import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
+import RobotGreeter from "../components/RobotGreeter";
 import type { MultipleChoiceQuestion, Difficulty } from "../api/types";
 
-const INFO_TEXT = `This quiz covers how your personal data is collected, used, and protected online — and what rights you have.
+const ROBOT_HEADLINE =
+  "Hey, Cipher here! Your data has rights and most people don't know what they are. Let's fix that.";
+
+const ROBOT_DETAILS = `This quiz covers how your personal data is collected, used, and protected online — and what rights you have.
 
 A few key ideas:
 • Personal data is any information that can identify you: your name, email, location, or even your browsing history.
@@ -31,13 +34,18 @@ A few key ideas:
 
 You don't need to be an expert. These questions are designed to help everyday people understand their rights online.`;
 
+// const ROBOT_LEVEL_LINES: Record<Difficulty, string> = {
+//   easy: "Start with the basics — what counts as personal data, who's allowed to collect it. Take your time, hints are there if you need them.",
+//   medium:
+//     "These questions dig into your specific GDPR rights — the right to access, erasure, portability. Read each option carefully, some are very close.",
+//   hard: "Now we're in deep waters — breach reporting timelines, legal bases for processing, cross-border transfers. Don't be afraid to use the hint.",
+// };
+
 interface Props {
   questions: MultipleChoiceQuestion[];
   date: string;
   onBack: () => void;
 }
-
-// ─── Single question card ─────────────────────────────────────────────────────
 
 function QuestionCard({
   q,
@@ -382,13 +390,15 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
           <Typography variant="h2" sx={{ mb: 1 }}>
             All levels done! 🎉
           </Typography>
-          <Alert
-            severity="success"
-            sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}
-          >
-            Knowing your rights online is the first step to protecting yourself.
-            Come back tomorrow for new questions.
-          </Alert>
+          <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
+            <RobotGreeter
+              headline={
+                "Knowing your rights online is the first step to protecting yourself. Come back tomorrow for new questions."
+              }
+              robotSize={56}
+              robotColor={p.primary}
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -419,7 +429,14 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
       <Typography variant="h2" sx={{ mb: 3 }}>
         Privacy Quiz
       </Typography>
-      <InfoPanel title="What is this quiz about?" content={INFO_TEXT} />
+
+      <RobotGreeter
+        headline={ROBOT_HEADLINE}
+        details={ROBOT_DETAILS}
+        robotColor={p.primary}
+        robotSize={88}
+      />
+
       <LevelPicker
         levels={availableLevels.map((d) => ({
           difficulty: d,

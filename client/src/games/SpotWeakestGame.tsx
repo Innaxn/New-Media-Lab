@@ -15,11 +15,14 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
-import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
+import RobotGreeter from "../components/RobotGreeter";
 import type { SpotWeakestQuestion, Difficulty } from "../api/types";
 
-const INFO_TEXT = `Not all passwords are equally safe — even if they look complicated at first glance.
+const ROBOT_HEADLINE =
+  "Hi again, Cipher here! Some passwords look strong but fall in seconds. I'll help you learn to tell them apart.";
+
+const ROBOT_DETAILS = `Not all passwords are equally safe — even if they look complicated at first glance.
 
 What makes a password easy to crack?
 • Dictionary words: Hackers try every word in the dictionary first.
@@ -28,6 +31,13 @@ What makes a password easy to crack?
 • Short length: A 6-character password can be cracked in seconds on modern hardware.
 
 In this challenge you'll look at a group of passwords and pick the one a hacker would crack first. Think about which one follows the most predictable pattern.`;
+
+const ROBOT_LEVEL_LINES: Record<Difficulty, string> = {
+  easy: "Look for the obvious giveaway — a real word, a name, or something short. Hackers start with those.",
+  medium:
+    "These all look reasonable. Hunt for predictable patterns: capitals at the start, a number or '!' at the end.",
+  hard: "Trickier now. The weakest one might use clever-looking substitutions like '@' for 'a' — attackers automate those swaps, so they barely help.",
+};
 
 interface Props {
   questions: SpotWeakestQuestion[];
@@ -148,18 +158,6 @@ function SpotLevel({
                   >
                     {c.value}
                   </Typography>
-                  {/* Removing the bit part */}
-                  {/* <Chip
-                    label={c.entropy_label}
-                    size="small"
-                    sx={{
-                      height: 18,
-                      fontSize: "0.5625rem",
-                      bgcolor: alpha(p.border, 0.5),
-                      color: "text.disabled",
-                      borderRadius: "4px",
-                    }}
-                  /> */}
                 </Box>
                 {isSelected && state === "correct" && c.is_weakest && (
                   <Box
@@ -333,6 +331,12 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
           Look at the passwords below and pick the one a hacker would go for
           first.
         </Typography>
+        <RobotGreeter
+          headline={ROBOT_LEVEL_LINES[activeLevel]}
+          robotSize={56}
+          robotColor={p.primary}
+        />
+
         <SpotLevel q={q} onComplete={() => handleComplete(activeLevel)} />
       </GameShell>
     );
@@ -352,14 +356,15 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
           <Typography variant="h2" sx={{ mb: 1 }}>
             All levels done! 🎉
           </Typography>
-          <Alert
-            severity="success"
-            sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}
-          >
-            Swapping letters for symbols (like "@" for "a") tricks people but
-            not computers — hackers already know all these tricks. Random length
-            wins every time.
-          </Alert>
+          <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
+            <RobotGreeter
+              headline={
+                "Swapping letters for symbols (like '@' for 'a') tricks people but not computers — hackers already know all these tricks. Random length wins every time. See you tomorrow for a new challenge!"
+              }
+              robotSize={56}
+              robotColor={p.primary}
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -389,7 +394,14 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
       <Typography variant="h2" sx={{ mb: 3 }}>
         Spot the Weakest Password
       </Typography>
-      <InfoPanel title="What makes a password weak?" content={INFO_TEXT} />
+
+      <RobotGreeter
+        headline={ROBOT_HEADLINE}
+        details={ROBOT_DETAILS}
+        robotSize={56}
+        robotColor={p.primary}
+      />
+
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,

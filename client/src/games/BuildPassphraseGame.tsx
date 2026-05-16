@@ -16,12 +16,15 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useTheme, alpha } from "@mui/material/styles";
 import { GameShell } from "./GameShell";
-import { InfoPanel } from "./InfoPanel";
 import { LevelPicker } from "./LevelPicker";
+import RobotGreeter from "../components/RobotGreeter";
 import { evaluatePassphrase } from "../utils/passwordUtils";
 import type { BuildPassphraseQuestion, Difficulty } from "../api/types";
 
-const INFO_TEXT = `A passphrase is a password made of several random words joined together — like "correct-horse-battery-staple" or "ocean lamp purple fence".
+const ROBOT_HEADLINE =
+  "Hey, I'm Cipher! Forget cryptic symbols, a few random words make a much stronger password. Let me show you why.";
+
+const ROBOT_DETAILS = `A passphrase is a password made of several random words joined together — like "correct-horse-battery-staple" or "ocean lamp purple fence".
 
 Why are they better than a normal password?
 • They're long. Four random words is already 20–30 characters, which is extremely hard to crack.
@@ -29,6 +32,14 @@ Why are they better than a normal password?
 • They're unpredictable — as long as the words are truly random and not a famous phrase.
 
 Tip: avoid song lyrics, movie quotes, or sayings. Use a random mix of unrelated words instead.`;
+
+// Per-difficulty robot lines — what Cipher whispers before each level
+const ROBOT_LEVEL_LINES: Record<Difficulty, string> = {
+  easy: "Start simple — pick any words that feel unrelated to each other. The more random the better!",
+  medium:
+    "Bigger word bank now. Resist the urge to pick words that 'go together' — random beats memorable-but-guessable.",
+  hard: "This one's tricky — avoid common phrases or anything that reads like a sentence. Think 'turtle keyboard mountain whisper', not 'the quick brown fox'.",
+};
 
 interface Props {
   questions: BuildPassphraseQuestion[];
@@ -355,6 +366,13 @@ export default function BuildPassphraseGame({
           Click {q.min_words}+ words from the list below to build a long,
           memorable passphrase.
         </Typography>
+
+        <RobotGreeter
+          headline={ROBOT_LEVEL_LINES[activeLevel]}
+          robotSize={56}
+          robotColor={p.primary}
+        />
+
         <PassphraseLevel q={q} onComplete={() => handleComplete(activeLevel)} />
       </GameShell>
     );
@@ -374,13 +392,15 @@ export default function BuildPassphraseGame({
           <Typography variant="h2" sx={{ mb: 1 }}>
             All levels done! 🎉
           </Typography>
-          <Alert
-            severity="success"
-            sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}
-          >
-            Four or more random words beats almost any short complex password.
-            And the best part — you can actually remember it.
-          </Alert>
+          <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
+            <RobotGreeter
+              headline={
+                "Four or more random words beats almost any short complex password. And the best part — you can actually remember it. See you tomorrow for a new challenge!"
+              }
+              robotSize={56}
+              robotColor={p.primary}
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -410,7 +430,12 @@ export default function BuildPassphraseGame({
       <Typography variant="h2" sx={{ mb: 3 }}>
         Build a Passphrase
       </Typography>
-      <InfoPanel title="What is a passphrase?" content={INFO_TEXT} />
+      <RobotGreeter
+        headline={ROBOT_HEADLINE}
+        details={ROBOT_DETAILS}
+        robotColor={p.primary}
+        robotSize={88}
+      />
       <LevelPicker
         levels={sortedQ.map((q) => ({
           difficulty: q.difficulty,
