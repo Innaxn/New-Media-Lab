@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/New-Media-Lab/static/js/main.7fc3f1a4.js",
+    "main.js": "/New-Media-Lab/static/js/main.a3be27ea.js",
     "index.html": "/New-Media-Lab/index.html",
-    "main.7fc3f1a4.js.map": "/New-Media-Lab/static/js/main.7fc3f1a4.js.map"
+    "main.a3be27ea.js.map": "/New-Media-Lab/static/js/main.a3be27ea.js.map"
   },
   "entrypoints": [
-    "static/js/main.7fc3f1a4.js"
+    "static/js/main.a3be27ea.js"
   ]
 }
