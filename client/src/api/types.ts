@@ -107,15 +107,6 @@ export interface PhishOrLegitQuestion {
   emails: PhishingEmail[];
 }
 
-// ─── Cookie Banners ───────────────────────────────────────────────────────────
-// Fully frontend-driven.
-// Backend sends ONLY: { "date": "YYYY-MM-DD", "question_type": "cookie_banners" }
-// No questions array. Frontend picks one easy/medium/hard level from its own
-// bank, seeded by the date string.
-
-// ─── Root document ────────────────────────────────────────────────────────────
-// For cookie_banners, questions will be an empty array [] or absent entirely.
-
 export type AnyQuestion =
   | MultipleChoiceQuestion
   | BuildPasswordQuestion

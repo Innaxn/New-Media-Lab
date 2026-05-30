@@ -290,7 +290,6 @@ function PassphraseLevel({
         </CardContent>
       </Card>
 
-      {/* Result — user-controlled */}
       <Fade in={submitted}>
         <Box>
           <Alert severity="success" sx={{ mb: 2 }}>
@@ -390,7 +389,7 @@ export default function BuildPassphraseGame({
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
           <Typography variant="h2" sx={{ mb: 1 }}>
-            All levels done! 🎉
+            All levels done!
           </Typography>
           <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
             <RobotGreeter

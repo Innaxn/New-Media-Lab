@@ -127,7 +127,6 @@ function PasswordLevel({
             />
           </Box>
 
-          {/* Strength bar */}
           <Box sx={{ display: "flex", gap: 0.5, mb: 0.75 }}>
             {[0, 1, 2, 3, 4].map((i) => (
               <Box
@@ -161,7 +160,6 @@ function PasswordLevel({
             {strength.label}
           </Typography>
 
-          {/* Checklist — rules from backend */}
           <Box
             sx={{
               display: "grid",
@@ -198,7 +196,6 @@ function PasswordLevel({
             ))}
           </Box>
 
-          {/* Estimated crack time — plain label */}
           <Box
             sx={{
               display: "flex",
@@ -229,7 +226,6 @@ function PasswordLevel({
         </CardContent>
       </Card>
 
-      {/* Result — stays until user clicks Continue */}
       <Fade in={submitted}>
         <Box>
           <Alert severity="success" sx={{ mb: 2 }}>
@@ -357,7 +353,7 @@ export default function BuildPasswordGame({ questions, date, onBack }: Props) {
             }}
           />
           <Typography variant="h2" sx={{ mb: 1 }}>
-            All levels done! 🎉
+            All levels done!
           </Typography>
           <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
             <RobotGreeter
@@ -398,7 +394,6 @@ export default function BuildPasswordGame({ questions, date, onBack }: Props) {
         Build a Password
       </Typography>
 
-      {/* Robot greeter — replaces the old InfoPanel */}
       <RobotGreeter
         headline={ROBOT_HEADLINE}
         details={ROBOT_DETAILS}
