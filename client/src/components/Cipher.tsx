@@ -1,9 +1,7 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { keyframes } from "@mui/system";
 
-// ──────────────────────────────────────────────────────────────────────
 // Animations
-// ──────────────────────────────────────────────────────────────────────
 const blink = keyframes`
   0%, 92%, 100% { transform: scaleY(1); }
   94%, 98%     { transform: scaleY(0.1); }
@@ -19,25 +17,16 @@ const antennaPulse = keyframes`
   50%      { opacity: 1;   transform: scale(1.4); }
 `;
 
-// ──────────────────────────────────────────────────────────────────────
 // Props
-// ──────────────────────────────────────────────────────────────────────
 export interface CipherProps {
-  /** Pixel size of the avatar (width = height). Default: 96 */
   size?: number;
-  /** Primary body color. Default: '#7DD3FC' (sky-300) */
   color?: string;
-  /** Accent color for screen, antenna light. Default: '#FBBF24' (amber-400) */
   accent?: string;
-  /** Forward MUI sx props to the outer Box */
   sx?: SxProps<Theme>;
-  /** Optional click handler */
   onClick?: () => void;
 }
 
-// ──────────────────────────────────────────────────────────────────────
 // Component
-// ──────────────────────────────────────────────────────────────────────
 export default function Cipher({
   size = 96,
   color = "#7DD3FC",
@@ -45,7 +34,6 @@ export default function Cipher({
   sx,
   onClick,
 }: CipherProps) {
-  // Derive a darker shade for shadows/outlines from the base color
   const shadow = "rgba(15, 23, 42, 0.25)";
 
   return (
@@ -72,10 +60,8 @@ export default function Cipher({
         xmlns="http://www.w3.org/2000/svg"
         sx={{ width: "100%", height: "100%", overflow: "visible" }}
       >
-        {/* Drop shadow under robot */}
         <ellipse cx="50" cy="92" rx="22" ry="3" fill={shadow} />
 
-        {/* Antenna stem */}
         <line
           x1="50"
           y1="18"
@@ -86,7 +72,6 @@ export default function Cipher({
           strokeLinecap="round"
         />
 
-        {/* Antenna pulsing light */}
         <Box
           component="circle"
           cx="50"
@@ -100,7 +85,6 @@ export default function Cipher({
           }}
         />
 
-        {/* Head / body — rounded rectangle */}
         <rect
           x="20"
           y="20"
@@ -113,7 +97,6 @@ export default function Cipher({
           strokeWidth="1.5"
         />
 
-        {/* Inner screen panel */}
         <rect
           x="28"
           y="32"
@@ -124,7 +107,6 @@ export default function Cipher({
           fill="#0F172A"
         />
 
-        {/* Screen highlight (top-left gloss) */}
         <rect
           x="30"
           y="34"
@@ -134,7 +116,6 @@ export default function Cipher({
           fill="rgba(255,255,255,0.08)"
         />
 
-        {/* Left eye */}
         <Box
           component="circle"
           cx="40"
@@ -147,7 +128,6 @@ export default function Cipher({
           }}
         />
 
-        {/* Right eye */}
         <Box
           component="circle"
           cx="60"
@@ -160,7 +140,6 @@ export default function Cipher({
           }}
         />
 
-        {/* Smile — curved path */}
         <path
           d="M 38 55 Q 50 64 62 55"
           fill="none"
@@ -169,12 +148,9 @@ export default function Cipher({
           strokeLinecap="round"
         />
 
-        {/* Cheek blush — left */}
         <circle cx="28" cy="58" r="3" fill="#FB7185" opacity="0.55" />
-        {/* Cheek blush — right */}
         <circle cx="72" cy="58" r="3" fill="#FB7185" opacity="0.55" />
 
-        {/* Ear bolts */}
         <circle
           cx="20"
           cy="48"
@@ -192,7 +168,6 @@ export default function Cipher({
           strokeWidth="1"
         />
 
-        {/* Neck */}
         <rect x="44" y="78" width="12" height="4" fill="#94A3B8" />
       </Box>
     </Box>

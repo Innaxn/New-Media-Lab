@@ -207,7 +207,6 @@ function SpotLevel({
         </CardContent>
       </Card>
 
-      {/* Wrong answer — stays until user clicks Try again */}
       <Fade in={state === "wrong"}>
         <Box>
           <Alert severity="error" sx={{ mb: 1.5 }}>
@@ -229,7 +228,6 @@ function SpotLevel({
         </Box>
       </Fade>
 
-      {/* Correct — full explanation shown, user controls next step */}
       <Fade in={revealed}>
         <Box>
           <Alert severity="success" sx={{ mb: 2 }}>
@@ -354,7 +352,7 @@ export default function SpotWeakestGame({ questions, date, onBack }: Props) {
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
           <Typography variant="h2" sx={{ mb: 1 }}>
-            All levels done! 🎉
+            All levels done!
           </Typography>
           <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
             <RobotGreeter

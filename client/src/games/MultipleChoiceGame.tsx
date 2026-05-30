@@ -34,13 +34,6 @@ A few key ideas:
 
 You don't need to be an expert. These questions are designed to help everyday people understand their rights online.`;
 
-// const ROBOT_LEVEL_LINES: Record<Difficulty, string> = {
-//   easy: "Start with the basics — what counts as personal data, who's allowed to collect it. Take your time, hints are there if you need them.",
-//   medium:
-//     "These questions dig into your specific GDPR rights — the right to access, erasure, portability. Read each option carefully, some are very close.",
-//   hard: "Now we're in deep waters — breach reporting timelines, legal bases for processing, cross-border transfers. Don't be afraid to use the hint.",
-// };
-
 interface Props {
   questions: MultipleChoiceQuestion[];
   date: string;
@@ -177,7 +170,6 @@ function QuestionCard({
         </CardContent>
       </Card>
 
-      {/* Hint */}
       {!submitted && q.hint && (
         <Box sx={{ mb: 2 }}>
           <Button
@@ -197,7 +189,6 @@ function QuestionCard({
         </Box>
       )}
 
-      {/* Submit */}
       {!submitted && (
         <Button
           variant="contained"
@@ -210,7 +201,6 @@ function QuestionCard({
         </Button>
       )}
 
-      {/* Result — stays until user clicks Continue */}
       <Fade in={submitted}>
         <Box>
           <Alert
@@ -338,14 +328,12 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
   const [completed, setCompleted] = useState<Set<Difficulty>>(new Set());
   const [allDone, setAllDone] = useState(false);
 
-  // Group questions by difficulty, preserve order within each group
   const byDifficulty: Record<Difficulty, MultipleChoiceQuestion[]> = {
     easy: questions.filter((q) => q.difficulty === "easy"),
     medium: questions.filter((q) => q.difficulty === "medium"),
     hard: questions.filter((q) => q.difficulty === "hard"),
   };
 
-  // Only show levels that have at least one question
   const availableLevels = (["easy", "medium", "hard"] as Difficulty[]).filter(
     (d) => byDifficulty[d].length > 0,
   );
@@ -362,7 +350,6 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
     [availableLevels.length],
   );
 
-  // Playing a level
   if (activeLevel) {
     return (
       <LevelRunner
@@ -388,7 +375,7 @@ export default function MultipleChoiceGame({ questions, date, onBack }: Props) {
         <Box sx={{ textAlign: "center", py: 8 }} className="slide-up">
           <EmojiEventsIcon sx={{ fontSize: 56, color: p.primary, mb: 2 }} />
           <Typography variant="h2" sx={{ mb: 1 }}>
-            All levels done! 🎉
+            All levels done!
           </Typography>
           <Box sx={{ maxWidth: 420, mx: "auto", mt: 2, textAlign: "left" }}>
             <RobotGreeter

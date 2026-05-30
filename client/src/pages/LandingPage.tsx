@@ -23,6 +23,7 @@ interface Props {
 }
 
 const TOPICS = [
+  //TODO: use the theme colors
   {
     icon: <LockIcon sx={{ fontSize: 14 }} />,
     label: "Passwords",
@@ -72,7 +73,6 @@ export default function LandingPage({ onPlay }: Props) {
         overflow: "hidden",
       }}
     >
-      {/* Mode toggle */}
       <Box sx={{ position: "absolute", top: 16, right: 16 }}>
         <Tooltip
           title={
@@ -96,7 +96,6 @@ export default function LandingPage({ onPlay }: Props) {
         </Tooltip>
       </Box>
 
-      {/* Soft decorative blobs */}
       <Box
         aria-hidden
         sx={{
