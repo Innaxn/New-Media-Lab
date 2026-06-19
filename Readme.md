@@ -50,6 +50,19 @@ When `REACT_APP_SECRET_NAME` is not set, the app automatically falls back to the
 
 ## Back-end
 
+The back end requires the following env variables to be present at the root of the back end project folder
+
+- FILE_ID: This is the id of the file for the one drive communication 
+- CREDENTIAL_PATH: The path where all the one drive credentials are stored
+- GMAIL_SENDER: The host of the email service to send emails from
+- RECIPIENTS: The people that will recieve te email 
+- CHAT_API_KEY: The API key used to access the Radboud AI model
+
+Currently the email is not finished thus those are not neccasery to provide. 
+The Install chapter contains the required command for Windows to get the project running. 
+
+The file 'generate_day.py' is responsible for generating the day, this is automated with the use of pipelines which can be found in 'pipeline.py'. For any questions about the back-end contact: justin.kasteleijn@ru.nl. 
+
 ### Install
 
 pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib

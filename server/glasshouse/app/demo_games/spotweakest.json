@@ -1,0 +1,116 @@
+{
+  "date": "2024-05-22",
+  "question_type": "spot_the_weakest_password",
+  "questions": [
+    {
+    "id": 1,
+    "difficulty": "easy",
+    "scenario": "A beginner is setting up an email account for the first time.",
+    "hint": "Avoid using simple number sequences or common words that anyone, even a total stranger, could guess on their first try.",
+    "candidates": [
+      {
+        "id": "c1",
+        "value": "Apple-Dog-Sunshine",
+        "is_weakest": false,
+        "explanation": "Stringing random, everyday words together is easy for you to remember but very long and difficult for a hacker to guess.",
+        "entropy_label": "Very Strong"
+      },
+      {
+        "id": "c2",
+        "value": "k8#M2!pQ",
+        "is_weakest": false,
+        "explanation": "A completely random mix of letters, numbers, and symbols is incredibly hard for someone to guess, though it can be hard to remember.",
+        "entropy_label": "Strong"
+      },
+      {
+        "id": "c3",
+        "value": "123456789",
+        "is_weakest": true,
+        "explanation": "This is one of the most guessed passwords in the world. Anyone trying to break into your account will try this first.",
+        "entropy_label": "Very Weak"
+      },
+      {
+        "id": "c4",
+        "value": "Yellow-Car-Happy",
+        "is_weakest": false,
+        "explanation": "Using unrelated words makes a password long, which is the best way to keep your account safe.",
+        "entropy_label": "Very Strong"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "difficulty": "medium",
+    "scenario": "A user is creating a password for a new online shopping website.",
+    "hint": "Avoid using the name of the website you are on, even if you add a year or an exclamation mark at the end.",
+    "candidates": [
+
+      {
+        "id": "c1",
+        "value": "Blue-Sky-Sunset",
+        "is_weakest": false,
+        "explanation": "Using a combination of unrelated words avoids easy guesses and provides a high level of protection.",
+        "entropy_label": "Very Strong"
+      },
+      {
+        "id": "c2",
+        "value": "tY4@xL9!q",
+        "is_weakest": false,
+        "explanation": "Using random characters without any real words or predictable patterns keeps your account highly secure.",
+        "entropy_label": "Strong"
+      },
+      {
+        "id": "c3",
+        "value": "Coffee-Mug-Window-99",
+        "is_weakest": false,
+        "explanation": "Combining a long phrase of random words with a number significantly increases how long it would take someone to guess it.",
+        "entropy_label": "Very Strong"
+      },
+      {
+        "id": "c4",
+        "value": "Shopping2024!",
+        "is_weakest": true,
+        "explanation": "Hackers know this trick! If they see you are on a shopping site, their automated programs will immediately guess the website's name plus the current year.",
+        "entropy_label": "Weak"
+      }
+
+    ]
+  },
+  {
+    "id": 3,
+    "difficulty": "hard",
+    "scenario": "Someone is trying to make a 'clever' password by swapping letters for symbols (like using @ for the letter 'a').",
+    "hint": "Replacing letters with similar-looking symbols doesn't fool the automated programs that hackers use to break into accounts.",
+    "candidates": [
+      {
+        "id": "c1",
+        "value": "vB8#kP3@mX",
+        "is_weakest": false,
+        "explanation": "True randomness with no real words inside of it is far superior to trying to make a real word look 'complex'.",
+        "entropy_label": "Strong"
+      },
+      {
+        "id": "c2",
+        "value": "P@ssw0rd1!",
+        "is_weakest": true,
+        "explanation": "Swapping 'a' for '@' and 'o' for '0' is an old trick. Hackers program their tools to automatically check for these exact symbol swaps, making it very easy to crack.",
+        "entropy_label": "Weak"
+      },
+      {
+        "id": "c3",
+        "value": "Guitar-Plant-Clock",
+        "is_weakest": false,
+        "explanation": "Length is your best friend. A long phrase of normal words is actually much stronger than a short word stuffed with tricky symbols.",
+        "entropy_label": "Very Strong"
+      },
+      {
+        "id": "c4",
+        "value": "Ocean-Fish-Jump",
+        "is_weakest": false,
+        "explanation": "Three completely random words are easy for you to picture in your head but almost impossible for a computer program to guess.",
+        "entropy_label": "Very Strong"
+      }
+    ]
+  }
+  ]
+}

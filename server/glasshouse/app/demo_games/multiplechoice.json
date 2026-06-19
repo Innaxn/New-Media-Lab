@@ -1,0 +1,110 @@
+{
+  "date": "2023-10-27",
+  "question_type": "multiple_choice",
+  "questions": [
+    {
+    "id": 1,
+    "difficulty": "easy",
+    "question": "What is the name of the main law that protects your personal data in the European Union?",
+    "options": [
+      "General Data Protection Regulation (GDPR)",
+      "European Privacy Act (EPA)",
+      "Digital Rights Directive (DRD)",
+      "Universal Data Law (UDL)"
+    ],
+    "correct_index": 0,
+    "hint": "Look for the acronym that stands for General Data Protection Regulation."
+  },
+    {
+    "id": 2,
+    "difficulty": "easy",
+    "question": "If you ask a company to show you what personal data they have collected about you, how must they respond under EU law?",
+    "options": [
+      "They must provide it to you, usually within one month.",
+      "They can ignore you unless you are a paying customer.",
+      "They only have to show you if you suspect them of a crime.",
+      "They are legally forbidden from showing you your own data."
+    ],
+    "correct_index": 0,
+    "hint": "Companies are on a strict timeline once you make this request."
+  },
+  {
+    "id": 3,
+    "difficulty": "easy",
+    "question": "Why do websites constantly ask you to 'accept cookies' when you visit them?",
+    "options": [
+      "To test your internet connection speed.",
+      "To prove you are a human and not a robot.",
+      "Because EU law requires them to get your clear permission before they can track your online behavior and personal data.",
+      "Because it is required to make the website load faster on your browser."
+    ],
+    "correct_index": 2,
+    "hint": "It has to do with getting your consent before monitoring what you do on their site."
+  },
+  {
+    "id": 4,
+    "difficulty": "medium",
+    "question": "Under EU law, you have the 'right to be forgotten'. What does this mean?",
+    "options": [
+      "The government must erase all public records of your birth.",
+      "Companies must delete your personal data if you ask them to and they no longer have a valid reason to keep it.",
+      "You can legally change your name online without notifying your bank.",
+      "Social media platforms must automatically hide your old posts after 5 years."
+    ],
+    "correct_index": 1,
+    "hint": "It is about your right to ask an organization to erase your personal information when it's no longer necessary."
+  },
+  {
+    "id": 5,
+    "difficulty": "medium",
+    "question": "If you want to know exactly what personal information a company (like a social media app or a store) has collected about you, what can you do?",
+    "options": [
+      "You have the right to request a free copy of your data from them at any time.",
+      "You have to hire a lawyer to force them to reveal it.",
+      "You cannot find out, as that information is considered a protected company secret.",
+      "You must pay a standard fee to the EU government to access it."
+    ],
+    "correct_index": 0,
+    "hint": "The 'Right of Access' means you don't need a lawyer or money to see what information a company holds on you."
+  },
+  {
+    "id": 6,
+    "difficulty": "medium",
+    "question": "What happens if you choose to click 'Reject All' on a website's cookie banner?",
+    "options": [
+      "The website is legally allowed to block you from reading its content.",
+      "Your internet provider will slow down your connection.",
+      "The website should still function normally, but they cannot track your behavior for targeted advertising.",
+      "Your computer will automatically delete all saved passwords for that site."
+    ],
+    "correct_index": 2,
+    "hint": "Rejecting these trackers protects your privacy without breaking the main features of the website."
+  },
+  {
+    "id": 7,
+    "difficulty": "hard",
+    "question": "What does the 'right to data portability' allow you to do as an EU resident?",
+    "options": [
+      "Travel freely across EU borders with your laptop without it being searched.",
+      "Store your data on a portable USB drive instead of the cloud.",
+      "Delete all your personal data from the internet permanently with one click.",
+      "Receive your personal data from a company in a common format so you can easily move it to a competitor's service."
+    ],
+    "correct_index": 3,
+    "hint": "Think about 'porting' or transferring your phone number from one provider to another, but applied to your personal data."
+  },
+  {
+    "id": 8,
+    "difficulty": "Hard",
+    "question": "If an app or company gets hacked and your sensitive personal data is stolen, what obligation do they have to you under EU law?",
+    "options": [
+      "They must inform you without undue delay if the breach poses a high risk to your privacy and security.",
+      "They are only required to tell the police; they do not have to inform the affected users.",
+      "They must automatically pay you a mandatory fine of at least 1,000 Euros.",
+      "They have up to one full year to publicly announce the hack on their website."
+    ],
+    "correct_index": 0,
+    "hint": "Think about your right to protect yourself when your sensitive information is actively at risk."
+  }
+  ]
+}

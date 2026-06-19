@@ -1,0 +1,282 @@
+{
+  "date": "2023-10-27",
+  "question_type": "phish_or_legit",
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "instruction": "Look closely at the sender details in the headers of these two completely separate messages. Which one is a phishing attempt?",
+      "teaching_point": "Spotting basic visual manipulation where the display name looks real, but the actual sender header uses an unrelated webmail domain.",
+      "emails": [
+        {
+          "id": "paypal-email-1",
+          "is_phishing": true,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "PayPal Europe Support",
+            "from_address": "paypal-security-alert-service@outlook.com",
+            "to": "user@example.eu",
+            "date": "Tue, 19 May 2026 09:12:00 +0200",
+            "subject": "URGENT: Your account access has been restricted due to suspicious activity",
+            "reply_to": "paypal-security-alert-service@outlook.com"
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Dear Customer,",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "We noticed unusual activity on your card. To prevent permanent restriction, you must update your details instantly.",
+              "href": null,
+              "urgent": true
+            },
+            {
+              "type": "button",
+              "content": "Restore Account",
+              "href": "https://www.paypal-update-center-eu.info/login",
+              "urgent": true
+            }
+          ],
+          "clues": [
+            {
+              "label": "Free Webmail Domain",
+              "explanation": "The 'From' email address ends in '@outlook.com'. An international financial institution like PayPal will never contact customers from a free public webmail provider."
+            },
+            {
+              "label": "High-Urgency Subject",
+              "explanation": "The subject line uses capitalized scare words like 'URGENT' to induce instant panic, which is typical of basic phishing."
+            }
+          ],
+          "explanation": "This email is a clear phishing attempt. Even though the visible display name claims to be 'PayPal Europe Support', checking the actual email address reveals it stems from a personal Outlook account."
+        },
+        {
+          "id": "gmail-email-2",
+          "is_phishing": false,
+          "focus_area": "headers",
+          "headers": {
+            "from_name": "Google Workspace Team",
+            "from_address": "workspace-noreply@google.com",
+            "to": "user@example.eu",
+            "date": "Tue, 19 May 2026 10:15:00 +0200",
+            "subject": "Tip of the month: Cleaning up your storage across Google Drive",
+            "reply_to": null
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Hi there,",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "You are currently using 65% of your allocated cloud storage. Here are a few easy steps to clean up large files from your account.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "link",
+              "content": "Manage Storage Settings",
+              "href": "https://one.google.com/storage",
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Verified Infrastructure",
+              "explanation": "The address correctly originates from the core corporate domain '@google.com'."
+            },
+            {
+              "label": "Informational Context",
+              "explanation": "The communication is a standard newsletter option containing routine account optimization links with zero artificial penalties."
+            }
+          ],
+          "explanation": "This email is perfectly safe. It arrives from a core corporate sender address and links strictly to legitimate services without asking for password confirmations."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "difficulty": "medium",
+      "instruction": "The headers on these different emails look clean. Focus on the message text and links in the bodies. Which one is a scam?",
+      "teaching_point": "Examining link paths inside the message body to check for look-alike external domains, even when headers appear perfectly clean.",
+      "emails": [
+        {
+          "id": "ms-email-1",
+          "is_phishing": true,
+          "focus_area": "body",
+          "headers": {
+            "from_name": "Microsoft Security Team",
+            "from_address": "no-reply@microsoft.com",
+            "to": "user@example.eu",
+            "date": "Tue, 19 May 2026 11:42:05 +0200",
+            "subject": "Security Alert: Unusual sign-in activity detected on your account",
+            "reply_to": null
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "We detected a successful login to your Microsoft Account from an unrecognized IP address located in a different country.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "If this was not you, please use the button below to cancel the login attempt and block the connection immediately to secure your files.",
+              "href": null,
+              "urgent": true
+            },
+            {
+              "type": "button",
+              "content": "Disconnect Remote Session",
+              "href": "https://microsoft-security-response.de/login/auth",
+              "urgent": true
+            }
+          ],
+          "clues": [
+            {
+              "label": "Deceptive Action Button URL",
+              "explanation": "The hyperlinked button routes you to 'microsoft-security-response.de'. This is a separate registered domain, not a legal subdomain or path under 'microsoft.com'."
+            },
+            {
+              "label": "Exploiting Fear",
+              "explanation": "The body content pressures you into acting fast by claiming a hacker has already successfully connected to your private account and personal data."
+            }
+          ],
+          "explanation": "This email is a phishing attempt. While the header area is modeled after a real automated notification, the body exposes the trap: the action button redirects your browser to an external domain designed to harvest passwords."
+        },
+        {
+          "id": "spotify-email-2",
+          "is_phishing": false,
+          "focus_area": "body",
+          "headers": {
+            "from_name": "Spotify Premium",
+            "from_address": "no-reply@spotify.com",
+            "to": "user@example.eu",
+            "date": "Tue, 19 May 2026 12:22:00 +0200",
+            "subject": "Your subscription is renewing soon",
+            "reply_to": null
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Just a quick reminder that your next billing cycle begins in 7 days. Your registered payment method will be charged €10.99.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "link",
+              "content": "Change plans or manage subscription",
+              "href": "https://www.spotify.com/account/overview",
+              "urgent": null
+            }
+          ],
+          "clues": [
+            {
+              "label": "Verified URL Pathing",
+              "explanation": "The URL directs the user directly to 'spotify.com/account', which is the authentic, safe infrastructure path."
+            }
+          ],
+          "explanation": "This is a legitimate informational reminder. It doesn't claim an emergency error occurred and uses a completely secure, un-altered web destination."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "difficulty": "hard",
+      "instruction": "Perform a complete inspection of both the headers and body layouts for these two unrelated notifications. Identify the sophisticated threat.",
+      "teaching_point": "Evaluating advanced phishing that uses fake 'unauthorized invoice receipts' or 'fulfillment holds' combined with complex nested subdomains to bypass human detection.",
+      "emails": [
+        {
+          "id": "apple-email-1",
+          "is_phishing": true,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "Apple Distribution Europe",
+            "from_address": "invoice-processing@apple-billing-service.eu",
+            "to": "user@example.eu",
+            "date": "Tue, 19 May 2026 14:15:33 +0200",
+            "subject": "Your receipt from Apple: €149.99 App Store Purchase Confirmation",
+            "reply_to": "invoice-processing@apple-billing-service.eu"
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Thank you for your recent transaction on the App Store. Your payment method was billed successfully for the yearly premium license of 'Cloud Storage Pro Plus'.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "text",
+              "content": "If you did not authorize this purchase or believe someone else accessed your device, you have 14 days under EU consumer protection regulations to reverse this charge online.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "link",
+              "content": "Cancel Purchase and Request Instant Refund",
+              "href": "https://itunes.apple.com.billing-disputes-portal.eu/refund",
+              "urgent": true
+            }
+          ],
+          "clues": [
+            {
+              "label": "Unrelated Corporate Domain",
+              "explanation": "The header lists 'apple-billing-service.eu'. Genuine confirmations from Apple are sent directly from official core domains like 'apple.com' or 'itunes.com'."
+            },
+            {
+              "label": "Complex Subdomain Trickery",
+              "explanation": "The cancellation link starts with 'itunes.apple.com', which looks authentic. However, looking at the entire string reveals the true base domain is 'billing-disputes-portal.eu'."
+            },
+            {
+              "label": "Reversed Phishing Strategy",
+              "explanation": "Instead of demanding money, the body claims you have already spent money. It relies on your panic to cancel the transaction so you will blindly fill out their credential form."
+            }
+          ],
+          "explanation": "This is a highly sophisticated, combined phishing tactic. It fabricates an expensive charge to bypass standard defense habits. By analyzing both the header domain name and the actual destination of the link, you can spot the fraudulent setup."
+        },
+        {
+          "id": "amazon-email-2",
+          "is_phishing": false,
+          "focus_area": "full",
+          "headers": {
+            "from_name": "Amazon.de",
+            "from_address": "auto-confirm@amazon.de",
+            "to": "user@example.eu",
+            "date": "Tue, 19 May 2026 15:45:00 +0200",
+            "subject": "Your Amazon.de order #302-88492-1104 has shipped",
+            "reply_to": "no-reply@amazon.de"
+          },
+          "body": [
+            {
+              "type": "text",
+              "content": "Good news! Your package has been dispatched from our fulfillment center in Germany.",
+              "href": null,
+              "urgent": false
+            },
+            {
+              "type": "link",
+              "content": "Track your package on Amazon",
+              "href": "https://www.amazon.de/gp/css/history",
+              "urgent": false
+            }
+          ],
+          "clues": [
+            {
+              "label": "Legitimate Local Domain",
+              "explanation": "The email originates from 'amazon.de', the official domain for Amazon's operations in Germany and central Europe."
+            },
+            {
+              "label": "Accurate Link Routing",
+              "explanation": "The tracking hyperlink leads straight to the verified secure 'www.amazon.de' domain structure."
+            }
+          ],
+          "explanation": "This email is legitimate. It matches the exact format used by European branches of major e-commerce platforms to keep customers informed about active orders without relying on manipulative pressure."
+        }
+      ]
+    }
+  ]
+}

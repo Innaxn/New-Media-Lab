@@ -1,0 +1,72 @@
+{
+  "date": "2026-05-13",
+  "question_type": "build_a_passphrase",
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "word_bank": [
+        "warplane",
+        "stipule",
+        "variety",
+        "flyable",
+        "wordably",
+        "cursed",
+        "3",
+        "!"
+      ],
+      "min_words": 3,
+      "separator": "-",
+      "success_message": "A 3-word passphrase already beats most passwords. Length is everything."
+    },
+    {
+      "id": 2,
+      "difficulty": "medium",
+      "word_bank": [
+        "benjamin",
+        "zoosperm",
+        "facular",
+        "squintly",
+        "iliau",
+        "plumate",
+        "milady",
+        "kieffer",
+        "pierides",
+        "fluxile",
+        "3",
+        "7",
+        "!"
+      ],
+      "min_words": 4,
+      "separator": "-",
+      "success_message": "A 4-word passphrase has ~52 bits of entropy. Centuries to crack."
+    },
+    {
+      "id": 3,
+      "difficulty": "hard",
+      "word_bank": [
+        "retem",
+        "kainga",
+        "abelia",
+        "unsnap",
+        "bellwind",
+        "disable",
+        "chyack",
+        "wardite",
+        "spirant",
+        "pudendum",
+        "shrunken",
+        "nainsook",
+        "popian",
+        "airer",
+        "3",
+        "7",
+        "!",
+        "#"
+      ],
+      "min_words": 5,
+      "separator": "-",
+      "success_message": "A 5-word passphrase has billions of combinations. Use a password manager with this as the master key."
+    }
+  ]
+}
