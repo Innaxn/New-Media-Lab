@@ -12,8 +12,8 @@ Glass House works like a daily puzzle game. Each day a new challenge is determin
 | ---------- | ------------------ |
 | Framework  | React + TypeScript |
 | UI library | MUI (Material UI)  |
-| Backend    |                    |
-| LLM        |                    |
+| Backend    | Python             |
+| LLM        | Gemma              |
 | ...        |                    |
 
 ## General Project structure
